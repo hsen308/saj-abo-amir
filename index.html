@@ -271,6 +271,9 @@ html[lang="ar"] .pickup b{font-family:'Cairo',sans-serif}
 .facts{display:grid;gap:18px;align-content:start}
 .fact h3{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
 .fact p{font-weight:500;font-size:1.02rem}
+.fact a.tel{font-weight:600;font-size:1.02rem;color:var(--accent);text-decoration:none;direction:ltr;
+  display:inline-flex;align-items:center;min-height:44px}
+.fact a.tel:hover{text-decoration:underline;text-underline-offset:3px}
 .fact .hint{font-weight:400;color:var(--muted);font-size:.94rem;margin-top:4px}
 .map{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);min-height:320px;background:var(--surface2)}
 .map iframe{display:block;width:100%;height:100%;min-height:320px;border:0}
@@ -284,7 +287,14 @@ html[lang="ar"] footer b{font-family:'Cairo',sans-serif}
 footer p{color:#9C9384;font-size:.92rem;margin-top:6px;max-width:38ch}
 footer a{font-weight:700;color:#F0C89A;text-decoration:none;display:inline-block;margin-top:5px;font-variant-numeric:tabular-nums}
 footer a:hover{text-decoration:underline;text-underline-offset:3px}
+/* footer phone links sit in their own rows, so give them a real tap height */
+.foot-l a{min-height:44px;display:flex;align-items:center}
 .foot-l{text-align:start}
+.foot-l .lbl{display:block;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8C8375;margin-top:14px}
+.foot-credit{margin-top:26px;padding-top:16px;border-top:1px solid rgba(255,255,255,.10);
+  font-size:.82rem;color:#8C8375}
+.foot-credit a{font-weight:600;color:#C9BFAE;text-decoration:none;margin:0}
+.foot-credit a:hover{color:#F0C89A;text-decoration:underline;text-underline-offset:3px}
 @media(min-width:760px){.foot-l{text-align:end}}
 
 /* ---------- sticky call bar ---------- */
@@ -380,6 +390,7 @@ footer a:hover{text-decoration:underline;text-underline-offset:3px}
   <div class="info">
     <div class="card facts">
       <div class="fact"><h3 data-i18n="phone"></h3><p dir="ltr" id="phoneText"></p></div>
+      <div class="fact"><h3 data-i18n="contact"></h3><p class="hint" data-i18n="webHint"></p><a class="tel" id="contactTel" href="#" dir="ltr"></a></div>
       <div class="fact"><h3 data-i18n="hours"></h3><p id="hoursText"></p></div>
       <div class="fact"><h3 data-i18n="findUs"></h3><p data-i18n="address"></p><p class="hint" data-i18n="directionsText"></p></div>
       <div class="btns">
@@ -395,8 +406,14 @@ footer a:hover{text-decoration:underline;text-underline-offset:3px}
 
 <footer class="reveal"><div class="wrap">
   <div><b id="footName">Saj Abou Amir</b><p data-i18n="footTag"></p></div>
-  <div class="foot-l"><p data-i18n="pickupShort"></p><a id="footCall" href="#" dir="ltr"></a></div>
-</div></footer>
+  <div class="foot-l">
+    <p data-i18n="pickupShort"></p>
+    <span class="lbl" data-i18n="phone"></span><a id="footCall" href="#" dir="ltr"></a>
+    <span class="lbl" data-i18n="contact"></span><a id="footContact" href="#" dir="ltr"></a>
+  </div>
+</div>
+<div class="wrap foot-credit"><span data-i18n="credit"></span> <a href="https://novustudios.com" target="_blank" rel="noopener">novustudios.com</a></div>
+</footer>
 
 <div class="callbar">
   <a class="btn btn-primary" id="barCall" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-i18n="callToOrder"></span></a>
@@ -415,6 +432,8 @@ const SHOP = {
   name: { en: "Saj Abou Amir", ar: "صاج أبو أمير" },
   phoneDisplay: "70 646 363",
   tel: "+96170646363",
+  contactDisplay: "+961 70 786 131",
+  contactTel: "+96170786131",
   wa: "96170646363",
   hours: { en: "Open 8:00 AM to 4:30 PM", ar: "نعمل من 8:00 صباحاً حتى 4:30 مساءً" },
   hoursLong: { en: "8:00 AM to 4:30 PM", ar: "8:00 صباحاً حتى 4:30 مساءً" },
@@ -538,6 +557,7 @@ const UI = {
   en: {
     skip:"Skip to menu",
     pickupShort:"Pickup only.",
+    contact:"Website enquiries", credit:"Made by", webHint:"Want a site like this?",
     pickupPill:"Pickup only",
     navMenu:"Menu", navBuild:"Build your own", navInfo:"Info",
     tagline:"Hot off the saj, straight into your hands.",
@@ -565,6 +585,7 @@ const UI = {
     pre:"Hi Saj Abou Amir, I'd like to order.", byoMsg:"Hi Saj Abou Amir, I'd like to build my own saj."
   },
   ar: {
+    contact:"لطلبات المواقع", credit:"صنع بواسطة", webHint:"تبغى موقع مثل هذا؟",
     skip:"تخطَّ إلى القائمة",
     pickupShort:"استلام من المحل فقط.",
     pickupPill:"استلام فقط",
@@ -700,6 +721,10 @@ const UI = {
     $("#hoursMeta").textContent = nm(SHOP.hoursLong);
     $("#phoneText").textContent = SHOP.phoneDisplay;
     $("#footCall").textContent = SHOP.phoneDisplay;
+    $("#contactTel").textContent = SHOP.contactDisplay;
+    $("#footContact").textContent = SHOP.contactDisplay;
+    $("#contactTel").href = "tel:" + SHOP.contactTel;
+    $("#footContact").href = "tel:" + SHOP.contactTel;
     ["#heroCall", "#infoCall", "#barCall", "#footCall"].forEach(s => { $(s).href = "tel:" + SHOP.tel; });
     const pre = wa(t("pre"));
     ["#lunchWa", "#infoWa", "#barWa"].forEach(s => { $(s).href = pre; });
