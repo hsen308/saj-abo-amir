@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saj Abou Amir | Fresh saj, made to order in Beirut</title>
+<meta name="description" content="Saj Abou Amir: fresh saj, kaake trabolseye and sandwiches in Beirut, right across from Beirut Digital District. Pickup only. Pre-order on WhatsApp.">
+<meta property="og:title" content="Saj Abou Amir">
+<meta property="og:description" content="Fresh saj, made to order. Pickup only, right across from BDD, Beirut.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#FBF5E9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#FBF5E9; --surface:#FFFCF5; --surface2:#F4EAD5; --ink:#2A1B10; --muted:#6B5644;
+  --line:#E6D8BC; --btn-bg:#4B2E17; --btn-ink:#FBF5E9; --gold:#D19A2A; --gold-ink:#7A5208;
+  --wa:#0F7A42; --nav-bg:rgba(251,245,233,.92); --shadow:rgba(75,46,23,.10); --strip:#4B2E17; --strip-ink:#F6E7C8;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 118px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  font-size:16px;line-height:1.5;padding-bottom:84px;overflow-x:hidden;
+}
+html[lang="ar"] body{font-family:'Cairo','Figtree',system-ui,sans-serif;line-height:1.65}
+h1,h2,h3{font-family:'Bricolage Grotesque','Figtree',system-ui,sans-serif;margin:0;line-height:1.1;letter-spacing:-.015em}
+html[lang="ar"] h1,html[lang="ar"] h2,html[lang="ar"] h3{font-family:'Cairo',sans-serif;letter-spacing:0;line-height:1.3}
+p{margin:0}
+a{color:inherit}
+button,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1040px;margin-inline:auto;padding-inline:20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* hours strip + nav */
+.strip{background:var(--strip);color:var(--strip-ink);font-size:.86rem;font-weight:600}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:2px 18px;justify-content:space-between;padding-block:8px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--nav-bg);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 12px;padding-block:8px 0}
+.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.25rem;text-decoration:none;letter-spacing:-.01em}
+html[lang="ar"] .brand{font-family:'Cairo',sans-serif;letter-spacing:0}
+.lang{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer;min-height:38px}
+.links{order:3;width:100%;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-block:6px 8px}
+.links::-webkit-scrollbar{display:none}
+.links a{white-space:nowrap;text-decoration:none;font-weight:600;padding:8px 14px;border-radius:999px;color:var(--muted)}
+.links a:hover{background:var(--surface2);color:var(--ink)}
+@media(min-width:760px){
+  .nav .wrap{flex-wrap:nowrap;padding-block:10px}
+  .links{order:0;width:auto;padding:0;overflow:visible}
+}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 22px;border-radius:14px;
+  font-weight:700;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s,background .15s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-primary{background:var(--btn-bg);color:var(--btn-ink)}
+.btn-ghost{background:transparent;border-color:var(--btn-bg);color:var(--ink)}
+.btn-wa{background:var(--wa);color:#fff}
+
+/* hero */
+.hero{position:relative;padding-block:44px 28px;border-bottom:1px solid var(--line)}
+.hero .wrap{display:flex;flex-direction:column;gap:2px}
+.pill{display:inline-flex;align-items:center;gap:8px;color:var(--gold-ink);
+  font-weight:700;font-size:.82rem;width:fit-content;letter-spacing:.02em;padding-bottom:2px}
+.pill i{width:6px;height:6px;border-radius:50%;background:var(--gold);display:block}
+.hero h1{font-size:clamp(2.5rem,8vw,3.6rem);font-weight:800;margin-top:10px}
+.hero .tag{font-size:clamp(1.05rem,3.4vw,1.25rem);color:var(--muted);margin-top:10px;font-weight:500;max-width:34ch}
+.hero .sub{margin-top:6px;max-width:44ch;color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+@media(min-width:820px){.hero{padding-block:64px 40px}}
+
+/* lunch strip */
+.lunch{margin-top:56px}
+.lunch .box{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;
+  background:var(--surface2);border:1.5px solid var(--line);border-radius:22px;padding:20px 22px}
+.lunch h2{font-size:1.25rem}
+.lunch p{color:var(--muted);margin-top:4px;max-width:46ch}
+
+/* sections */
+section{padding-top:64px}
+.sec-head h2{font-size:clamp(1.9rem,6vw,2.6rem);font-weight:800}
+.sec-head p{color:var(--muted);margin-top:8px;max-width:52ch}
+
+/* tabs */
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-top:22px;padding-block:2px 6px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:0 18px;min-height:44px;font-weight:700;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--btn-bg);color:var(--btn-ink);border-color:var(--btn-bg)}
+.tab.healthy:not([aria-selected="true"]){border-color:var(--gold);color:var(--gold-ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{position:relative;display:inline-flex}
+.chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 15px;border-radius:999px;border:1.5px solid var(--line);
+  background:var(--surface);font-weight:600;transition:background .15s,border-color .15s}
+.chip input:checked + span{background:var(--gold);border-color:var(--gold);color:#2A1B10}
+.chip input:focus-visible + span{outline:3px solid var(--gold);outline-offset:2px}
+.chip em{font-style:normal;font-size:.75rem;font-weight:700;background:var(--surface2);color:var(--gold-ink);border-radius:999px;padding:1px 8px}
+.chip input:checked + span em{background:rgba(42,27,16,.15);color:#2A1B10}
+.note{margin-top:14px;color:var(--muted);font-size:.95rem}
+
+/* item cards */
+.grid{display:grid;gap:14px;margin-top:18px;animation:fade .25s ease}
+@keyframes fade{from{opacity:.3}to{opacity:1}}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+.item{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+.item .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.item h3{font-size:1.15rem;font-weight:700}
+.price{font-weight:800;color:var(--gold-ink);white-space:nowrap}
+.desc{color:var(--muted);font-size:.93rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tg{font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line)}
+.order{margin-top:2px;display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700;color:var(--wa);text-decoration:none}
+.order svg{width:15px;height:15px;flex:none}
+
+/* combos */
+.combos{margin-top:34px}
+.combos h3{font-size:1.3rem;font-weight:800}
+.combo-grid{display:grid;gap:14px;margin-top:14px}
+@media(min-width:720px){.combo-grid{grid-template-columns:1fr 1fr}}
+.combo{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.combo h4{margin:0;font-size:1.15rem;font-family:inherit}
+
+/* build your own */
+.byo{display:grid;gap:14px;margin-top:22px}
+@media(min-width:820px){.byo{grid-template-columns:1fr 1fr}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}
+.step h3{font-size:1.05rem;font-weight:700}
+.step .chips{margin-top:12px}
+.step .tg{background:var(--surface2)}
+
+
+/* breads & sauces */
+.two{display:grid;gap:14px;margin-top:22px}
+@media(min-width:820px){.two{grid-template-columns:1.2fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px}
+.card h3{font-size:1.2rem;font-weight:800}
+.bread{padding-block:12px;border-top:1px solid var(--line)}
+.bread:first-of-type{border-top:0}
+.bread b{display:block}
+.bread span{color:var(--muted);font-size:.92rem}
+.sauce-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.sauce{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);font-weight:600;background:var(--surface)}
+.sauce em{font-style:normal;font-size:.72rem;font-weight:800;background:var(--gold);color:#2A1B10;padding:1px 8px;border-radius:999px}
+.veg-note{margin-top:16px;padding:12px 14px;background:var(--surface2);border-radius:14px;font-weight:600}
+
+/* info */
+.pickup{display:flex;gap:14px;align-items:center;background:var(--btn-bg);color:var(--btn-ink);border-radius:22px;padding:20px 22px;margin-top:22px}
+.pickup svg{width:38px;height:38px;flex:none}
+.pickup b{font-family:'Bricolage Grotesque',sans-serif;font-size:1.5rem;display:block;line-height:1.15}
+html[lang="ar"] .pickup b{font-family:'Cairo',sans-serif}
+.info{display:grid;gap:14px;margin-top:14px}
+@media(min-width:820px){.info{grid-template-columns:1fr 1.2fr}}
+.facts{display:grid;gap:16px}
+.fact h3{font-size:.95rem;color:var(--muted);font-weight:700;font-family:inherit;letter-spacing:0;margin-bottom:4px}
+.fact p{font-weight:600;font-size:1.05rem}
+.fact .hint{font-weight:400;color:var(--muted);font-size:.95rem;margin-top:2px}
+.map{border-radius:22px;overflow:hidden;border:1px solid var(--line);min-height:300px;background:var(--surface2)}
+.map iframe{display:block;width:100%;height:100%;min-height:300px;border:0}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+
+footer{margin-top:72px;background:var(--strip);color:var(--strip-ink);padding-block:36px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;align-items:center}
+footer b{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem}
+html[lang="ar"] footer b{font-family:'Cairo',sans-serif}
+footer a{font-weight:700}
+
+/* sticky call bar (mobile) */
+.callbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));
+  background:var(--nav-bg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.callbar .btn{flex:1;min-height:52px}
+.callbar .btn-wa{flex:none;width:56px;padding:0}
+@media(min-width:760px){.callbar{display:none}body{padding-bottom:0}}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<div class="strip"><div class="wrap">
+  <span id="hoursTop"></span>
+  <span data-i18n="pickupShort"></span>
+</div></div>
+
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#top" id="brandName">Saj Abou Amir</a>
+  <nav class="links" aria-label="Sections">
+    <a href="#menu" data-i18n="navMenu"></a>
+    <a href="#build" data-i18n="navBuild"></a>
+    <a href="#breads" data-i18n="navBreads"></a>
+    <a href="#info" data-i18n="navInfo"></a>
+  </nav>
+  <button class="lang" id="langBtn" type="button" aria-label="Switch language">عربي</button>
+</div></header>
+
+<main id="top">
+<!-- HERO -->
+<div class="hero"><div class="wrap">
+  <div>
+    <span class="pill"><i></i><span data-i18n="pickupPill"></span></span>
+    <h1 id="heroName">Saj Abou Amir</h1>
+    <p class="tag" data-i18n="tagline"></p>
+    <p class="sub" data-i18n="heroSub"></p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#menu" data-i18n="viewMenu"></a>
+      <a class="btn btn-ghost" id="heroCall" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-i18n="callNow"></span></a>
+    </div>
+  </div>
+</div></div>
+
+<!-- LUNCH -->
+<div class="wrap lunch"><div class="box">
+  <div><h2 data-i18n="lunchTitle"></h2><p id="lunchText"></p></div>
+  <a class="btn btn-wa" id="lunchWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 9.5c.3 2.4 2.6 4.7 5.5 5.5l1.2-1.4-2-1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9-1-2z" fill="currentColor" stroke="none"/></svg><span data-i18n="preorderWa"></span></a>
+</div></div>
+
+<!-- MENU -->
+<section id="menu"><div class="wrap">
+  <div class="sec-head"><h2 data-i18n="menuTitle"></h2><p data-i18n="menuSub"></p></div>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div class="chips" id="tagFilter"></div>
+  <p class="note" id="catNote" hidden></p>
+  <div class="grid" id="grid"></div>
+  <div class="combos">
+    <h3 data-i18n="combosTitle"></h3>
+    <div class="combo-grid" id="combos"></div>
+  </div>
+</div></section>
+
+<!-- BUILD -->
+<section id="build"><div class="wrap">
+  <div class="sec-head"><h2 data-i18n="buildTitle"></h2><p data-i18n="buildSub"></p></div>
+  <div class="byo" id="byo"></div>
+  <a class="btn btn-wa" id="byoWa" href="#" target="_blank" rel="noopener" style="margin-top:18px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/></svg><span data-i18n="preorderWa"></span></a>
+</div></section>
+
+<!-- BREADS & SAUCES -->
+<section id="breads"><div class="wrap">
+  <div class="sec-head"><h2 data-i18n="breadsTitle"></h2></div>
+  <div class="two">
+    <div class="card"><h3 data-i18n="breadsHead"></h3><div id="breadList"></div></div>
+    <div class="card">
+      <h3 data-i18n="sauceTitle"></h3>
+      <div class="sauce-list" id="sauceList"></div>
+      <p class="veg-note" data-i18n="vegNote"></p>
+    </div>
+  </div>
+</div></section>
+
+<!-- INFO -->
+<section id="info"><div class="wrap">
+  <div class="sec-head"><h2 data-i18n="infoTitle"></h2></div>
+  <div class="pickup">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+    <div><b data-i18n="pickupOnly"></b><span data-i18n="noDelivery"></span></div>
+  </div>
+  <div class="info">
+    <div class="card facts">
+      <div class="fact"><h3 data-i18n="phone"></h3><p dir="ltr" id="phoneText"></p></div>
+      <div class="fact"><h3 data-i18n="hours"></h3><p id="hoursText"></p></div>
+      <div class="fact"><h3 data-i18n="findUs"></h3><p data-i18n="address"></p><p class="hint" data-i18n="directionsText"></p></div>
+      <div class="btns">
+        <a class="btn btn-primary" id="infoCall" href="#"><span data-i18n="callNow"></span></a>
+        <a class="btn btn-wa" id="infoWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn btn-ghost" id="infoDir" href="#" target="_blank" rel="noopener"><span data-i18n="getDirections"></span></a>
+      </div>
+    </div>
+    <div class="map"><iframe id="mapFrame" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div><b id="footName">Saj Abou Amir</b><p data-i18n="footTag"></p></div>
+  <div><p data-i18n="pickupShort"></p><a id="footCall" href="#" dir="ltr"></a></div>
+</div></footer>
+
+<div class="callbar">
+  <a class="btn btn-primary" id="barCall" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-i18n="callToOrder"></span></a>
+  <a class="btn btn-wa" id="barWa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 9.5c.3 2.4 2.6 4.7 5.5 5.5l1.2-1.4-2-1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9-1-2z" fill="currentColor" stroke="none"/></svg></a>
+</div>
+
+<script>
+/* =====================================================================
+   EDIT HERE. Everything the shop owner changes lives in this block.
+   - Prices: change price:"X" on any item.
+   - Macros: replace null with numbers, e.g. M(320, 24, 30, 12) = cal, protein, carbs, fat.
+     Item/filling macros are for the filling only. The bread macros are added automatically.
+   - Totals stay "X" until every part of a total has a number.
+   ===================================================================== */
+const SHOP = {
+  name: { en: "Saj Abou Amir", ar: "صاج أبو أمير" },
+  phoneDisplay: "70 646 363",
+  tel: "+96170646363",
+  wa: "96170646363",
+  hours: { en: "Open 8:00 AM – 4:30 PM", ar: "نعمل من 8:00 صباحاً حتى 4:30 مساءً" },
+  hoursLong: { en: "8:00 AM – 4:30 PM", ar: "8:00 صباحاً – 4:30 مساءً" },
+  readyMinutes: "X",
+  mapQuery: "33.890884,35.505054"
+};
+
+const NA = { cal: null, p: null, c: null, f: null };
+const M = (cal, p, c, f) => ({ cal, p, c, f });
+
+const TAGS = {
+  protein: { en: "High Protein", ar: "بروتين عالي" },
+  lowcarb: { en: "Lower Carb", ar: "كارب أقل" },
+  veg:     { en: "Vegetarian", ar: "نباتي" },
+  light:   { en: "Light", ar: "خفيف" }
+};
+
+const BREADS = [
+  { id: "saj",   en: "Saj tortilla",  ar: "تورتيلا صاج",  dEn: "Our main bread, thin and soft, baked fresh on the saj.", dAr: "خبزنا الأساسي، رقيق وطري، يُخبز طازجاً على الصاج.", macros: M(270, 9, 54, 2) },
+  { id: "brtor", en: "Brown tortilla", ar: "تورتيلا سمراء", dEn: "Whole-grain tortilla, a lighter pick.", dAr: "تورتيلا حبوب كاملة، خيار أخف.", macros: NA },
+  { id: "brbr",  en: "Brown bread",   ar: "خبز أسمر",     dEn: "Whole-grain bread with more fibre.", dAr: "خبز حبوب كاملة غني بالألياف.", macros: NA },
+  { id: "bag",   en: "Baguette",      ar: "باغيت",        dEn: "Crusty outside, soft inside.", dAr: "مقرمش من الخارج وطري من الداخل.", macros: NA },
+  { id: "kaake", en: "Kaake",         ar: "كعك طرابلسي",  dEn: "Tripoli-style sesame kaake.", dAr: "كعك بالسمسم على الطريقة الطرابلسية.", macros: NA }
+];
+
+const SAUCES = [
+  { id: "garlic",  en: "Garlic",   ar: "ثوم",       light: false, macros: NA },
+  { id: "mayo",    en: "Mayo",     ar: "مايونيز",   light: false, macros: NA },
+  { id: "ketchup", en: "Ketchup",  ar: "كاتشب",     light: false, macros: NA },
+  { id: "spicy",   en: "Spicy",    ar: "حار",       light: false, macros: NA },
+  { id: "tahini",  en: "Tahini",   ar: "طحينة",     light: false, macros: NA },
+  { id: "pesto",   en: "Pesto",    ar: "بيستو",     light: false, macros: NA },
+  { id: "yogurt",  en: "Garlic yogurt", ar: "لبن بالثوم", light: true, macros: NA },
+  { id: "mustard", en: "Mustard",  ar: "خردل",      light: true,  macros: NA }
+];
+
+const FILLINGS = [
+  { id: "cheese",  en: "Cheese",      ar: "جبنة",        macros: M(90, 7, 1, 7) },
+  { id: "kashk",   en: "Kashkaval",   ar: "قشقوان",      macros: NA },
+  { id: "halloum", en: "Halloum",     ar: "حلوم",        macros: M(320, 21, 2, 25) },
+  { id: "turkey",  en: "Turkey",      ar: "ديك رومي",    macros: M(57, 9, 1, 1) },
+  { id: "tawouk",  en: "Tawouk",      ar: "طاووق",       macros: NA },
+  { id: "kafta",   en: "Kafta",       ar: "كفتة",        macros: NA },
+  { id: "sujuk",   en: "Sujuk",       ar: "سجق",         macros: NA },
+  { id: "egg",     en: "Egg",         ar: "بيض",         macros: NA },
+  { id: "labneh",  en: "Labneh",      ar: "لبنة",        macros: NA },
+  { id: "zaatar",  en: "Zaatar",      ar: "زعتر",        macros: NA },
+  { id: "tuna",    en: "Tuna",        ar: "تونا",        macros: NA },
+  { id: "crab",    en: "Crab",        ar: "كراب",        macros: NA },
+  { id: "nutella", en: "Nutella",     ar: "نوتيلا",      macros: NA }
+];
+
+const VEGGIES = [
+  { id: "lettuce",  en: "Lettuce",  ar: "خس" },
+  { id: "tomato",   en: "Tomato",   ar: "بندورة" },
+  { id: "cucumber", en: "Cucumber", ar: "خيار" },
+  { id: "pickles",  en: "Pickles",  ar: "مخلل" },
+  { id: "corn",     en: "Corn",     ar: "ذرة" },
+  { id: "onion",    en: "Onion",    ar: "بصل" },
+  { id: "parsley",  en: "Parsley",  ar: "بقدونس" }
+];
+
+/* it(id, category, EN name, AR name, EN description, AR description, tags, default bread) */
+const it = (id, cat, en, ar, dEn, dAr, tags = [], bread = "saj", macros = NA) =>
+  ({ id, cat, en, ar, dEn, dAr, tags, bread, price: "X", macros, img: "" });
+
+const SAJ = [
+  it("spicycheese","saj","Spicy Cheese","جبنة حارة","Melted cheese with a spicy kick.","جبنة ذائبة مع لمسة حارة."),
+  { ...it("cheese","saj","Cheese","جبنة","Classic melted cheese.","جبنة ذائبة كلاسيكية.",["veg"]), macros: M(90, 7, 1, 7) },
+  { ...it("turkeycheese","saj","Turkey & Cheese","ديك رومي وجبنة","Turkey, cheese, lettuce, corn, pickles, mayo.","ديك رومي، جبنة، خس، ذرة، مخلل، مايونيز.",["protein"]), macros: M(147, 16, 2, 8) },
+  { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","Grilled halloum with pesto.","حلوم مشوي مع البيستو.",["veg"]), macros: M(320, 21, 2, 25) },
+  it("zaatar","saj","Zaatar","زعتر","Zaatar with olive oil.","زعتر مع زيت الزيتون.",["veg","light"]),
+  it("labneh","saj","Labneh","لبنة","Creamy labneh with olive oil.","لبنة كريمية مع زيت الزيتون.",["veg","light"]),
+  it("zaatarlabneh","saj","Zaatar & Labneh","زعتر ولبنة","Zaatar with creamy labneh.","زعتر مع لبنة كريمية.",["veg","light"]),
+  it("kaftacheese","saj","Kafta & Cheese","كفتة وجبنة","Grilled kafta with melted cheese.","كفتة مشوية مع جبنة ذائبة.",["protein"]),
+  it("sujukcheese","saj","Sujuk & Cheese","سجق وجبنة","Spiced sujuk with melted cheese.","سجق متبّل مع جبنة ذائبة.",["protein"]),
+  it("eggsaj","saj","Egg Saj","صاج بيض","Eggs on saj.","بيض على الصاج.",["protein","veg","lowcarb"]),
+  it("nutella","saj","Nutella Saj","صاج نوتيلا","Nutella spread.","نوتيلا.",[]),
+  it("kashkaval","saj","Kashkaval","قشقوان","Melted kashkaval cheese.","جبنة قشقوان ذائبة.",["veg"]),
+  it("picon","saj","Picon","بيكون","Picon cheese.","جبنة بيكون.",["veg"]),
+  it("kishik","saj","Kishik","كشك","Traditional kishik with tomato and onion.","كشك تقليدي مع بندورة وبصل.",["veg","light"]),
+  it("bandoura","saj","Bandoura & Onion","بندورة وبصل","Fresh tomato and onion.","بندورة وبصل طازجين.",["veg","light"]),
+  it("smokedkash","saj","Smoked Kashkaval","قشقوان مدخّن","Smoked kashkaval cheese.","جبنة قشقوان مدخّنة.",["veg"]),
+  it("egg-cheese-turkey","saj","Egg, Cheese & Turkey","بيض وجبنة وديك رومي","Eggs, melted cheese and turkey.","بيض، جبنة ذائبة وديك رومي.",["protein"]),
+  it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","Eggs, melted cheese and sujuk.","بيض، جبنة ذائبة وسجق.",["protein"]),
+  it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","Eggs with melted cheese.","بيض مع جبنة ذائبة.",["protein","veg"]),
+  it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","Eggs with sujuk.","بيض مع سجق.",["protein"]),
+  it("egg-turkey","saj","Egg & Turkey","بيض وديك رومي","Eggs with turkey.","بيض مع ديك رومي.",["protein","lowcarb"])
+];
+
+const KAAKE = SAJ.map(i => i.id === "nutella"
+  ? { ...i, id: "k-nutella", cat: "kaake", en: "Nutella Kaake", ar: "كعك بالنوتيلا", bread: "kaake" }
+  : { ...i, id: "k-" + i.id, cat: "kaake", bread: "kaake" });
+
+const SANDWICH = [
+  it("tawouk","sandwiches","Tawouk","طاووق","Marinated chicken, garlic sauce, pickles.","دجاج متبّل، صوص ثوم، مخلل.",["protein"],"bag"),
+  it("fajita","sandwiches","Fajita","فاهيتا","Chicken, peppers, onions, cheese.","دجاج، فليفلة، بصل، جبنة.",["protein"],"bag"),
+  it("kafta-sw","sandwiches","Kafta","كفتة","Grilled kafta, tomato, parsley, onion, tahini.","كفتة مشوية، بندورة، بقدونس، بصل، طحينة.",["protein","lowcarb"],"bag"),
+  it("sujuk-sw","sandwiches","Sujuk","سجق","Sujuk, tomato, pickles.","سجق، بندورة، مخلل.",[],"bag"),
+  it("crab","sandwiches","Crab","كراب","Crab, mayo, lettuce, pickles.","كراب، مايونيز، خس، مخلل.",["protein","lowcarb"],"bag"),
+  it("tuna","sandwiches","Tuna","تونا","Tuna, corn, lettuce, mayo.","تونا، ذرة، خس، مايونيز.",["protein","lowcarb"],"bag")
+];
+
+const DRINKS = [
+  it("pepsi","drinks","Pepsi","بيبسي","","",[],null),
+  it("7up","drinks","7Up","سفن أب","","",[],null),
+  it("oj","drinks","Fresh Orange Juice","عصير برتقال طازج","","",[],null)
+];
+
+const ITEMS = [...SAJ, ...KAAKE, ...SANDWICH, ...DRINKS];
+
+const COMBOS = [
+  { id: "hp", en: "High Protein Lunch", ar: "غداء عالي البروتين",
+    dEn: "Turkey & Cheese or Tawouk on brown bread.", dAr: "ديك رومي وجبنة أو طاووق على خبز أسمر.",
+    orderEn: "High Protein Lunch (Turkey & Cheese or Tawouk on brown bread)", orderAr: "غداء عالي البروتين (ديك رومي وجبنة أو طاووق على خبز أسمر)",
+    price: "X", macros: NA },
+  { id: "lt", en: "Light Lunch", ar: "غداء خفيف",
+    dEn: "Labneh or Tuna on brown tortilla.", dAr: "لبنة أو تونا على تورتيلا سمراء.",
+    orderEn: "Light Lunch (Labneh or Tuna on brown tortilla)", orderAr: "غداء خفيف (لبنة أو تونا على تورتيلا سمراء)",
+    price: "X", macros: NA }
+];
+
+/* Interface text */
+const UI = {
+  en: {
+    pickupShort:"Pickup only. No delivery.", navMenu:"Menu", navBuild:"Build your own", navBreads:"Breads & sauces", navInfo:"Info",
+    pickupPill:"Pickup only. No delivery.", tagline:"Fresh saj, made to order.", heroSub:"In Beirut, right across from Beirut Digital District.",
+    viewMenu:"View Menu", callNow:"Call Now",
+    lunchTitle:"Lunch break friendly", preorderWa:"Pre-order on WhatsApp",
+    menuTitle:"Menu", menuSub:"Everything is made fresh to order.",
+    tHealthy:"Healthy Picks", tSaj:"Saj", tKaake:"Kaake Trabolseye", tSand:"Sandwiches", tDrinks:"Drinks",
+    all:"All", kaakeNote:"Same fillings as the saj list, in kaake bread or the bread of your choice.",
+    combosTitle:"Suggested combos", order:"Order", bread:"Bread",
+    cal:"Cal", protein:"Protein", carbs:"Carbs", fat:"Fat",
+    buildTitle:"Build your own", buildSub:"Pick a bread, a filling, veggies and a sauce — order it your way on WhatsApp.",
+    sBread:"Bread", sFill:"Fillings", sVeg:"Veggies (included)", sSauce:"Choose your sauce", light:"Light",
+    breadsTitle:"Breads and sauces", breadsHead:"Breads", sauceTitle:"Choose your sauce", vegNote:"Veggies are included in all sandwiches.",
+    infoTitle:"Visit us", pickupOnly:"Pickup only", noDelivery:"No delivery.", phone:"Phone", hours:"Opening hours", findUs:"Find us",
+    address:"Beirut, near the Ministry of Finance (وزارة المالية), facing Beirut Digital District (BDD), 1227",
+    directionsText:"Right across from the Ministry of Finance area, facing BDD 1227.", getDirections:"Get Directions",
+    callToOrder:"Call to Order", footTag:"Fresh saj, made to order.",
+    lunchText:(m)=>`Quick pickup, ready in ${m} minutes. Pre-order on WhatsApp and skip the wait.`,
+    hi:"Hi Saj Abou Amir, I'd like to order:", on:"on", with:"with", sauceW:"sauce", pre:"Hi Saj Abou Amir, I'd like to order.", byoMsg:"Hi Saj Abou Amir, I'd like to build my own saj."
+  },
+  ar: {
+    pickupShort:"استلام من المحل فقط. لا يوجد توصيل.", navMenu:"القائمة", navBuild:"ركّب بنفسك", navBreads:"الخبز والصوصات", navInfo:"معلومات",
+    pickupPill:"استلام فقط. لا يوجد توصيل.", tagline:"صاج طازج، يُحضَّر عند الطلب.", heroSub:"في بيروت، مقابل Beirut Digital District مباشرة.",
+    viewMenu:"عرض القائمة", callNow:"اتصل الآن",
+    lunchTitle:"مناسب لاستراحة الغداء", preorderWa:"اطلب مسبقاً عبر واتساب",
+    menuTitle:"القائمة", menuSub:"كل شيء يُحضَّر طازجاً عند الطلب.",
+    tHealthy:"خيارات صحية", tSaj:"صاج", tKaake:"كعك طرابلسي", tSand:"سندويشات", tDrinks:"مشروبات",
+    all:"الكل", kaakeNote:"نفس حشوات الصاج، بالكعك أو بالخبز الذي تختاره.",
+    combosTitle:"تركيبات مقترحة", order:"اطلب", bread:"الخبز",
+    cal:"سعرات", protein:"بروتين", carbs:"كارب", fat:"دهون",
+    buildTitle:"ركّب بنفسك", buildSub:"اختر الخبز والحشوة والخضار والصوص — واطلبها على طريقتك عبر واتساب.",
+    sBread:"الخبز", sFill:"الحشوات", sVeg:"الخضار (مشمولة)", sSauce:"اختر صوصك", light:"خفيف",
+    breadsTitle:"الخبز والصوصات", breadsHead:"أنواع الخبز", sauceTitle:"اختر صوصك", vegNote:"الخضار مشمولة في جميع السندويشات.",
+    infoTitle:"زورونا", pickupOnly:"استلام من المحل فقط", noDelivery:"لا يوجد توصيل.", phone:"الهاتف", hours:"ساعات العمل", findUs:"موقعنا",
+    address:"بيروت، بالقرب من وزارة المالية، مقابل Beirut Digital District (BDD)، 1227",
+    directionsText:"مقابل منطقة وزارة المالية مباشرة، قبالة BDD 1227.", getDirections:"احصل على الاتجاهات",
+    callToOrder:"اتصل للطلب", footTag:"صاج طازج، يُحضَّر عند الطلب.",
+    lunchText:(m)=>`استلام سريع، جاهز خلال ${m} دقائق. اطلب مسبقاً عبر واتساب وتجاوز الانتظار.`,
+    hi:"مرحباً صاج أبو أمير، بدي أطلب:", on:"على", with:"مع", sauceW:"صوص", pre:"مرحباً صاج أبو أمير، بدي أطلب.", byoMsg:"مرحباً صاج أبو أمير، بدي ركّب صاج بنفسي."
+  }
+};
+
+/* =====================================================================
+   Code below does not need editing.
+   ===================================================================== */
+(function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  let lang = "en";
+  try { lang = localStorage.getItem("saj-lang") || "en"; } catch (e) {}
+  if (lang !== "ar") lang = "en";
+  const t = k => UI[lang][k];
+  const nm = o => o[lang];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  const breadById = id => BREADS.find(b => b.id === id);
+  const wa = text => `https://wa.me/${SHOP.wa}?text=${encodeURIComponent(text)}`;
+
+  const WA_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/></svg>';
+
+  /* ---------- menu ---------- */
+  let cat = "healthy", tagF = "all";
+  const tabDefs = () => [["healthy", t("tHealthy")], ["saj", t("tSaj")], ["kaake", t("tKaake")], ["sandwiches", t("tSand")], ["drinks", t("tDrinks")]];
+
+  function renderTabs() {
+    $("#tabs").innerHTML = tabDefs().map(([id, label]) =>
+      `<button class="tab ${id === "healthy" ? "healthy" : ""}" role="tab" aria-selected="${id === cat}" data-cat="${id}">${label}</button>`).join("");
+  }
+  function renderTagFilter() {
+    const box = $("#tagFilter");
+    if (cat !== "healthy") { box.innerHTML = ""; box.hidden = true; return; }
+    box.hidden = false;
+    const opts = [["all", t("all")], ...Object.keys(TAGS).map(k => [k, nm(TAGS[k])])];
+    box.innerHTML = opts.map(([id, label]) =>
+      `<label class="chip"><input type="radio" name="tagf" value="${id}" ${id === tagF ? "checked" : ""}><span>${label}</span></label>`).join("");
+  }
+  function itemsForView() {
+    if (cat === "healthy") return ITEMS.filter(i => i.cat !== "kaake" && i.cat !== "drinks" && i.tags.length && (tagF === "all" || i.tags.includes(tagF)));
+    return ITEMS.filter(i => i.cat === cat);
+  }
+  const chosen = {};
+  function orderText(i, bid) {
+    const b = bid && breadById(bid);
+    return `${t("hi")} ${nm(i)}${b ? " " + t("on") + " " + nm(b) : ""}`;
+  }
+  function cardHTML(i) {
+    const bid = chosen[i.id] || i.bread;
+    const desc = lang === "ar" ? i.dAr : i.dEn;
+    return `<article class="item" data-id="${i.id}">
+      <div class="top"><h3>${esc(nm(i))}</h3><span class="price">${esc(i.price)}</span></div>
+      ${desc ? `<p class="desc">${esc(desc)}</p>` : ""}
+      ${i.tags.length ? `<div class="tags">${i.tags.map(g => `<span class="tg">${nm(TAGS[g])}</span>`).join("")}</div>` : ""}
+      <a class="order" target="_blank" rel="noopener" href="${wa(orderText(i, bid))}">${WA_ICON}${t("order")}</a>
+    </article>`;
+  }
+  function renderGrid() {
+    const grid = $("#grid");
+    grid.style.animation = "none"; void grid.offsetWidth; grid.style.animation = "";
+    grid.innerHTML = itemsForView().map(cardHTML).join("");
+    const note = $("#catNote");
+    note.hidden = cat !== "kaake";
+    note.textContent = t("kaakeNote");
+  }
+  function renderCombos() {
+    $("#combos").innerHTML = COMBOS.map(c => `<article class="combo">
+      <div class="top" style="display:flex;justify-content:space-between;gap:10px"><h4>${esc(nm(c))}</h4><span class="price">${esc(c.price)}</span></div>
+      <p class="desc">${esc(lang === "ar" ? c.dAr : c.dEn)}</p>
+      <a class="order" target="_blank" rel="noopener" href="${wa(t("hi") + " " + (lang === "ar" ? c.orderAr : c.orderEn))}">${WA_ICON}${t("order")}</a>
+    </article>`).join("");
+  }
+
+  document.addEventListener("click", e => {
+    const tab = e.target.closest(".tab");
+    if (tab) { cat = tab.dataset.cat; tagF = "all"; renderTabs(); renderTagFilter(); renderGrid(); }
+  });
+  document.addEventListener("change", e => {
+    if (e.target.name === "tagf") { tagF = e.target.value; renderGrid(); }
+  });
+
+  /* ---------- build your own (informational only) ---------- */
+  function optGroup(title, arr, extra) {
+    return `<div class="step"><h3>${title}</h3><div class="chips">${arr.map(o => `<span class="tg">${nm(o)}${extra && extra(o) ? extra(o) : ""}</span>`).join("")}</div></div>`;
+  }
+  function renderBYO() {
+    $("#byo").innerHTML =
+      optGroup(t("sBread"), BREADS) +
+      optGroup(t("sFill"), FILLINGS) +
+      optGroup(t("sVeg"), VEGGIES) +
+      optGroup(t("sSauce"), SAUCES, s => s.light ? `<em>${t("light")}</em>` : "");
+    $("#byoWa").href = wa(t("byoMsg"));
+  }
+
+  /* ---------- breads & sauces ---------- */
+  function renderBreads() {
+    $("#breadList").innerHTML = BREADS.map(b => `<div class="bread"><b>${nm(b)}</b><span>${lang === "ar" ? b.dAr : b.dEn}</span></div>`).join("");
+    $("#sauceList").innerHTML = SAUCES.map(s => `<span class="sauce">${nm(s)}${s.light ? `<em>${t("light")}</em>` : ""}</span>`).join("");
+  }
+
+  /* ---------- static text + links ---------- */
+  function applyStatic() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    $$("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+    $("#langBtn").textContent = lang === "ar" ? "EN" : "عربي";
+    const name = nm(SHOP.name);
+    ["#brandName", "#heroName", "#footName"].forEach(s => { $(s).textContent = name; });
+    document.title = lang === "ar" ? name + " | صاج طازج في بيروت" : name + " | Fresh saj, made to order in Beirut";
+    $("#hoursTop").textContent = nm(SHOP.hours);
+    $("#hoursText").textContent = nm(SHOP.hoursLong);
+    $("#lunchText").textContent = t("lunchText")(SHOP.readyMinutes);
+    $("#phoneText").textContent = SHOP.phoneDisplay;
+    $("#footCall").textContent = SHOP.phoneDisplay;
+    ["#heroCall", "#infoCall", "#barCall", "#footCall"].forEach(s => { $(s).href = "tel:" + SHOP.tel; });
+    const pre = wa(t("pre"));
+    ["#lunchWa", "#infoWa", "#barWa"].forEach(s => { $(s).href = pre; });
+    $("#infoDir").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(SHOP.mapQuery);
+    const fr = $("#mapFrame");
+    const src = "https://maps.google.com/maps?q=" + encodeURIComponent(SHOP.mapQuery) + "&output=embed";
+    if (fr.getAttribute("src") !== src) fr.setAttribute("src", src);
+  }
+  function renderAll() {
+    applyStatic(); renderTabs(); renderTagFilter(); renderGrid(); renderCombos(); renderBYO(); renderBreads();
+  }
+  $("#langBtn").addEventListener("click", () => {
+    lang = lang === "en" ? "ar" : "en";
+    try { localStorage.setItem("saj-lang", lang); } catch (e) {}
+    renderAll();
+  });
+  renderAll();
+})();
+</script>
+</body>
+</html>
