@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu admin | Saj Abou Amir</title>
+<style>
+:root{
+  --bg:#FBF9F5; --surface:#fff; --surface2:#F3F0E9;
+  --ink:#1B1815; --ink2:#3D372F; --muted:#6A6259;
+  --line:#E6E1D7; --line2:#EFEBE3;
+  --accent:#B8431A; --accent-soft:#FAEDE7; --olive:#4F6138; --wa:#0E7A3C;
+  --bad:#B3261E; --good:#1F6F43;
+  --r-sm:10px; --r-md:14px; --r-pill:999px;
+  --ease:cubic-bezier(.2,.7,.3,1);
+  --disp:'Bricolage Grotesque',system-ui,sans-serif;
+  --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+h1,h2,h3{margin:0;font-family:var(--disp);letter-spacing:-.02em;line-height:1.2}
+h1{font-size:1.5rem;font-weight:800}
+h2{font-size:1.15rem;font-weight:800}
+h3{font-size:.95rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .in{max-width:1180px;margin-inline:auto;padding:12px 18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.brand{display:flex;align-items:center;gap:9px;margin-inline-end:auto}
+.brand::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+.wrap{max-width:1180px;margin-inline:auto;padding:18px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 17px;
+  border:1px solid transparent;border-radius:var(--r-pill);font-weight:700;font-family:var(--disp);
+  cursor:pointer;text-decoration:none;transition:background .2s,border-color .2s,color .2s,transform .18s var(--ease)}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--ink);color:var(--bg)}
+.btn-p:hover{background:var(--ink2)}
+.btn-g{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn-g:hover{border-color:var(--ink)}
+.btn-d{background:var(--surface);border-color:var(--line);color:var(--bad)}
+.btn-d:hover{border-color:var(--bad);background:#FDF3F2}
+.btn-sm{min-height:38px;padding:0 13px;font-size:.86rem}
+.msg{padding:11px 14px;border-radius:var(--r-md);font-size:.9rem;font-weight:500;display:none}
+.msg.on{display:block}
+.msg.ok{background:#E9F4EE;border:1px solid #BFE0CD;color:var(--good)}
+.msg.err{background:#FDF3F2;border:1px solid #F0C9C5;color:var(--bad)}
+.msg.warn{background:#FCF5E8;border:1px solid #EFDCB4;color:#8A5A12}
+section{margin-bottom:26px}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:14px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;min-height:44px;padding:0 16px;border:1px solid var(--line);background:var(--surface);
+  border-radius:var(--r-pill);font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+th{text-align:start;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface2);white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid var(--line2);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tr.off{opacity:.45}
+.inp{width:100%;min-height:40px;padding:7px 10px;border:1px solid var(--line);border-radius:var(--r-sm);
+  background:var(--bg);font:inherit;color:inherit}
+.inp:focus{border-color:var(--ink);background:var(--surface)}
+.inp.pw{font-family:var(--disp);font-weight:700;text-align:center;max-width:110px;font-variant-numeric:tabular-nums}
+.inp.ar{font-family:'Cairo',system-ui,sans-serif}
+textarea.inp{min-height:64px;resize:vertical;line-height:1.45}
+.w-name{min-width:170px}.w-ar{min-width:150px}.w-desc{min-width:200px}.w-pw{min-width:96px}.w-tag{min-width:120px}
+.row-acts{display:flex;gap:5px;flex-wrap:wrap}
+.icon{width:38px;height:38px;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);
+  cursor:pointer;font-size:1rem;line-height:1;color:var(--ink2)}
+.icon:hover{border-color:var(--ink);color:var(--ink)}
+.icon.del:hover{border-color:var(--bad);color:var(--bad)}
+.chk{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.chk input{width:17px;height:17px;accent-color:var(--olive)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
+.card+.card{margin-top:12px}
+.grid2{display:grid;gap:12px}
+@media(min-width:760px){.grid2{grid-template-columns:1fr 1fr}}
+label.f{display:block;margin-bottom:10px}
+label.f>span{display:block;font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:4px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px}
+details+details{margin-top:10px}
+summary{cursor:pointer;font-weight:700;font-size:.95rem}
+.panel{display:none}
+.panel.on{display:block}
+.hint{color:var(--muted);font-size:.86rem;margin-top:8px}
+.hint code{background:var(--surface2);padding:1px 5px;border-radius:5px;font-size:.84em}
+.token-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.kbd{font-family:ui-monospace,Consolas,monospace;font-size:.82em;background:var(--surface2);border:1px solid var(--line);
+  border-radius:5px;padding:1px 5px}
+.dirty{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700;color:#8A5A12}
+.dirty::before{content:"";width:8px;height:8px;border-radius:50%;background:#D99A2B}
+.saved{display:none}
+.saved.on{display:inline-flex}
+.saved::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--good)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="in">
+  <span class="brand"><h1>Menu admin</h1></span>
+  <span class="dirty" id="dirtyBadge" hidden>Unsaved changes</span>
+  <span class="saved" id="savedBadge">Saved</span>
+  <div class="bar">
+    <button class="btn btn-g btn-sm" id="btnReload" type="button">Reload from file</button>
+    <button class="btn btn-g btn-sm" id="btnDownload" type="button">Download menu.json</button>
+    <button class="btn btn-p btn-sm" id="btnGithub" type="button">Save to GitHub</button>
+  </div>
+</div></header>
+
+<div class="wrap">
+  <p class="msg" id="msg" role="status"></p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-panel="p-items">Items</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-combos">Combos</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-shop">Shop &amp; hours</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="p-github">Publish to GitHub</button>
+  </div>
+
+  <!-- ITEMS -->
+  <div class="panel on" id="p-items">
+    <div class="card">
+      <h2>Items</h2>
+      <p class="hint">Prices are free text, so you can write <code>25k</code>, <code>$3</code> or <code>3.50</code>.
+        Leave a price empty to hide it. Use the tag checkboxes to control the Healthy Picks filter.</p>
+      <div class="bar" style="margin-top:12px">
+        <button class="btn btn-g btn-sm" id="btnAddItem" type="button">+ Add item</button>
+        <label class="chk"><input type="checkbox" id="onlyPriced"> Only items with a price</label>
+      </div>
+    </div>
+    <div class="scroll" style="margin-top:12px">
+      <table id="itemsTable">
+        <thead><tr>
+          <th>On</th><th>Category</th><th>Name (EN)</th><th>Name (AR)</th>
+          <th>Description (EN)</th><th>Description (AR)</th><th>Price</th><th>Tags</th><th></th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="hint" id="itemsCount"></p>
+  </div>
+
+  <!-- COMBOS -->
+  <div class="panel" id="p-combos">
+    <div class="card"><h2>Combos</h2>
+      <p class="hint">Shown under the menu as suggested combos.</p></div>
+    <div id="combosWrap" style="margin-top:12px"></div>
+  </div>
+
+  <!-- SHOP -->
+  <div class="panel" id="p-shop">
+    <details open><summary>Contact</summary>
+      <div class="grid2" style="margin-top:12px">
+        <label class="f"><span>Store phone (display)</span><input class="inp" id="s_phoneDisplay"></label>
+        <label class="f"><span>Store phone (dial, with +)</span><input class="inp" id="s_tel" dir="ltr" placeholder="+961..."></label>
+        <label class="f"><span>WhatsApp number (no +)</span><input class="inp" id="s_wa" dir="ltr" placeholder="961..."></label>
+        <label class="f"><span>Enquiries number (display)</span><input class="inp" id="s_contactDisplay"></label>
+        <label class="f"><span>Enquiries number (dial, with +)</span><input class="inp" id="s_contactTel" dir="ltr"></label>
+        <label class="f"><span>Map coordinates</span><input class="inp" id="s_mapQuery" dir="ltr"></label>
+      </div>
+      <p class="hint">Orders always go to the WhatsApp number. The enquiries number is only shown as a contact.</p>
+    </details>
+    <details open style="margin-top:10px"><summary>Opening hours</summary>
+      <div class="grid2" style="margin-top:12px">
+        <label class="f"><span>Hours (EN)</span><input class="inp" id="s_hours_en"></label>
+        <label class="f"><span>Hours (AR)</span><input class="inp ar" id="s_hours_ar"></label>
+        <label class="f"><span>Hours long (EN)</span><input class="inp" id="s_hoursLong_en"></label>
+        <label class="f"><span>Hours long (AR)</span><input class="inp ar" id="s_hoursLong_ar"></label>
+      </div>
+    </details>
+    <details style="margin-top:10px"><summary>Shop name</summary>
+      <div class="grid2" style="margin-top:12px">
+        <label class="f"><span>Name (EN)</span><input class="inp" id="s_name_en"></label>
+        <label class="f"><span>Name (AR)</span><input class="inp ar" id="s_name_ar"></label>
+      </div>
+    </details>
+  </div>
+
+  <!-- GITHUB -->
+  <div class="panel" id="p-github">
+    <div class="card">
+      <h2>Publish to GitHub</h2>
+      <p class="hint">This writes <code>data/menu.json</code> straight into the repo on the
+        <code>main</code> branch. Your token is kept in this browser only, never uploaded.</p>
+
+      <div class="grid2" style="margin-top:14px">
+        <label class="f"><span>Owner</span><input class="inp" id="g_owner" dir="ltr" placeholder="hsen308"></label>
+        <label class="f"><span>Repository</span><input class="inp" id="g_repo" dir="ltr" placeholder="saj-abo-amir"></label>
+        <label class="f"><span>Branch</span><input class="inp" id="g_branch" dir="ltr" placeholder="main"></label>
+        <label class="f"><span>File path</span><input class="inp" id="g_path" dir="ltr" placeholder="data/menu.json"></label>
+      </div>
+      <label class="f"><span>Commit message</span><input class="inp" id="g_msg" value="Update menu from admin"></label>
+
+      <label class="f" style="margin-top:6px"><span>Personal access token</span>
+        <input class="inp" id="g_token" type="password" dir="ltr" placeholder="github_pat_..." autocomplete="off"></label>
+      <p class="hint">Needs <span class="kbd">Contents: read and write</span> on that one repo.
+        A fine-grained token scoped to just this repo is the right choice.</p>
+      <div class="token-row">
+        <button class="btn btn-p" id="btnGithub2" type="button">Save to GitHub</button>
+        <button class="btn btn-g" id="btnForget" type="button">Forget token</button>
+        <button class="btn btn-g" id="btnTest" type="button">Test connection</button>
+      </div>
+      <p class="hint" id="ghResult"></p>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <h2>If you would rather not use a token</h2>
+      <p class="hint">Press <b>Download menu.json</b> above, then in the GitHub repo go to
+        <code>data/menu.json</code>, click the pencil, paste the new contents, and commit.
+        The site picks the change up on its own.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $ = function(s,r){ return (r||document).querySelector(s); };
+var LS_DATA = 'saj-menu-data', LS_CFG = 'saj-menu-cfg';
+
+var CATS = ['healthy','saj','kaake','sandwiches','drinks'];
+var CAT_LABEL = { healthy:'Healthy Picks', saj:'Saj', kaake:'Kaake', sandwiches:'Sandwiches', drinks:'Drinks' };
+var TAG_KEYS = ['protein','lowcarb','light'];
+
+var data = null, cfg = { owner:'hsen308', repo:'saj-abo-amir', branch:'main', path:'data/menu.json',
+                         msg:'Update menu from admin', token:'' };
+
+/* ---------- messages ---------- */
+function say(kind, text){
+  var m = $('#msg');
+  m.className = 'msg on ' + kind;
+  m.textContent = text;
+  if (kind === 'ok') setTimeout(function(){ m.className = 'msg'; }, 3500);
+}
+
+/* ---------- persistence ---------- */
+function loadCfg(){
+  try {
+    var raw = localStorage.getItem(LS_CFG);
+    if (raw) cfg = Object.assign(cfg, JSON.parse(raw));
+  } catch(e){}
+  $('#g_owner').value = cfg.owner; $('#g_repo').value = cfg.repo;
+  $('#g_branch').value = cfg.branch; $('#g_path').value = cfg.path;
+  $('#g_msg').value = cfg.msg; $('#g_token').value = cfg.token || '';
+}
+function saveCfg(){
+  cfg.owner = $('#g_owner').value.trim(); cfg.repo = $('#g_repo').value.trim();
+  cfg.branch = $('#g_branch').value.trim(); cfg.path = $('#g_path').value.trim();
+  cfg.msg = $('#g_msg').value.trim() || 'Update menu from admin';
+  cfg.token = $('#g_token').value.trim();
+  try { localStorage.setItem(LS_CFG, JSON.stringify(cfg)); } catch(e){}
+}
+function saveDraft(){
+  try { localStorage.setItem(LS_DATA, JSON.stringify(data)); } catch(e){}
+  $('#dirtyBadge').hidden = false;
+  $('#savedBadge').classList.remove('on');
+}
+function markDirty(){ $('#dirtyBadge').hidden = false; $('#savedBadge').classList.remove('on'); }
+function markClean(){ $('#dirtyBadge').hidden = true; $('#savedBadge').classList.add('on'); }
+
+/* ---------- render: items ---------- */
+function td(cls){ return '<td class="' + cls + '">'; }
+
+function renderItems(){
+  var tb = $('#itemsTable tbody');
+  var onlyPriced = $('#onlyPriced').checked;
+  var rows = data.items.filter(function(i){ return !onlyPriced || (i.price && i.price.trim()); });
+  var html = rows.map(function(it){
+    var tags = TAG_KEYS.map(function(k){
+      var on = it.tags && it.tags.indexOf(k) >= 0;
+      return '<label class="chk"><input type="checkbox" data-f="tags" data-t="' + k + '"' + (on?' checked':'') + '>' +
+             (k === 'protein' ? 'Protein' : k === 'lowcarb' ? 'Low carb' : 'Light') + '</label>';
+    }).join(' ');
+    return '<tr data-id="' + it.id + '">' +
+      '<td><input type="checkbox" data-f="on"' + (it.on === false ? '' : ' checked') + '></td>' +
+      '<td><select class="inp" data-f="cat">' + CATS.map(function(c){
+        return '<option value="' + c + '"' + (it.cat === c ? ' selected' : '') + '>' + CAT_LABEL[c] + '</option>';
+      }).join('') + '</select></td>' +
+      td('w-name') + '<input class="inp" data-f="en" value="' + esc(it.en) + '"></td>' +
+      td('w-ar') + '<input class="inp ar" data-f="ar" value="' + esc(it.ar) + '"></td>' +
+      td('w-desc') + '<textarea class="inp" data-f="dEn" rows="1">' + esc(it.dEn || '') + '</textarea></td>' +
+      td('w-desc') + '<textarea class="inp ar" data-f="dAr" rows="1">' + esc(it.dAr || '') + '</textarea></td>' +
+      td('w-pw') + '<input class="inp pw" data-f="price" value="' + esc(it.price || '') + '" placeholder="X"></td>' +
+      '<td>' + tags + '</td>' +
+      '<td><div class="row-acts">' +
+        '<button class="icon" data-act="up" title="Move up" type="button">&uarr;</button>' +
+        '<button class="icon" data-act="down" title="Move down" type="button">&darr;</button>' +
+        '<button class="icon del" data-act="del" title="Remove" type="button">&times;</button>' +
+      '</div></td></tr>';
+  }).join('');
+  tb.innerHTML = html || '<tr><td colspan="9" style="padding:20px;color:var(--muted)">No items match.</td></tr>';
+  $('#itemsCount').textContent = data.items.length + ' items total, ' + rows.length + ' shown.';
+}
+
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c];
+  });
+}
+
+$('#itemsTable').addEventListener('input', function(e){
+  var tr = e.target.closest('tr'); if (!tr) return;
+  var it = data.items.find(function(x){ return x.id === tr.dataset.id; });
+  if (!it) return;
+  if (e.target.type === 'checkbox') return;
+  it[e.target.dataset.f] = e.target.value;
+  markDirty(); saveDraft();
+});
+
+$('#itemsTable').addEventListener('change', function(e){
+  var tr = e.target.closest('tr'); if (!tr) return;
+  var it = data.items.find(function(x){ return x.id === tr.dataset.id; });
+  if (!it) return;
+  var f = e.target.dataset.f;
+  if (f === 'on') { it.on = e.target.checked; tr.classList.toggle('off', !e.target.checked); }
+  if (f === 'cat') it.cat = e.target.value;
+  if (f === 'tags') {
+    var t = e.target.dataset.t;
+    it.tags = it.tags || [];
+    var i = it.tags.indexOf(t);
+    if (e.target.checked && i < 0) it.tags.push(t);
+    if (!e.target.checked && i >= 0) it.tags.splice(i, 1);
+  }
+  markDirty(); saveDraft();
+});
+
+$('#itemsTable').addEventListener('click', function(e){
+  var btn = e.target.closest('button[data-act]'); if (!btn) return;
+  var tr = btn.closest('tr');
+  var idx = data.items.findIndex(function(x){ return x.id === tr.dataset.id; });
+  if (idx < 0) return;
+  var act = btn.dataset.act;
+  if (act === 'up' && idx > 0) { var a = data.items[idx-1]; data.items[idx-1] = data.items[idx]; data.items[idx] = a; }
+  else if (act === 'down' && idx < data.items.length-1) { var b = data.items[idx+1]; data.items[idx+1] = data.items[idx]; data.items[idx] = b; }
+  else if (act === 'del') {
+    if (!confirm('Remove "' + (data.items[idx].en || data.items[idx].id) + '" from the menu?')) return;
+    data.items.splice(idx, 1);
+  }
+  renderItems(); markDirty(); saveDraft();
+});
+
+$('#onlyPriced').addEventListener('change', renderItems);
+
+function addItem(){
+  var n = data.items.length + 1;
+  var id = 'new-' + Date.now().toString(36);
+  data.items.push({ id:id, cat:'saj', en:'New item ' + n, ar:'صنف جديد ' + n,
+                    dEn:'', dAr:'', tags:[], bread:'saj', price:'X', macros:null });
+  renderItems(); markDirty(); saveDraft();
+  var row = $('#itemsTable tbody tr:last-child');
+  if (row) { row.scrollIntoView({block:'center'}); row.querySelector('[data-f="en"]').focus(); }
+}
+$('#btnAddItem').addEventListener('click', addItem);
+
+/* ---------- render: combos ---------- */
+function renderCombos(){
+  $('#combosWrap').innerHTML = data.combos.map(function(c, i){
+    return '<details open><summary>' + esc(c.en || c.id) + '</summary>' +
+      '<div class="grid2" style="margin-top:12px">' +
+        '<label class="f"><span>Name (EN)</span><input class="inp" data-cf="en" data-i="' + i + '" value="' + esc(c.en) + '"></label>' +
+        '<label class="f"><span>Name (AR)</span><input class="inp ar" data-cf="ar" data-i="' + i + '" value="' + esc(c.ar) + '"></label>' +
+        '<label class="f"><span>Description (EN)</span><textarea class="inp" data-cf="dEn" data-i="' + i + '" rows="2">' + esc(c.dEn || '') + '</textarea></label>' +
+        '<label class="f"><span>Description (AR)</span><textarea class="inp ar" data-cf="dAr" data-i="' + i + '" rows="2">' + esc(c.dAr || '') + '</textarea></label>' +
+        '<label class="f"><span>Order line (EN)</span><input class="inp" data-cf="orderEn" data-i="' + i + '" value="' + esc(c.orderEn || '') + '"></label>' +
+        '<label class="f"><span>Order line (AR)</span><input class="inp ar" data-cf="orderAr" data-i="' + i + '" value="' + esc(c.orderAr || '') + '"></label>' +
+        '<label class="f"><span>Price</span><input class="inp pw" data-cf="price" data-i="' + i + '" value="' + esc(c.price || '') + '"></label>' +
+      '</div>' +
+      '<button class="btn btn-d btn-sm" data-cdel="' + i + '" type="button">Remove combo</button></details>';
+  }).join('') || '<div class="card">No combos.</div>';
+}
+$('#combosWrap').addEventListener('input', function(e){
+  var f = e.target.dataset.cf; if (!f) return;
+  data.combos[+e.target.dataset.i][f] = e.target.value;
+  markDirty(); saveDraft();
+});
+$('#combosWrap').addEventListener('click', function(e){
+  var b = e.target.closest('[data-cdel]'); if (!b) return;
+  var i = +b.dataset.cdel;
+  if (!confirm('Remove "' + (data.combos[i].en || '') + '"?')) return;
+  data.combos.splice(i, 1);
+  renderCombos(); markDirty(); saveDraft();
+});
+
+/* ---------- render: shop ---------- */
+function renderShop(){
+  var s = data.shop;
+  $('#s_phoneDisplay').value = s.phoneDisplay || '';
+  $('#s_tel').value = s.tel || '';
+  $('#s_wa').value = s.wa || '';
+  $('#s_contactDisplay').value = s.contactDisplay || '';
+  $('#s_contactTel').value = s.contactTel || '';
+  $('#s_mapQuery').value = s.mapQuery || '';
+  $('#s_hours_en').value = (s.hours && s.hours.en) || '';
+  $('#s_hours_ar').value = (s.hours && s.hours.ar) || '';
+  $('#s_hoursLong_en').value = (s.hoursLong && s.hoursLong.en) || '';
+  $('#s_hoursLong_ar').value = (s.hoursLong && s.hoursLong.ar) || '';
+  $('#s_name_en').value = (s.name && s.name.en) || '';
+  $('#s_name_ar').value = (s.name && s.name.ar) || '';
+}
+$('#p-shop').addEventListener('input', function(e){
+  var s = data.shop, id = e.target.id, v = e.target.value;
+  if (id === 's_phoneDisplay') s.phoneDisplay = v;
+  else if (id === 's_tel') s.tel = v;
+  else if (id === 's_wa') s.wa = v;
+  else if (id === 's_contactDisplay') s.contactDisplay = v;
+  else if (id === 's_contactTel') s.contactTel = v;
+  else if (id === 's_mapQuery') s.mapQuery = v;
+  else if (id === 's_hours_en') (s.hours = s.hours || {}).en = v;
+  else if (id === 's_hours_ar') (s.hours = s.hours || {}).ar = v;
+  else if (id === 's_hoursLong_en') (s.hoursLong = s.hoursLong || {}).en = v;
+  else if (id === 's_hoursLong_ar') (s.hoursLong = s.hoursLong || {}).ar = v;
+  else if (id === 's_name_en') (s.name = s.name || {}).en = v;
+  else if (id === 's_name_ar') (s.name = s.name || {}).ar = v;
+  else return;
+  markDirty(); saveDraft();
+});
+
+/* ---------- tabs ---------- */
+var $$ = function(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); };
+$$('.tab').forEach(function(b){
+  b.addEventListener('click', function(){
+    $$('.tab').forEach(function(x){ x.setAttribute('aria-selected', String(x === b)); });
+    $$('.panel').forEach(function(p){ p.classList.toggle('on', p.id === b.dataset.panel); });
+  });
+});
+
+/* ---------- download ---------- */
+function serialize(){
+  var out = JSON.parse(JSON.stringify(data));
+  out.items = out.items.filter(function(i){ return i.on !== false; })
+                      .map(function(i){
+                        var c = Object.assign({}, i); delete c.on;
+                        if (!c.price || !String(c.price).trim()) delete c.price;
+                        return c;
+                      });
+  return out;
+}
+function download(){
+  var blob = new Blob([JSON.stringify(serialize(), null, 2) + '\n'], { type:'application/json' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'menu.json';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  say('ok', 'menu.json downloaded. Replace data/menu.json in the repo with it.');
+}
+$('#btnDownload').addEventListener('click', download);
+
+/* ---------- GitHub ---------- */
+function apiHeaders(token){
+  return { 'Authorization':'Bearer ' + token, 'Accept':'application/vnd.github+json',
+           'X-GitHub-Api-Version':'2022-11-28', 'Content-Type':'application/json' };
+}
+function ghUrl(path){ return 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/' + path; }
+
+function testConnection(){
+  saveCfg();
+  if (!cfg.token) { say('err', 'Paste a personal access token first.'); return; }
+  if (!cfg.owner || !cfg.repo) { say('err', 'Owner and repository are required.'); return; }
+  say('ok', 'Checking...');
+  fetch(ghUrl('contents/' + cfg.path), { headers: apiHeaders(cfg.token) })
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(j){
+      say('ok', 'Connected. Found ' + cfg.path + ' in ' + cfg.owner + '/' + cfg.repo + '.');
+      $('#ghResult').textContent = 'Connected. Current file sha will be used to avoid conflicts.';
+    })
+    .catch(function(e){ say('err', 'Could not read the file: ' + e.message); });
+}
+$('#btnTest').addEventListener('click', testConnection);
+
+function publish(){
+  saveCfg();
+  if (!cfg.token) { say('err', 'Paste a personal access token first.'); return; }
+  var content = JSON.stringify(serialize(), null, 2) + '\n';
+  var b64 = btoa(unescape(encodeURIComponent(content)));
+  say('ok', 'Publishing...');
+  $('#ghResult').textContent = '';
+
+  fetch(ghUrl('contents/' + cfg.path), { headers: apiHeaders(cfg.token) })
+    .then(function(r){ return r.status === 404 ? { sha: null } : r.json().then(function(j){
+      if (!r.ok) throw new Error(j.message || ('HTTP ' + r.status));
+      return j;
+    }); })
+    .then(function(existing){
+      var body = { message: cfg.msg, content: b64, branch: cfg.branch };
+      if (existing.sha) body.sha = existing.sha;
+      return fetch(ghUrl('contents/' + cfg.path), {
+        method:'PUT', headers: apiHeaders(cfg.token), body: JSON.stringify(body)
+      });
+    })
+    .then(function(r){
+      return r.json().then(function(j){ if (!r.ok) throw new Error(j.message || ('HTTP ' + r.status)); return j; });
+    })
+    .then(function(j){
+      markClean();
+      say('ok', 'Published to ' + cfg.owner + '/' + cfg.repo + '. Commit ' + (j.commit && j.commit.sha || '').slice(0,7) + '.');
+      $('#ghResult').textContent = 'Published. Give GitHub Pages a minute or two to rebuild.';
+    })
+    .catch(function(e){ say('err', 'Publish failed: ' + e.message); });
+}
+$('#btnGithub').addEventListener('click', publish);
+$('#btnGithub2').addEventListener('click', publish);
+$('#btnForget').addEventListener('click', function(){
+  cfg.token = ''; $('#g_token').value = ''; saveCfg(); say('ok', 'Token removed from this browser.');
+});
+
+/* ---------- reload ---------- */
+$('#btnReload').addEventListener('click', function(){
+  if (!confirm('Discard unsaved changes and reload data/menu.json?')) return;
+  try { localStorage.removeItem(LS_DATA); } catch(e){}
+  load(true);
+});
+
+/* ---------- boot ---------- */
+function load(fromFile){
+  if (!fromFile) {
+    try {
+      var draft = localStorage.getItem(LS_DATA);
+      if (draft) { data = JSON.parse(draft); boot(true); return; }
+    } catch(e){}
+  }
+  fetch('data/menu.json', { cache:'no-store' })
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(j){
+      data = j;
+      if (!data.items) data.items = [];
+      if (!data.combos) data.combos = [];
+      boot(false);
+      say('ok', 'Loaded data/menu.json with ' + data.items.length + ' items.');
+    })
+    .catch(function(e){
+      $('#itemsTable tbody').innerHTML =
+        '<tr><td colspan="9" style="padding:20px">Could not load data/menu.json (' + e.message +
+        '). Serve the folder over HTTP, for example: <code>python -m http.server 8000</code></td></tr>';
+      say('err', 'Could not load data/menu.json.');
+    });
+}
+function boot(isDraft){
+  renderItems(); renderCombos(); renderShop();
+  if (isDraft) { markDirty(); say('warn', 'Restored your unsaved draft from this browser.'); }
+  else { markClean(); try { localStorage.removeItem(LS_DATA); } catch(e){} }
+}
+loadCfg();
+load(false);
+})();
+</script>
+</body>
+</html>

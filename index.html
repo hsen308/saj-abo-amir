@@ -12,6 +12,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Cairo:wght@400;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+/* Data can come from data/menu.json (edited in admin.html). If that file is
+   missing or unreachable, the inline defaults in the main script are used. */
+window.MENU_OVERRIDE = null;
+window.MENU_LOADED = null;
+window.MENU_READY = fetch('data/menu.json', { cache:'no-store' })
+  .then(function(r){ return r.ok ? r.json() : null; })
+  .then(function(j){ if (j && j.items) window.MENU_OVERRIDE = j; })
+  .catch(function(){ return null; });
+</script>
 <style>
 /* ---------- tokens ---------- */
 :root{
@@ -450,11 +460,11 @@ const TAGS = {
 };
 
 const BREADS = [
-  { id: "saj",   en: "Saj tortilla",  ar: "تورتيلا صاج",  dEn: "Our main bread, thin and soft, baked fresh on the saj.", dAr: "خبزنا الأساسي، رقيق وطري، يُخبز طازجاً على الصاج.", macros: M(270, 9, 54, 2) },
-  { id: "brtor", en: "Brown tortilla", ar: "تورتيلا سمراء", dEn: "Whole-grain tortilla, a lighter pick.", dAr: "تورتيلا حبوب كاملة، خيار أخف.", macros: NA },
-  { id: "brbr",  en: "Brown bread",   ar: "خبز أسمر",     dEn: "Whole-grain bread with more fibre.", dAr: "خبز حبوب كاملة غني بالألياف.", macros: NA },
-  { id: "bag",   en: "Baguette",      ar: "باغيت",        dEn: "Crusty outside, soft inside.", dAr: "مقرمش من الخارج وطري من الداخل.", macros: NA },
-  { id: "kaake", en: "Kaake",         ar: "كعك طرابلسي",  dEn: "Tripoli-style sesame kaake.", dAr: "كعك بالسمسم على الطريقة الطرابلسية.", macros: NA }
+  { id: "saj",   en: "Saj tortilla",  ar: "تورتيلا صاج",  dEn: "", dAr: "", macros: M(270, 9, 54, 2) },
+  { id: "brtor", en: "Brown tortilla", ar: "تورتيلا سمراء", dEn: "", dAr: "", macros: NA },
+  { id: "brbr",  en: "Brown bread",   ar: "خبز أسمر",     dEn: "", dAr: "", macros: NA },
+  { id: "bag",   en: "Baguette",      ar: "باغيت",        dEn: "", dAr: "", macros: NA },
+  { id: "kaake", en: "Kaake",         ar: "كعك طرابلسي",  dEn: "", dAr: "", macros: NA }
 ];
 
 const SAUCES = [
@@ -498,26 +508,26 @@ const it = (id, cat, en, ar, dEn, dAr, tags = [], bread = "saj", macros = NA) =>
   ({ id, cat, en, ar, dEn, dAr, tags, bread, price: "X", macros, img: "" });
 
 const SAJ = [
-  it("spicycheese","saj","Spicy Cheese","جبنة حارة","Melted cheese with a spicy kick.","جبنة ذائبة مع لمسة حارة."),
-  { ...it("cheese","saj","Cheese","جبنة","Classic melted cheese.","جبنة ذائبة كلاسيكية.",[]), macros: M(90, 7, 1, 7) },
+  it("spicycheese","saj","Spicy Cheese","جبنة حارة","Cheese, spicy sauce.","جبنة، صوص حار."),
+  { ...it("cheese","saj","Cheese","جبنة","Cheese.","جبنة.",[]), macros: M(90, 7, 1, 7) },
   { ...it("turkeycheese","saj","Turkey & Cheese","ديك رومي وجبنة","Turkey, cheese, lettuce, corn, pickles, mayo.","ديك رومي، جبنة، خس، ذرة، مخلل، مايونيز.",["protein"]), macros: M(147, 16, 2, 8) },
-  { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","Grilled halloum with pesto.","حلوم مشوي مع البيستو.",[]), macros: M(320, 21, 2, 25) },
-  it("zaatar","saj","Zaatar","زعتر","Zaatar with olive oil.","زعتر مع زيت الزيتون.",["light"]),
-  it("labneh","saj","Labneh","لبنة","Creamy labneh with olive oil.","لبنة كريمية مع زيت الزيتون.",["light"]),
-  it("zaatarlabneh","saj","Zaatar & Labneh","زعتر ولبنة","Zaatar with creamy labneh.","زعتر مع لبنة كريمية.",["light"]),
-  it("kaftacheese","saj","Kafta & Cheese","كفتة وجبنة","Grilled kafta with melted cheese.","كفتة مشوية مع جبنة ذائبة.",["protein"]),
-  it("sujukcheese","saj","Sujuk & Cheese","سجق وجبنة","Spiced sujuk with melted cheese.","سجق متبّل مع جبنة ذائبة.",["protein"]),
-  it("nutella","saj","Nutella Saj","صاج نوتيلا","Nutella spread.","نوتيلا.",[]),
-  it("kashkaval","saj","Kashkaval","قشقوان","Melted kashkaval cheese.","جبنة قشقوان ذائبة.",[]),
-  it("picon","saj","Picon","بيكون","Picon cheese.","جبنة بيكون.",[]),
-  it("kishik","saj","Kishik","كشك","Traditional kishik with tomato and onion.","كشك تقليدي مع بندورة وبصل.",["light"]),
-  it("bandoura","saj","Bandoura & Onion","بندورة وبصل","Fresh tomato and onion.","بندورة وبصل طازجين.",["light"]),
-  it("smokedkash","saj","Smoked Kashkaval","قشقوان مدخّن","Smoked kashkaval cheese.","جبنة قشقوان مدخّنة.",[]),
-  it("egg-cheese-turkey","saj","Egg, Cheese & Turkey","بيض وجبنة وديك رومي","Eggs, melted cheese and turkey.","بيض، جبنة ذائبة وديك رومي.",["protein"]),
-  it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","Eggs, melted cheese and sujuk.","بيض، جبنة ذائبة وسجق.",["protein"]),
-  it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","Eggs with melted cheese.","بيض مع جبنة ذائبة.",["protein"]),
-  it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","Eggs with sujuk.","بيض مع سجق.",["protein"]),
-  it("egg-turkey","saj","Egg & Turkey","بيض وديك رومي","Eggs with turkey.","بيض مع ديك رومي.",["protein","lowcarb"])
+  { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","Halloum, pesto.","حلوم، بيستو.",[]), macros: M(320, 21, 2, 25) },
+  it("zaatar","saj","Zaatar","زعتر","Zaatar, olive oil.","زعتر، زيت زيتون.",["light"]),
+  it("labneh","saj","Labneh","لبنة","Labneh, olive oil.","لبنة، زيت زيتون.",["light"]),
+  it("zaatarlabneh","saj","Zaatar & Labneh","زعتر ولبنة","Zaatar, labneh, olive oil.","زعتر، لبنة، زيت زيتون.",["light"]),
+  it("kaftacheese","saj","Kafta & Cheese","كفتة وجبنة","Kafta, cheese.","كفتة، جبنة.",["protein"]),
+  it("sujukcheese","saj","Sujuk & Cheese","سجق وجبنة","Sujuk, cheese.","سجق، جبنة.",["protein"]),
+  it("nutella","saj","Nutella Saj","صاج نوتيلا","Nutella.","نوتيلا.",[]),
+  it("kashkaval","saj","Kashkaval","قشقوان","Kashkaval.","قشقوان.",[]),
+  it("picon","saj","Picon","بيكون","Picon.","بيكون.",[]),
+  it("kishik","saj","Kishik","كشك","Kishik, tomato, onion.","كشك، بندورة، بصل.",["light"]),
+  it("bandoura","saj","Bandoura & Onion","بندورة وبصل","Tomato, onion.","بندورة، بصل.",["light"]),
+  it("smokedkash","saj","Smoked Kashkaval","قشقوان مدخّن","Kashkaval.","قشقوان.",[]),
+  it("egg-cheese-turkey","saj","Egg, Cheese & Turkey","بيض وجبنة وديك رومي","Egg, cheese, turkey.","بيض، جبنة، ديك رومي.",["protein"]),
+  it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","Egg, cheese, sujuk.","بيض، جبنة، سجق.",["protein"]),
+  it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","Egg, cheese.","بيض، جبنة.",["protein"]),
+  it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","Egg, sujuk.","بيض، سجق.",["protein"]),
+  it("egg-turkey","saj","Egg & Turkey","بيض وديك رومي","Egg, turkey.","بيض، ديك رومي.",["protein","lowcarb"])
 ];
 
 const KAAKE = SAJ.map(i => i.id === "nutella"
@@ -525,8 +535,8 @@ const KAAKE = SAJ.map(i => i.id === "nutella"
   : { ...i, id: "k-" + i.id, cat: "kaake", bread: "kaake" });
 
 const SANDWICH = [
-  it("tawouk","sandwiches","Tawouk","طاووق","Marinated chicken, mayo, pickles.","دجاج متبّل، مايونيز، مخلل.",["protein"],"bag"),
-  it("fajita","sandwiches","Fajita","فاهيتا","Chicken, peppers, onions, cheese.","دجاج، فليفلة، بصل، جبنة.",["protein"],"bag"),
+  it("tawouk","sandwiches","Tawouk","طاووق","Chicken, mayo, pickles.","دجاج، مايونيز، مخلل.",["protein"],"bag"),
+  it("fajita","sandwiches","Fajita","فاهيتا","Chicken, peppers, onion, cheese.","دجاج، فليفلة، بصل، جبنة.",["protein"],"bag"),
   it("kafta-sw","sandwiches","Kafta","كفتة","Kafta, mayo, tomato, pickles, lettuce.","كفتة، مايونيز، بندورة، مخلل، خس.",["protein","lowcarb"],"bag"),
   it("sujuk-sw","sandwiches","Sujuk","سجق","Sujuk, tomato, pickles.","سجق، بندورة، مخلل.",[],"bag"),
   it("crab","sandwiches","Crab","كراب","Crab, mayo, lettuce, pickles.","كراب، مايونيز، خس، مخلل.",["protein","lowcarb"],"bag"),
@@ -536,13 +546,13 @@ const SANDWICH = [
 const DRINKS = [
   it("pepsi","drinks","Pepsi","بيبسي","","",[],null),
   it("7up","drinks","7Up","سفن أب","","",[],null),
-  it("oj","drinks","Fresh Orange Juice","عصير برتقال طازج","","",[],null)
+  it("oj","drinks","Orange Juice","عصير برتقال","","",[],null)
 ];
 
 const ITEMS = [...SAJ, ...KAAKE, ...SANDWICH, ...DRINKS];
 
 const COMBOS = [
-  { id: "hp", en: "High Protein Lunch", ar: "غداء عالي البروتين",
+  { id: "hp", en: "Protein Lunch", ar: "غداء بروتين",
     dEn: "Turkey & Cheese or Tawouk on brown bread.", dAr: "ديك رومي وجبنة أو طاووق على خبز أسمر.",
     orderEn: "High Protein Lunch (Turkey & Cheese or Tawouk on brown bread)", orderAr: "غداء عالي البروتين (ديك رومي وجبنة أو طاووق على خبز أسمر)",
     price: "X", macros: NA },
@@ -622,6 +632,37 @@ const UI = {
 (function () {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  /* Fold data/menu.json (if it loaded) into the inline defaults. */
+  function applyOverride() {
+    const o = window.MENU_OVERRIDE;
+    if (!o || !Array.isArray(o.items)) return;
+    if (o.shop) for (const k of ["phoneDisplay","tel","wa","contactDisplay","contactTel","mapQuery","hours","hoursLong","name"]) {
+      if (o.shop[k] !== undefined) SHOP[k] = o.shop[k];
+    }
+    const byId = new Map(o.items.filter(i => i && i.id).map(i => [i.id, i]));
+    const merged = ITEMS.filter(i => byId.has(i.id)).map(i => Object.assign({}, i, byId.get(i.id)));
+    for (const n of o.items) {
+      if (!n || !n.id || ITEMS.some(i => i.id === n.id)) continue;
+      merged.push(Object.assign({ cat: "saj", en: "", ar: "", dEn: "", dAr: "", tags: [], bread: "saj", price: "X" }, n));
+    }
+    // A hand-edited file could miss fields the renderer assumes exist.
+    for (const i of merged) {
+      if (!Array.isArray(i.tags)) i.tags = i.tags ? [i.tags] : [];
+      if (typeof i.price !== "string") i.price = i.price == null ? "" : String(i.price);
+      i.dEn = i.dEn || ""; i.dAr = i.dAr || "";
+    }
+    ITEMS.length = 0;
+    ITEMS.push(...merged);
+    if (Array.isArray(o.combos) && o.combos.length) { COMBOS.length = 0; COMBOS.push(...o.combos); }
+  }
+  applyOverride();
+  window.MENU_READY.then(() => {
+    if (!window.MENU_OVERRIDE) return;
+    applyOverride();
+    try { renderAll(); } catch (e) {}
+  });
+
   let lang = "en";
   try { lang = localStorage.getItem("saj-lang") || "en"; } catch (e) {}
   if (lang !== "ar") lang = "en";
@@ -651,8 +692,8 @@ const UI = {
       `<label class="chip"><input type="radio" name="tagf" value="${id}" ${id === tagF ? "checked" : ""}><span>${label}</span></label>`).join("");
   }
   function itemsForView() {
-    if (cat === "healthy") return ITEMS.filter(i => i.cat !== "kaake" && i.cat !== "drinks" && i.tags.length && (tagF === "all" || i.tags.includes(tagF)));
-    return ITEMS.filter(i => i.cat === cat);
+    if (cat === "healthy") return ITEMS.filter(i => i.on !== false && i.cat !== "kaake" && i.cat !== "drinks" && i.tags.length && (tagF === "all" || i.tags.includes(tagF)));
+    return ITEMS.filter(i => i.on !== false && i.cat === cat);
   }
   const chosen = {};
   function orderText(i, bid) {
@@ -663,7 +704,7 @@ const UI = {
     const bid = chosen[i.id] || i.bread;
     const desc = lang === "ar" ? i.dAr : i.dEn;
     return `<article class="item" data-id="${i.id}">
-      <div class="top"><h3>${esc(nm(i))}</h3><span class="price">${esc(i.price)}</span></div>
+      <div class="top"><h3>${esc(nm(i))}</h3>${i.price && String(i.price).trim() ? `<span class="price">${esc(i.price)}</span>` : ""}</div>
       ${desc ? `<p class="desc">${esc(desc)}</p>` : ""}
       ${i.tags.length ? `<div class="tags">${i.tags.map(g => `<span class="tg">${nm(TAGS[g])}</span>`).join("")}</div>` : ""}
       <a class="order" target="_blank" rel="noopener" href="${wa(orderText(i, bid))}">${WA_ICON}${t("order")}</a>
@@ -679,7 +720,7 @@ const UI = {
   }
   function renderCombos() {
     $("#combos").innerHTML = COMBOS.map(c => `<article class="combo">
-      <div class="top"><h4>${esc(nm(c))}</h4><span class="price">${esc(c.price)}</span></div>
+      <div class="top"><h4>${esc(nm(c))}</h4>${c.price && String(c.price).trim() ? `<span class="price">${esc(c.price)}</span>` : ""}</div>
       <p class="desc">${esc(lang === "ar" ? c.dAr : c.dEn)}</p>
       <a class="order" target="_blank" rel="noopener" href="${wa(t("hi") + " " + (lang === "ar" ? c.orderAr : c.orderEn))}">${WA_ICON}${t("order")}</a>
     </article>`).join("");
