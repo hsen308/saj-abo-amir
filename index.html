@@ -13,14 +13,95 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Cairo:wght@400;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>
-/* Data can come from data/menu.json (edited in admin.html). If that file is
-   missing or unreachable, the inline defaults in the main script are used. */
+/* ------------------------------------------------------------------
+   MENU SOURCE
+   Order of preference:
+     1. the published Google Sheet (owner edits this from a phone)
+     2. data/menu.json (used by admin.html, and by tools/export-csv.js)
+     3. the inline defaults further down this file, so the page always renders
+
+   To connect a sheet, set SHEET_CSV below to its published URL, e.g.
+     https://docs.google.com/spreadsheets/d/e/XXXXXXXX/pub?output=csv
+   Leave it as an empty string to skip the sheet entirely.
+------------------------------------------------------------------ */
+var SHEET_CSV = "";
+var SHEET_CACHE_MINUTES = 5;
+
 window.MENU_OVERRIDE = null;
-window.MENU_LOADED = null;
-window.MENU_READY = fetch('data/menu.json', { cache:'no-store' })
-  .then(function(r){ return r.ok ? r.json() : null; })
-  .then(function(j){ if (j && j.items) window.MENU_OVERRIDE = j; })
-  .catch(function(){ return null; });
+window.MENU_SOURCE = "inline";
+
+function parseCSV(text) {
+  var rows = [], row = [], field = "", inQ = false;
+  for (var i = 0; i < text.length; i++) {
+    var c = text[i];
+    if (inQ) {
+      if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+      else field += c;
+    } else if (c === '"') inQ = true;
+    else if (c === ",") { row.push(field); field = ""; }
+    else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+    else if (c !== "\r") field += c;
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  return rows.filter(function (r) { return r.length && r.some(function (x) { return String(x).trim() !== ""; }); });
+}
+
+/* Columns, in the order tools/export-csv.js writes them. */
+function sheetToData(text) {
+  var rows = parseCSV(text);
+  if (rows.length < 2) return null;
+  var head = rows.shift().map(function (h) { return h.trim(); });
+  var need = ["show", "category", "name_en", "name_ar", "price", "id"];
+  for (var n = 0; n < need.length; n++) if (head.indexOf(need[n]) < 0) return null;
+  var at = function (r, k) { var i = head.indexOf(k); return i < 0 ? "" : String(r[i] === undefined ? "" : r[i]).trim(); };
+
+  var items = [];
+  for (var r = 0; r < rows.length; r++) {
+    var row = rows[r];
+    var id = at(row, "id"), cat = at(row, "category");
+    if (!id || !cat) continue;
+    if (at(row, "show") === "no") continue;
+    items.push({
+      id: id, cat: cat,
+      en: at(row, "name_en"), ar: at(row, "name_ar"),
+      dEn: at(row, "desc_en"), dAr: at(row, "desc_ar"),
+      price: at(row, "price"),
+      tags: at(row, "tags") ? at(row, "tags").split(/\s+/).filter(Boolean) : [],
+      bread: cat
+    });
+  }
+  if (!items.length) return null;
+  /* The sheet carries items only. Keep shop details and combos from the
+     next source so one missing column cannot wipe the phone numbers. */
+  return { items: items, fromSheet: true };
+}
+
+function loadSheet() {
+  if (!SHEET_CSV) return Promise.resolve(null);
+  /* Google caches published sheets aggressively. The cache buster is what
+     keeps his price change from taking ten minutes to appear. */
+  var url = SHEET_CSV + (SHEET_CSV.indexOf("?") < 0 ? "?" : "&") +
+            "cachebust=" + Date.now();
+  return fetch(url, { cache: "no-store", redirect: "follow" })
+    .then(function (r) { return r.ok ? r.text() : null; })
+    .then(function (t) {
+      var d = t ? sheetToData(t) : null;
+      if (d) window.MENU_SOURCE = "sheet";
+      return d;
+    })
+    .catch(function () { return null; });
+}
+
+window.MENU_READY = loadSheet()
+  .then(function (d) {
+    if (d) return d;
+    return fetch("data/menu.json", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { if (j && j.items) { window.MENU_SOURCE = "json"; return j; } return null; })
+      .catch(function () { return null; });
+  })
+  .then(function (j) { if (j) window.MENU_OVERRIDE = j; })
+  .catch(function () {});
 </script>
 <style>
 /* ---------- tokens ---------- */
