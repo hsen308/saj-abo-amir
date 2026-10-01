@@ -562,7 +562,7 @@ const FILLINGS = [
   { id: "cheese",  en: "Cheese",      ar: "جبنة",        macros: M(90, 7, 1, 7) },
   { id: "kashk",   en: "Kashkaval",   ar: "قشقوان",      macros: NA },
   { id: "halloum", en: "Halloum",     ar: "حلوم",        macros: M(320, 21, 2, 25) },
-  { id: "turkey",  en: "Turkey",      ar: "ديك رومي",    macros: M(57, 9, 1, 1) },
+  { id: "turkey",  en: "Smoked Turkey", ar: "حبش",      macros: M(57, 9, 1, 1) },
   { id: "tawouk",  en: "Tawouk",      ar: "طاووق",       macros: NA },
   { id: "kafta",   en: "Kafta",       ar: "كفتة",        macros: NA },
   { id: "sujuk",   en: "Sujuk",       ar: "سجق",         macros: NA },
@@ -591,7 +591,7 @@ const it = (id, cat, en, ar, dEn, dAr, tags = [], bread = "saj", macros = NA) =>
 const SAJ = [
   it("spicycheese","saj","Spicy Cheese","جبنة حارة","Cheese, spicy sauce.","جبنة، صوص حار."),
   { ...it("cheese","saj","Cheese","جبنة","Cheese.","جبنة.",[]), macros: M(90, 7, 1, 7) },
-  { ...it("turkeycheese","saj","Turkey & Cheese","ديك رومي وجبنة","Turkey, cheese, lettuce, corn, pickles, mayo.","ديك رومي، جبنة، خس، ذرة، مخلل، مايونيز.",["protein"]), macros: M(147, 16, 2, 8) },
+  { ...it("turkeycheese","saj","Smoked Turkey & Cheese","حبش وجبنة","Smoked turkey, cheese, lettuce, corn, pickles, mayo.","حبش، جبنة، خس، ذرة، مخلل، مايونيز.",["protein"]), macros: M(147, 16, 2, 8) },
   { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","Halloum, pesto.","حلوم، بيستو.",[]), macros: M(320, 21, 2, 25) },
   it("zaatar","saj","Zaatar","زعتر","Zaatar, olive oil.","زعتر، زيت زيتون.",["light"]),
   it("labneh","saj","Labneh","لبنة","Labneh, olive oil.","لبنة، زيت زيتون.",["light"]),
@@ -604,11 +604,11 @@ const SAJ = [
   it("kishik","saj","Kishik","كشك","Kishik, tomato, onion.","كشك، بندورة، بصل.",["light"]),
   it("bandoura","saj","Bandoura & Onion","بندورة وبصل","Tomato, onion.","بندورة، بصل.",["light"]),
   it("smokedkash","saj","Smoked Kashkaval","قشقوان مدخّن","Kashkaval.","قشقوان.",[]),
-  it("egg-cheese-turkey","saj","Egg, Cheese & Turkey","بيض وجبنة وديك رومي","Egg, cheese, turkey.","بيض، جبنة، ديك رومي.",["protein"]),
+  it("egg-cheese-turkey","saj","Egg, Cheese & Smoked Turkey","بيض وجبنة وحبش","Egg, cheese, smoked turkey.","بيض، جبنة، حبش.",["protein"]),
   it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","Egg, cheese, sujuk.","بيض، جبنة، سجق.",["protein"]),
   it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","Egg, cheese.","بيض، جبنة.",["protein"]),
   it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","Egg, sujuk.","بيض، سجق.",["protein"]),
-  it("egg-turkey","saj","Egg & Turkey","بيض وديك رومي","Egg, turkey.","بيض، ديك رومي.",["protein","lowcarb"])
+  it("egg-turkey","saj","Egg & Smoked Turkey","بيض وحبش","Egg, smoked turkey.","بيض، حبش.",["protein","lowcarb"])
 ];
 
 const KAAKE = SAJ.map(i => i.id === "nutella"
@@ -634,8 +634,8 @@ const ITEMS = [...SAJ, ...KAAKE, ...SANDWICH, ...DRINKS];
 
 const COMBOS = [
   { id: "hp", en: "Protein Lunch", ar: "غداء بروتين",
-    dEn: "Turkey & Cheese or Tawouk on brown bread.", dAr: "ديك رومي وجبنة أو طاووق على خبز أسمر.",
-    orderEn: "High Protein Lunch (Turkey & Cheese or Tawouk on brown bread)", orderAr: "غداء عالي البروتين (ديك رومي وجبنة أو طاووق على خبز أسمر)",
+    dEn: "Smoked Turkey & Cheese or Tawouk on brown bread.", dAr: "حبش وجبنة أو طاووق على خبز أسمر.",
+    orderEn: "High Protein Lunch (Smoked Turkey & Cheese or Tawouk on brown bread)", orderAr: "غداء عالي البروتين (حبش وجبنة أو طاووق على خبز أسمر)",
     price: "X", macros: NA },
   { id: "lt", en: "Light Lunch", ar: "غداء خفيف",
     dEn: "Labneh or Tuna on brown tortilla.", dAr: "لبنة أو تونا على تورتيلا سمراء.",

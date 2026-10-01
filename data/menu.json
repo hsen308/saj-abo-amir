@@ -222,8 +222,8 @@
     },
     {
       "id": "turkey",
-      "en": "Turkey",
-      "ar": "ديك رومي",
+      "en": "Smoked Turkey",
+      "ar": "حبش",
       "macros": {
         "cal": 57,
         "p": 9,
@@ -406,10 +406,10 @@
     {
       "id": "turkeycheese",
       "cat": "saj",
-      "en": "Turkey & Cheese",
-      "ar": "ديك رومي وجبنة",
-      "dEn": "Turkey, cheese, lettuce, corn, pickles, mayo.",
-      "dAr": "ديك رومي، جبنة، خس، ذرة، مخلل، مايونيز.",
+      "en": "Smoked Turkey & Cheese",
+      "ar": "حبش وجبنة",
+      "dEn": "Smoked turkey, cheese, lettuce, corn, pickles, mayo.",
+      "dAr": "حبش، جبنة، خس، ذرة، مخلل، مايونيز.",
       "tags": [
         "protein"
       ],
@@ -643,10 +643,10 @@
     {
       "id": "egg-cheese-turkey",
       "cat": "saj",
-      "en": "Egg, Cheese & Turkey",
-      "ar": "بيض وجبنة وديك رومي",
-      "dEn": "Egg, cheese, turkey.",
-      "dAr": "بيض، جبنة، ديك رومي.",
+      "en": "Egg, Cheese & Smoked Turkey",
+      "ar": "بيض وجبنة وحبش",
+      "dEn": "Egg, cheese, smoked turkey.",
+      "dAr": "بيض، جبنة، حبش.",
       "tags": [
         "protein"
       ],
@@ -719,10 +719,10 @@
     {
       "id": "egg-turkey",
       "cat": "saj",
-      "en": "Egg & Turkey",
-      "ar": "بيض وديك رومي",
-      "dEn": "Egg, turkey.",
-      "dAr": "بيض، ديك رومي.",
+      "en": "Egg & Smoked Turkey",
+      "ar": "بيض وحبش",
+      "dEn": "Egg, smoked turkey.",
+      "dAr": "بيض، حبش.",
       "tags": [
         "protein",
         "lowcarb"
@@ -773,10 +773,10 @@
     {
       "id": "k-turkeycheese",
       "cat": "kaake",
-      "en": "Turkey & Cheese",
-      "ar": "ديك رومي وجبنة",
-      "dEn": "Turkey, cheese, lettuce, corn, pickles, mayo.",
-      "dAr": "ديك رومي، جبنة، خس، ذرة، مخلل، مايونيز.",
+      "en": "Smoked Turkey & Cheese",
+      "ar": "حبش وجبنة",
+      "dEn": "Smoked turkey, cheese, lettuce, corn, pickles, mayo.",
+      "dAr": "حبش، جبنة، خس، ذرة، مخلل، مايونيز.",
       "tags": [
         "protein"
       ],
@@ -1010,10 +1010,10 @@
     {
       "id": "k-egg-cheese-turkey",
       "cat": "kaake",
-      "en": "Egg, Cheese & Turkey",
-      "ar": "بيض وجبنة وديك رومي",
-      "dEn": "Egg, cheese, turkey.",
-      "dAr": "بيض، جبنة، ديك رومي.",
+      "en": "Egg, Cheese & Smoked Turkey",
+      "ar": "بيض وجبنة وحبش",
+      "dEn": "Egg, cheese, smoked turkey.",
+      "dAr": "بيض، جبنة، حبش.",
       "tags": [
         "protein"
       ],
@@ -1086,10 +1086,10 @@
     {
       "id": "k-egg-turkey",
       "cat": "kaake",
-      "en": "Egg & Turkey",
-      "ar": "بيض وديك رومي",
-      "dEn": "Egg, turkey.",
-      "dAr": "بيض، ديك رومي.",
+      "en": "Egg & Smoked Turkey",
+      "ar": "بيض وحبش",
+      "dEn": "Egg, smoked turkey.",
+      "dAr": "بيض، حبش.",
       "tags": [
         "protein",
         "lowcarb"
@@ -1275,10 +1275,10 @@
       "id": "hp",
       "en": "Protein Lunch",
       "ar": "غداء بروتين",
-      "dEn": "Turkey & Cheese or Tawouk on brown bread.",
-      "dAr": "ديك رومي وجبنة أو طاووق على خبز أسمر.",
-      "orderEn": "High Protein Lunch (Turkey & Cheese or Tawouk on brown bread)",
-      "orderAr": "غداء عالي البروتين (ديك رومي وجبنة أو طاووق على خبز أسمر)",
+      "dEn": "Smoked Turkey & Cheese or Tawouk on brown bread.",
+      "dAr": "حبش وجبنة أو طاووق على خبز أسمر.",
+      "orderEn": "High Protein Lunch (Smoked Turkey & Cheese or Tawouk on brown bread)",
+      "orderAr": "غداء عالي البروتين (حبش وجبنة أو طاووق على خبز أسمر)",
       "price": "X",
       "macros": {
         "cal": null,
