@@ -553,7 +553,7 @@ const SAUCES = [
   { id: "ketchup", en: "Ketchup",  ar: "كاتشب",     light: false, macros: NA },
   { id: "spicy",   en: "Spicy",    ar: "حار",       light: false, macros: NA },
   { id: "pesto",   en: "Pesto",    ar: "بيستو",     light: false, macros: NA },
-  { id: "yogurt",  en: "Garlic yogurt", ar: "لبن بالثوم", light: true, macros: NA },
+  { id: "avocado", en: "Avocado sauce", ar: "صوص أفوكادو", light: false, macros: NA },
   { id: "mustard", en: "Mustard",  ar: "خردل",      light: false, macros: NA },
   { id: "bbq",     en: "BBQ",      ar: "بربكيو",    light: false, macros: NA }
 ];
@@ -562,7 +562,8 @@ const FILLINGS = [
   { id: "cheese",  en: "Cheese",      ar: "جبنة",        macros: M(90, 7, 1, 7) },
   { id: "kashk",   en: "Kashkaval",   ar: "قشقوان",      macros: NA },
   { id: "halloum", en: "Halloum",     ar: "حلوم",        macros: M(320, 21, 2, 25) },
-  { id: "turkey",  en: "Smoked Turkey", ar: "حبش",      macros: M(57, 9, 1, 1) },
+  { id: "turkey",  en: "Smoked Turkey", ar: "حبش",        macros: M(57, 9, 1, 1) },
+  { id: "pepperoni", en: "Pepperoni", ar: "ببرجروني",     macros: NA },
   { id: "tawouk",  en: "Tawouk",      ar: "طاووق",       macros: NA },
   { id: "kafta",   en: "Kafta",       ar: "كفتة",        macros: NA },
   { id: "sujuk",   en: "Sujuk",       ar: "سجق",         macros: NA },
@@ -580,8 +581,7 @@ const VEGGIES = [
   { id: "cucumber", en: "Cucumber", ar: "خيار" },
   { id: "pickles",  en: "Pickles",  ar: "مخلل" },
   { id: "corn",     en: "Corn",     ar: "ذرة" },
-  { id: "onion",    en: "Onion",    ar: "بصل" },
-  { id: "parsley",  en: "Parsley",  ar: "بقدونس" }
+  { id: "olives",   en: "Olives",   ar: "زيتون" }
 ];
 
 /* it(id, category, EN name, AR name, EN description, AR description, tags, default bread) */
@@ -589,26 +589,27 @@ const it = (id, cat, en, ar, dEn, dAr, tags = [], bread = "saj", macros = NA) =>
   ({ id, cat, en, ar, dEn, dAr, tags, bread, price: "X", macros, img: "" });
 
 const SAJ = [
-  it("spicycheese","saj","Spicy Cheese","جبنة حارة","Cheese, spicy sauce.","جبنة، صوص حار."),
-  { ...it("cheese","saj","Cheese","جبنة","Cheese.","جبنة.",[]), macros: M(90, 7, 1, 7) },
-  { ...it("turkeycheese","saj","Smoked Turkey & Cheese","حبش وجبنة","Smoked turkey, cheese, lettuce, corn, pickles, mayo.","حبش، جبنة، خس، ذرة، مخلل، مايونيز.",["protein"]), macros: M(147, 16, 2, 8) },
-  { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","Halloum, pesto.","حلوم، بيستو.",[]), macros: M(320, 21, 2, 25) },
-  it("zaatar","saj","Zaatar","زعتر","Zaatar, olive oil.","زعتر، زيت زيتون.",["light"]),
-  it("labneh","saj","Labneh","لبنة","Labneh, olive oil.","لبنة، زيت زيتون.",["light"]),
-  it("zaatarlabneh","saj","Zaatar & Labneh","زعتر ولبنة","Zaatar, labneh, olive oil.","زعتر، لبنة، زيت زيتون.",["light"]),
-  it("kaftacheese","saj","Kafta & Cheese","كفتة وجبنة","Kafta, cheese.","كفتة، جبنة.",["protein"]),
-  it("sujukcheese","saj","Sujuk & Cheese","سجق وجبنة","Sujuk, cheese.","سجق، جبنة.",["protein"]),
-  it("nutella","saj","Nutella Saj","صاج نوتيلا","Nutella.","نوتيلا.",[]),
-  it("kashkaval","saj","Kashkaval","قشقوان","Kashkaval.","قشقوان.",[]),
-  it("picon","saj","Picon","بيكون","Picon.","بيكون.",[]),
-  it("kishik","saj","Kishik","كشك","Kishik, tomato, onion.","كشك، بندورة، بصل.",["light"]),
-  it("bandoura","saj","Bandoura & Onion","بندورة وبصل","Tomato, onion.","بندورة، بصل.",["light"]),
-  it("smokedkash","saj","Smoked Kashkaval","قشقوان مدخّن","Kashkaval.","قشقوان.",[]),
-  it("egg-cheese-turkey","saj","Egg, Cheese & Smoked Turkey","بيض وجبنة وحبش","Egg, cheese, smoked turkey.","بيض، جبنة، حبش.",["protein"]),
-  it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","Egg, cheese, sujuk.","بيض، جبنة، سجق.",["protein"]),
-  it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","Egg, cheese.","بيض، جبنة.",["protein"]),
-  it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","Egg, sujuk.","بيض، سجق.",["protein"]),
-  it("egg-turkey","saj","Egg & Smoked Turkey","بيض وحبش","Egg, smoked turkey.","بيض، حبش.",["protein","lowcarb"])
+  it("spicycheese","saj","Spicy Cheese","جبنة حارة","",""),
+  { ...it("cheese","saj","Cheese","جبنة","",""), macros: M(90, 7, 1, 7) },
+  { ...it("turkeycheese","saj","Smoked Turkey & Cheese","حبش وجبنة","",""), macros: M(147, 16, 2, 8) },
+  it("pepperonicheese","saj","Pepperoni & Cheese","ببرجروني وجبنة","",""),
+  { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","",""), macros: M(320, 21, 2, 25) },
+  it("zaatar","saj","Zaatar","زعتر","","",["light"]),
+  it("labneh","saj","Labneh","لبنة","","",["light"]),
+  it("zaatarlabneh","saj","Zaatar & Labneh","زعتر ولبنة","","",["light"]),
+  it("kaftacheese","saj","Kafta & Cheese","كفتة وجبنة","","",["protein"]),
+  it("sujukcheese","saj","Sujuk & Cheese","سجق وجبنة","","",["protein"]),
+  it("nutella","saj","Nutella Saj","صاج نوتيلا","",""),
+  it("kashkaval","saj","Kashkaval","قشقوان","",""),
+  it("picon","saj","Picon","بيكون","",""),
+  it("kishik","saj","Kishik","كشك","","",["light"]),
+  it("bandoura","saj","Bandoura w basal","بندورة ببصل","","",["light"]),
+  it("smokedkash","saj","Smoked Kashkaval","قشقوان مدخّن","",""),
+  it("egg-cheese-turkey","saj","Egg, Cheese & Smoked Turkey","بيض وجبنة وحبش","","",["protein"]),
+  it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","","",["protein"]),
+  it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","","",["protein"]),
+  it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","","",["protein"]),
+  it("egg-turkey","saj","Egg & Smoked Turkey","بيض وحبش","","",["protein","lowcarb"])
 ];
 
 const KAAKE = SAJ.map(i => i.id === "nutella"
@@ -617,6 +618,7 @@ const KAAKE = SAJ.map(i => i.id === "nutella"
 
 const SANDWICH = [
   it("tawouk","sandwiches","Tawouk","طاووق","","",["protein"],"bag"),
+  it("pepperoni-sw","sandwiches","Pepperoni & Cheese","ببرجروني وجبنة","","",[],"bag"),
   it("fajita","sandwiches","Fajita","فاهيتا","","",["protein"],"bag"),
   it("kafta-sw","sandwiches","Kafta","كفتة","","",["protein","lowcarb"],"bag"),
   it("sujuk-sw","sandwiches","Sujuk","سجق","","",[],"bag"),
@@ -650,7 +652,7 @@ const UI = {
     pickupShort:"Pickup only.",
     contact:"Website enquiries", credit:"Made by", webHint:"Want a site like this?",
     pickupPill:"Pickup only",
-    navMenu:"Menu", navBuild:"Build your own", navInfo:"Info",
+    navMenu:"Menu", navBuild:"Extras", navInfo:"Info",
     tagline:"Hot off the saj, straight into your hands.",
     heroSub:"Hot saj and kaake trabolseye, made to order. Right across from Beirut Digital District.",
     viewMenu:"View Menu", callNow:"Call Now",
@@ -660,27 +662,27 @@ const UI = {
     lunchText:"Send your order on WhatsApp and it will be wrapped and waiting when you walk in.",
     preorderWa:"Pre-order on WhatsApp",
     ebMenu:"Fresh to order",
-    menuTitle:"Menu", menuSub:"Everything is rolled and grilled fresh to order.",
+    menuTitle:"Menu", menuSub:"Everything is rolled and grilled fresh to order. Each saj and sandwich comes with the veggies and sauce that go with it, or tell us what you want instead.",
     tHealthy:"Healthy Picks", tSaj:"Saj", tKaake:"Kaake Trabolseye", tSand:"Sandwiches", tDrinks:"Drinks",
     all:"All", kaakeNote:"Same fillings as the saj list, in kaake bread or the bread of your choice.",
     combosTitle:"Suggested combos", order:"Order",
-    ebBuild:"Your way",
-    buildTitle:"Build your own", buildSub:"Pick a bread, a filling, veggies and a sauce, then send it to us on WhatsApp.",
-    sBread:"Bread", sFill:"Fillings", sVeg:"Veggies (included)", sSauce:"Choose your sauce", light:"Light",
+    ebBuild:"Extras",
+    buildTitle:"Add or swap anything", buildSub:"Not sure what came with it? Add or swap any of these, then send your order to us on WhatsApp.",
+    sBread:"Bread", sFill:"Fillings", sVeg:"Veggies", sSauce:"Sauces", light:"Light",
     ebInfo:"Beirut",
     infoTitle:"Visit us", pickupOnly:"Pickup only", phone:"Phone", hours:"Opening hours", findUs:"Find us",
     address:"Beirut, near the Ministry of Finance (وزارة المالية), facing Beirut Digital District (BDD), 1227",
     directionsText:"Right across from the Ministry of Finance area, facing BDD 1227.", getDirections:"Get Directions",
     callToOrder:"Call to Order", footTag:"Hot off the saj, straight into your hands.",
     hi:"Hi Saj Abou Amir, I'd like to order:", on:"on",
-    pre:"Hi Saj Abou Amir, I'd like to order.", byoMsg:"Hi Saj Abou Amir, I'd like to build my own saj."
+    pre:"Hi Saj Abou Amir, I'd like to order.", byoMsg:"Hi Saj Abou Amir, I'd like to add some extras to my order."
   },
   ar: {
     contact:"لطلبات المواقع", credit:"صنع بواسطة", webHint:"تبغى موقع مثل هذا؟",
     skip:"تخطَّ إلى القائمة",
     pickupShort:"استلام من المحل فقط.",
     pickupPill:"استلام فقط",
-    navMenu:"القائمة", navBuild:"ركّب بنفسك", navInfo:"معلومات",
+    navMenu:"القائمة", navBuild:"إضافات", navInfo:"معلومات",
     tagline:"ساخن من الصاج، مباشرة إلى يديك.",
     heroSub:"صاج وكعك طرابلسي، يُحضَّر عند الطلب. مقابل Beirut Digital District مباشرة.",
     viewMenu:"عرض القائمة", callNow:"اتصل الآن",
@@ -690,20 +692,20 @@ const UI = {
     lunchText:"أرسل طلبك على واتساب وسيكون جاهزاً ومغلفاً عند وصولك.",
     preorderWa:"اطلب مسبقاً عبر واتساب",
     ebMenu:"طازج عند الطلب",
-    menuTitle:"القائمة", menuSub:"كل شيء يُلفّ ويُشوى طازجاً عند الطلب.",
+    menuTitle:"القائمة", menuSub:"كل شيء يُلفّ ويُشوى طازجاً عند الطلب. كل صاج وسندويش يأتي مع الخضار والصوص اللي بيناسبه، أو قلنا اللي بدك ياه.",
     tHealthy:"خيارات صحية", tSaj:"صاج", tKaake:"كعك طرابلسي", tSand:"سندويشات", tDrinks:"مشروبات",
     all:"الكل", kaakeNote:"نفس حشوات الصاج، بالكعك أو بالخبز الذي تختاره.",
     combosTitle:"تركيبات مقترحة", order:"اطلب",
-    ebBuild:"على طريقتك",
-    buildTitle:"ركّب بنفسك", buildSub:"اختر الخبز والحشوة والخضار والصوص، ثم أرسل طلبك عبر واتساب.",
-    sBread:"الخبز", sFill:"الحشوات", sVeg:"الخضار (مشمولة)", sSauce:"اختر صوصك", light:"خفيف",
+    ebBuild:"إضافات",
+    buildTitle:"زيد أو بدّل", buildSub:"مش عارف شو إجا معه؟ زيد أو بدّل أي شي من هدول، ثم أرسل طلبك عبر واتساب.",
+    sBread:"الخبز", sFill:"الحشوات", sVeg:"الخضار", sSauce:"الصوصات", light:"خفيف",
     ebInfo:"بيروت",
     infoTitle:"زورونا", pickupOnly:"استلام من المحل فقط", phone:"الهاتف", hours:"ساعات العمل", findUs:"موقعنا",
     address:"بيروت، بالقرب من وزارة المالية، مقابل Beirut Digital District (BDD)، 1227",
     directionsText:"مقابل منطقة وزارة المالية مباشرة، قبالة BDD 1227.", getDirections:"احصل على الاتجاهات",
     callToOrder:"اتصل للطلب", footTag:"ساخن من الصاج، مباشرة إلى يديك.",
     hi:"مرحباً صاج أبو أمير، بدي أطلب:", on:"على",
-    pre:"مرحباً صاج أبو أمير، بدي أطلب.", byoMsg:"مرحباً صاج أبو أمير، بدي ركّب صاج بنفسي."
+    pre:"مرحباً صاج أبو أمير، بدي أطلب.", byoMsg:"مرحباً صاج أبو أمير، بدي زيد إضافات على طلبي."
   }
 };
 

@@ -150,10 +150,10 @@
       }
     },
     {
-      "id": "yogurt",
-      "en": "Garlic yogurt",
-      "ar": "لبن بالثوم",
-      "light": true,
+      "id": "avocado",
+      "en": "Avocado sauce",
+      "ar": "صوص أفوكادو",
+      "light": false,
       "macros": {
         "cal": null,
         "p": null,
@@ -229,6 +229,17 @@
         "p": 9,
         "c": 1,
         "f": 1
+      }
+    },
+    {
+      "id": "pepperoni",
+      "en": "Pepperoni",
+      "ar": "ببرجروني",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
       }
     },
     {
@@ -358,14 +369,9 @@
       "ar": "ذرة"
     },
     {
-      "id": "onion",
-      "en": "Onion",
-      "ar": "بصل"
-    },
-    {
-      "id": "parsley",
-      "en": "Parsley",
-      "ar": "بقدونس"
+      "id": "olives",
+      "en": "Olives",
+      "ar": "زيتون"
     }
   ],
   "items": [
@@ -374,8 +380,8 @@
       "cat": "saj",
       "en": "Spicy Cheese",
       "ar": "جبنة حارة",
-      "dEn": "Cheese, spicy sauce.",
-      "dAr": "جبنة، صوص حار.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "saj",
       "price": "X",
@@ -391,8 +397,8 @@
       "cat": "saj",
       "en": "Cheese",
       "ar": "جبنة",
-      "dEn": "Cheese.",
-      "dAr": "جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "saj",
       "price": "X",
@@ -408,11 +414,9 @@
       "cat": "saj",
       "en": "Smoked Turkey & Cheese",
       "ar": "حبش وجبنة",
-      "dEn": "Smoked turkey, cheese, lettuce, corn, pickles, mayo.",
-      "dAr": "حبش، جبنة، خس، ذرة، مخلل، مايونيز.",
-      "tags": [
-        "protein"
-      ],
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
       "bread": "saj",
       "price": "X",
       "macros": {
@@ -423,12 +427,29 @@
       }
     },
     {
+      "id": "pepperonicheese",
+      "cat": "saj",
+      "en": "Pepperoni & Cheese",
+      "ar": "ببرجروني وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
+      "bread": "saj",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
       "id": "halloumpesto",
       "cat": "saj",
       "en": "Halloum & Pesto",
       "ar": "حلوم وبيستو",
-      "dEn": "Halloum, pesto.",
-      "dAr": "حلوم، بيستو.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "saj",
       "price": "X",
@@ -444,8 +465,8 @@
       "cat": "saj",
       "en": "Zaatar",
       "ar": "زعتر",
-      "dEn": "Zaatar, olive oil.",
-      "dAr": "زعتر، زيت زيتون.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -463,8 +484,8 @@
       "cat": "saj",
       "en": "Labneh",
       "ar": "لبنة",
-      "dEn": "Labneh, olive oil.",
-      "dAr": "لبنة، زيت زيتون.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -482,8 +503,8 @@
       "cat": "saj",
       "en": "Zaatar & Labneh",
       "ar": "زعتر ولبنة",
-      "dEn": "Zaatar, labneh, olive oil.",
-      "dAr": "زعتر، لبنة، زيت زيتون.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -501,8 +522,8 @@
       "cat": "saj",
       "en": "Kafta & Cheese",
       "ar": "كفتة وجبنة",
-      "dEn": "Kafta, cheese.",
-      "dAr": "كفتة، جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -520,8 +541,8 @@
       "cat": "saj",
       "en": "Sujuk & Cheese",
       "ar": "سجق وجبنة",
-      "dEn": "Sujuk, cheese.",
-      "dAr": "سجق، جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -539,8 +560,8 @@
       "cat": "saj",
       "en": "Nutella Saj",
       "ar": "صاج نوتيلا",
-      "dEn": "Nutella.",
-      "dAr": "نوتيلا.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "saj",
       "price": "X",
@@ -556,8 +577,8 @@
       "cat": "saj",
       "en": "Kashkaval",
       "ar": "قشقوان",
-      "dEn": "Kashkaval.",
-      "dAr": "قشقوان.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "saj",
       "price": "X",
@@ -573,8 +594,8 @@
       "cat": "saj",
       "en": "Picon",
       "ar": "بيكون",
-      "dEn": "Picon.",
-      "dAr": "بيكون.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "saj",
       "price": "X",
@@ -590,8 +611,8 @@
       "cat": "saj",
       "en": "Kishik",
       "ar": "كشك",
-      "dEn": "Kishik, tomato, onion.",
-      "dAr": "كشك، بندورة، بصل.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -607,10 +628,10 @@
     {
       "id": "bandoura",
       "cat": "saj",
-      "en": "Bandoura & Onion",
-      "ar": "بندورة وبصل",
-      "dEn": "Tomato, onion.",
-      "dAr": "بندورة، بصل.",
+      "en": "Bandoura w basal",
+      "ar": "بندورة ببصل",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -628,8 +649,8 @@
       "cat": "saj",
       "en": "Smoked Kashkaval",
       "ar": "قشقوان مدخّن",
-      "dEn": "Kashkaval.",
-      "dAr": "قشقوان.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "saj",
       "price": "X",
@@ -645,8 +666,8 @@
       "cat": "saj",
       "en": "Egg, Cheese & Smoked Turkey",
       "ar": "بيض وجبنة وحبش",
-      "dEn": "Egg, cheese, smoked turkey.",
-      "dAr": "بيض، جبنة، حبش.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -664,8 +685,8 @@
       "cat": "saj",
       "en": "Egg, Cheese & Sujuk",
       "ar": "بيض وجبنة وسجق",
-      "dEn": "Egg, cheese, sujuk.",
-      "dAr": "بيض، جبنة، سجق.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -683,8 +704,8 @@
       "cat": "saj",
       "en": "Egg & Cheese",
       "ar": "بيض وجبنة",
-      "dEn": "Egg, cheese.",
-      "dAr": "بيض، جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -702,8 +723,8 @@
       "cat": "saj",
       "en": "Egg & Sujuk",
       "ar": "بيض وسجق",
-      "dEn": "Egg, sujuk.",
-      "dAr": "بيض، سجق.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -721,8 +742,8 @@
       "cat": "saj",
       "en": "Egg & Smoked Turkey",
       "ar": "بيض وحبش",
-      "dEn": "Egg, smoked turkey.",
-      "dAr": "بيض، حبش.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein",
         "lowcarb"
@@ -741,8 +762,8 @@
       "cat": "kaake",
       "en": "Spicy Cheese",
       "ar": "جبنة حارة",
-      "dEn": "Cheese, spicy sauce.",
-      "dAr": "جبنة، صوص حار.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "kaake",
       "price": "X",
@@ -758,8 +779,8 @@
       "cat": "kaake",
       "en": "Cheese",
       "ar": "جبنة",
-      "dEn": "Cheese.",
-      "dAr": "جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "kaake",
       "price": "X",
@@ -775,11 +796,9 @@
       "cat": "kaake",
       "en": "Smoked Turkey & Cheese",
       "ar": "حبش وجبنة",
-      "dEn": "Smoked turkey, cheese, lettuce, corn, pickles, mayo.",
-      "dAr": "حبش، جبنة، خس، ذرة، مخلل، مايونيز.",
-      "tags": [
-        "protein"
-      ],
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
       "bread": "kaake",
       "price": "X",
       "macros": {
@@ -790,12 +809,29 @@
       }
     },
     {
+      "id": "k-pepperonicheese",
+      "cat": "kaake",
+      "en": "Pepperoni & Cheese",
+      "ar": "ببرجروني وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
+      "bread": "kaake",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
       "id": "k-halloumpesto",
       "cat": "kaake",
       "en": "Halloum & Pesto",
       "ar": "حلوم وبيستو",
-      "dEn": "Halloum, pesto.",
-      "dAr": "حلوم، بيستو.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "kaake",
       "price": "X",
@@ -811,8 +847,8 @@
       "cat": "kaake",
       "en": "Zaatar",
       "ar": "زعتر",
-      "dEn": "Zaatar, olive oil.",
-      "dAr": "زعتر، زيت زيتون.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -830,8 +866,8 @@
       "cat": "kaake",
       "en": "Labneh",
       "ar": "لبنة",
-      "dEn": "Labneh, olive oil.",
-      "dAr": "لبنة، زيت زيتون.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -849,8 +885,8 @@
       "cat": "kaake",
       "en": "Zaatar & Labneh",
       "ar": "زعتر ولبنة",
-      "dEn": "Zaatar, labneh, olive oil.",
-      "dAr": "زعتر، لبنة، زيت زيتون.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -868,8 +904,8 @@
       "cat": "kaake",
       "en": "Kafta & Cheese",
       "ar": "كفتة وجبنة",
-      "dEn": "Kafta, cheese.",
-      "dAr": "كفتة، جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -887,8 +923,8 @@
       "cat": "kaake",
       "en": "Sujuk & Cheese",
       "ar": "سجق وجبنة",
-      "dEn": "Sujuk, cheese.",
-      "dAr": "سجق، جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -906,8 +942,8 @@
       "cat": "kaake",
       "en": "Nutella Kaake",
       "ar": "كعك بالنوتيلا",
-      "dEn": "Nutella.",
-      "dAr": "نوتيلا.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "kaake",
       "price": "X",
@@ -923,8 +959,8 @@
       "cat": "kaake",
       "en": "Kashkaval",
       "ar": "قشقوان",
-      "dEn": "Kashkaval.",
-      "dAr": "قشقوان.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "kaake",
       "price": "X",
@@ -940,8 +976,8 @@
       "cat": "kaake",
       "en": "Picon",
       "ar": "بيكون",
-      "dEn": "Picon.",
-      "dAr": "بيكون.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "kaake",
       "price": "X",
@@ -957,8 +993,8 @@
       "cat": "kaake",
       "en": "Kishik",
       "ar": "كشك",
-      "dEn": "Kishik, tomato, onion.",
-      "dAr": "كشك، بندورة، بصل.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -974,10 +1010,10 @@
     {
       "id": "k-bandoura",
       "cat": "kaake",
-      "en": "Bandoura & Onion",
-      "ar": "بندورة وبصل",
-      "dEn": "Tomato, onion.",
-      "dAr": "بندورة، بصل.",
+      "en": "Bandoura w basal",
+      "ar": "بندورة ببصل",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "light"
       ],
@@ -995,8 +1031,8 @@
       "cat": "kaake",
       "en": "Smoked Kashkaval",
       "ar": "قشقوان مدخّن",
-      "dEn": "Kashkaval.",
-      "dAr": "قشقوان.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "kaake",
       "price": "X",
@@ -1012,8 +1048,8 @@
       "cat": "kaake",
       "en": "Egg, Cheese & Smoked Turkey",
       "ar": "بيض وجبنة وحبش",
-      "dEn": "Egg, cheese, smoked turkey.",
-      "dAr": "بيض، جبنة، حبش.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -1031,8 +1067,8 @@
       "cat": "kaake",
       "en": "Egg, Cheese & Sujuk",
       "ar": "بيض وجبنة وسجق",
-      "dEn": "Egg, cheese, sujuk.",
-      "dAr": "بيض، جبنة، سجق.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -1050,8 +1086,8 @@
       "cat": "kaake",
       "en": "Egg & Cheese",
       "ar": "بيض وجبنة",
-      "dEn": "Egg, cheese.",
-      "dAr": "بيض، جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -1069,8 +1105,8 @@
       "cat": "kaake",
       "en": "Egg & Sujuk",
       "ar": "بيض وسجق",
-      "dEn": "Egg, sujuk.",
-      "dAr": "بيض، سجق.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -1088,8 +1124,8 @@
       "cat": "kaake",
       "en": "Egg & Smoked Turkey",
       "ar": "بيض وحبش",
-      "dEn": "Egg, smoked turkey.",
-      "dAr": "بيض، حبش.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein",
         "lowcarb"
@@ -1113,6 +1149,23 @@
       "tags": [
         "protein"
       ],
+      "bread": "bag",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
+      "id": "pepperoni-sw",
+      "cat": "sandwiches",
+      "en": "Pepperoni & Cheese",
+      "ar": "ببرجروني وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
       "bread": "bag",
       "price": "X",
       "macros": {
