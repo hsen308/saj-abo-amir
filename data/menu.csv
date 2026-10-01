@@ -39,12 +39,12 @@ yes,kaake,"Egg, Cheese & Sujuk",بيض وجبنة وسجق,X,"Egg, cheese, sujuk
 yes,kaake,Egg & Cheese,بيض وجبنة,X,"Egg, cheese.",بيض، جبنة.,protein,k-egg-cheese
 yes,kaake,Egg & Sujuk,بيض وسجق,X,"Egg, sujuk.",بيض، سجق.,protein,k-egg-sujuk
 yes,kaake,Egg & Smoked Turkey,بيض وحبش,X,"Egg, smoked turkey.",بيض، حبش.,protein lowcarb,k-egg-turkey
-yes,sandwiches,Tawouk,طاووق,X,"Chicken, mayo, pickles.",دجاج، مايونيز، مخلل.,protein,tawouk
-yes,sandwiches,Fajita,فاهيتا,X,"Chicken, peppers, onion, cheese.",دجاج، فليفلة، بصل، جبنة.,protein,fajita
-yes,sandwiches,Kafta,كفتة,X,"Kafta, mayo, tomato, pickles, lettuce.",كفتة، مايونيز، بندورة، مخلل، خس.,protein lowcarb,kafta-sw
-yes,sandwiches,Sujuk,سجق,X,"Sujuk, tomato, pickles.",سجق، بندورة، مخلل.,,sujuk-sw
-yes,sandwiches,Crab,كراب,X,"Crab, mayo, lettuce, pickles.",كراب، مايونيز، خس، مخلل.,protein lowcarb,crab
-yes,sandwiches,Tuna,تونا,X,"Tuna, mustard, mayo, corn, lettuce.",تونا، خردل، مايونيز، ذرة، خس.,protein lowcarb,tuna
+yes,sandwiches,Tawouk,طاووق,X,,,protein,tawouk
+yes,sandwiches,Fajita,فاهيتا,X,,,protein,fajita
+yes,sandwiches,Kafta,كفتة,X,,,protein lowcarb,kafta-sw
+yes,sandwiches,Sujuk,سجق,X,,,,sujuk-sw
+yes,sandwiches,Crab,كراب,X,,,protein lowcarb,crab
+yes,sandwiches,Tuna,تونا,X,,,protein lowcarb,tuna
 yes,drinks,Pepsi,بيبسي,X,,,,pepsi
 yes,drinks,7Up,سفن أب,X,,,,7up
 yes,drinks,Orange Juice,عصير برتقال,X,,,,oj

@@ -616,12 +616,12 @@ const KAAKE = SAJ.map(i => i.id === "nutella"
   : { ...i, id: "k-" + i.id, cat: "kaake", bread: "kaake" });
 
 const SANDWICH = [
-  it("tawouk","sandwiches","Tawouk","طاووق","Chicken, mayo, pickles.","دجاج، مايونيز، مخلل.",["protein"],"bag"),
-  it("fajita","sandwiches","Fajita","فاهيتا","Chicken, peppers, onion, cheese.","دجاج، فليفلة، بصل، جبنة.",["protein"],"bag"),
-  it("kafta-sw","sandwiches","Kafta","كفتة","Kafta, mayo, tomato, pickles, lettuce.","كفتة، مايونيز، بندورة، مخلل، خس.",["protein","lowcarb"],"bag"),
-  it("sujuk-sw","sandwiches","Sujuk","سجق","Sujuk, tomato, pickles.","سجق، بندورة، مخلل.",[],"bag"),
-  it("crab","sandwiches","Crab","كراب","Crab, mayo, lettuce, pickles.","كراب، مايونيز، خس، مخلل.",["protein","lowcarb"],"bag"),
-  it("tuna","sandwiches","Tuna","تونا","Tuna, mustard, mayo, corn, lettuce.","تونا، خردل، مايونيز، ذرة، خس.",["protein","lowcarb"],"bag")
+  it("tawouk","sandwiches","Tawouk","طاووق","","",["protein"],"bag"),
+  it("fajita","sandwiches","Fajita","فاهيتا","","",["protein"],"bag"),
+  it("kafta-sw","sandwiches","Kafta","كفتة","","",["protein","lowcarb"],"bag"),
+  it("sujuk-sw","sandwiches","Sujuk","سجق","","",[],"bag"),
+  it("crab","sandwiches","Crab","كراب","","",["protein","lowcarb"],"bag"),
+  it("tuna","sandwiches","Tuna","تونا","","",["protein","lowcarb"],"bag")
 ];
 
 const DRINKS = [
@@ -781,11 +781,13 @@ const UI = {
     const b = bid && breadById(bid);
     return `${t("hi")} ${nm(i)}${b ? " " + t("on") + " " + nm(b) : ""}`;
   }
+  const showPrice = p => { const s = String(p == null ? "" : p).trim(); return s && s !== "X" ? s : ""; };
   function cardHTML(i) {
     const bid = chosen[i.id] || i.bread;
     const desc = lang === "ar" ? i.dAr : i.dEn;
+    const pr = showPrice(i.price);
     return `<article class="item" data-id="${i.id}">
-      <div class="top"><h3>${esc(nm(i))}</h3>${i.price && String(i.price).trim() ? `<span class="price">${esc(i.price)}</span>` : ""}</div>
+      <div class="top"><h3>${esc(nm(i))}</h3>${pr ? `<span class="price">${esc(pr)}</span>` : ""}</div>
       ${desc ? `<p class="desc">${esc(desc)}</p>` : ""}
       ${i.tags.length ? `<div class="tags">${i.tags.map(g => `<span class="tg">${nm(TAGS[g])}</span>`).join("")}</div>` : ""}
       <a class="order" target="_blank" rel="noopener" href="${wa(orderText(i, bid))}">${WA_ICON}${t("order")}</a>
@@ -800,11 +802,11 @@ const UI = {
     note.textContent = t("kaakeNote");
   }
   function renderCombos() {
-    $("#combos").innerHTML = COMBOS.map(c => `<article class="combo">
-      <div class="top"><h4>${esc(nm(c))}</h4>${c.price && String(c.price).trim() ? `<span class="price">${esc(c.price)}</span>` : ""}</div>
+    $("#combos").innerHTML = COMBOS.map(c => { const cp = showPrice(c.price); return `<article class="combo">
+      <div class="top"><h4>${esc(nm(c))}</h4>${cp ? `<span class="price">${esc(cp)}</span>` : ""}</div>
       <p class="desc">${esc(lang === "ar" ? c.dAr : c.dEn)}</p>
       <a class="order" target="_blank" rel="noopener" href="${wa(t("hi") + " " + (lang === "ar" ? c.orderAr : c.orderEn))}">${WA_ICON}${t("order")}</a>
-    </article>`).join("");
+    </article>`; }).join("");
   }
 
   document.addEventListener("click", e => {

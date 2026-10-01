@@ -1108,8 +1108,8 @@
       "cat": "sandwiches",
       "en": "Tawouk",
       "ar": "طاووق",
-      "dEn": "Chicken, mayo, pickles.",
-      "dAr": "دجاج، مايونيز، مخلل.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -1127,8 +1127,8 @@
       "cat": "sandwiches",
       "en": "Fajita",
       "ar": "فاهيتا",
-      "dEn": "Chicken, peppers, onion, cheese.",
-      "dAr": "دجاج، فليفلة، بصل، جبنة.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein"
       ],
@@ -1146,8 +1146,8 @@
       "cat": "sandwiches",
       "en": "Kafta",
       "ar": "كفتة",
-      "dEn": "Kafta, mayo, tomato, pickles, lettuce.",
-      "dAr": "كفتة، مايونيز، بندورة، مخلل، خس.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein",
         "lowcarb"
@@ -1166,8 +1166,8 @@
       "cat": "sandwiches",
       "en": "Sujuk",
       "ar": "سجق",
-      "dEn": "Sujuk, tomato, pickles.",
-      "dAr": "سجق، بندورة، مخلل.",
+      "dEn": "",
+      "dAr": "",
       "tags": [],
       "bread": "bag",
       "price": "X",
@@ -1183,8 +1183,8 @@
       "cat": "sandwiches",
       "en": "Crab",
       "ar": "كراب",
-      "dEn": "Crab, mayo, lettuce, pickles.",
-      "dAr": "كراب، مايونيز، خس، مخلل.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein",
         "lowcarb"
@@ -1203,8 +1203,8 @@
       "cat": "sandwiches",
       "en": "Tuna",
       "ar": "تونا",
-      "dEn": "Tuna, mustard, mayo, corn, lettuce.",
-      "dAr": "تونا، خردل، مايونيز، ذرة، خس.",
+      "dEn": "",
+      "dAr": "",
       "tags": [
         "protein",
         "lowcarb"
