@@ -416,7 +416,9 @@
       "ar": "حبش وجبنة",
       "dEn": "",
       "dAr": "",
-      "tags": [],
+      "tags": [
+        "protein"
+      ],
       "bread": "saj",
       "price": "X",
       "macros": {
@@ -758,6 +760,23 @@
       }
     },
     {
+      "id": "mortadellacheese",
+      "cat": "saj",
+      "en": "Mortadella & Cheese",
+      "ar": "مرتديلا وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
+      "bread": "saj",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
       "id": "k-spicycheese",
       "cat": "kaake",
       "en": "Spicy Cheese",
@@ -798,7 +817,9 @@
       "ar": "حبش وجبنة",
       "dEn": "",
       "dAr": "",
-      "tags": [],
+      "tags": [
+        "protein"
+      ],
       "bread": "kaake",
       "price": "X",
       "macros": {
@@ -1140,6 +1161,23 @@
       }
     },
     {
+      "id": "k-mortadellacheese",
+      "cat": "kaake",
+      "en": "Mortadella & Cheese",
+      "ar": "مرتديلا وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
+      "bread": "kaake",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
       "id": "tawouk",
       "cat": "sandwiches",
       "en": "Tawouk",
@@ -1280,6 +1318,23 @@
       "dAr": "",
       "tags": [],
       "bread": null,
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
+      "id": "francisco",
+      "cat": "sandwiches",
+      "en": "Francisco",
+      "ar": "فرانسيسكو",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
+      "bread": "bag",
       "price": "X",
       "macros": {
         "cal": null,

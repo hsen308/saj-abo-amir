@@ -591,7 +591,7 @@ const it = (id, cat, en, ar, dEn, dAr, tags = [], bread = "saj", macros = NA) =>
 const SAJ = [
   it("spicycheese","saj","Spicy Cheese","جبنة حارة","",""),
   { ...it("cheese","saj","Cheese","جبنة","",""), macros: M(90, 7, 1, 7) },
-  { ...it("turkeycheese","saj","Smoked Turkey & Cheese","حبش وجبنة","",""), macros: M(147, 16, 2, 8) },
+  { ...it("turkeycheese","saj","Smoked Turkey & Cheese","حبش وجبنة","","",["protein"]), macros: M(147, 16, 2, 8) },
   it("pepperonicheese","saj","Pepperoni & Cheese","ببرجروني وجبنة","",""),
   { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","",""), macros: M(320, 21, 2, 25) },
   it("zaatar","saj","Zaatar","زعتر","","",["light"]),
@@ -609,7 +609,8 @@ const SAJ = [
   it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","","",["protein"]),
   it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","","",["protein"]),
   it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","","",["protein"]),
-  it("egg-turkey","saj","Egg & Smoked Turkey","بيض وحبش","","",["protein","lowcarb"])
+  it("egg-turkey","saj","Egg & Smoked Turkey","بيض وحبش","","",["protein","lowcarb"]),
+  it("mortadellacheese","saj","Mortadella & Cheese","مرتديلا وجبنة","","")
 ];
 
 const KAAKE = SAJ.map(i => i.id === "nutella"
@@ -623,7 +624,8 @@ const SANDWICH = [
   it("kafta-sw","sandwiches","Kafta","كفتة","","",["protein","lowcarb"],"bag"),
   it("sujuk-sw","sandwiches","Sujuk","سجق","","",[],"bag"),
   it("crab","sandwiches","Crab","كراب","","",["protein","lowcarb"],"bag"),
-  it("tuna","sandwiches","Tuna","تونا","","",["protein","lowcarb"],"bag")
+  it("tuna","sandwiches","Tuna","تونا","","",["protein","lowcarb"],"bag"),
+  it("francisco","sandwiches","Francisco","فرانسيسكو","","",[],"bag")
 ];
 
 const DRINKS = [
@@ -759,7 +761,7 @@ const UI = {
   const WA_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/></svg>';
 
   /* ---------- menu ---------- */
-  let cat = "healthy", tagF = "all";
+  let cat = "saj", tagF = "all";
   const tabDefs = () => [["healthy", t("tHealthy")], ["saj", t("tSaj")], ["kaake", t("tKaake")], ["sandwiches", t("tSand")], ["drinks", t("tDrinks")]];
 
   function renderTabs() {

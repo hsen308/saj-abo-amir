@@ -1,7 +1,7 @@
 show,category,name_en,name_ar,price,desc_en,desc_ar,tags,id
 yes,saj,Spicy Cheese,جبنة حارة,X,,,,spicycheese
 yes,saj,Cheese,جبنة,X,,,,cheese
-yes,saj,Smoked Turkey & Cheese,حبش وجبنة,X,,,,turkeycheese
+yes,saj,Smoked Turkey & Cheese,حبش وجبنة,X,,,protein,turkeycheese
 yes,saj,Pepperoni & Cheese,ببرجروني وجبنة,X,,,,pepperonicheese
 yes,saj,Halloum & Pesto,حلوم وبيستو,X,,,,halloumpesto
 yes,saj,Zaatar,زعتر,X,,,light,zaatar
@@ -20,9 +20,10 @@ yes,saj,"Egg, Cheese & Sujuk",بيض وجبنة وسجق,X,,,protein,egg-cheese-
 yes,saj,Egg & Cheese,بيض وجبنة,X,,,protein,egg-cheese
 yes,saj,Egg & Sujuk,بيض وسجق,X,,,protein,egg-sujuk
 yes,saj,Egg & Smoked Turkey,بيض وحبش,X,,,protein lowcarb,egg-turkey
+yes,saj,Mortadella & Cheese,مرتديلا وجبنة,X,,,,mortadellacheese
 yes,kaake,Spicy Cheese,جبنة حارة,X,,,,k-spicycheese
 yes,kaake,Cheese,جبنة,X,,,,k-cheese
-yes,kaake,Smoked Turkey & Cheese,حبش وجبنة,X,,,,k-turkeycheese
+yes,kaake,Smoked Turkey & Cheese,حبش وجبنة,X,,,protein,k-turkeycheese
 yes,kaake,Pepperoni & Cheese,ببرجروني وجبنة,X,,,,k-pepperonicheese
 yes,kaake,Halloum & Pesto,حلوم وبيستو,X,,,,k-halloumpesto
 yes,kaake,Zaatar,زعتر,X,,,light,k-zaatar
@@ -41,6 +42,7 @@ yes,kaake,"Egg, Cheese & Sujuk",بيض وجبنة وسجق,X,,,protein,k-egg-che
 yes,kaake,Egg & Cheese,بيض وجبنة,X,,,protein,k-egg-cheese
 yes,kaake,Egg & Sujuk,بيض وسجق,X,,,protein,k-egg-sujuk
 yes,kaake,Egg & Smoked Turkey,بيض وحبش,X,,,protein lowcarb,k-egg-turkey
+yes,kaake,Mortadella & Cheese,مرتديلا وجبنة,X,,,,k-mortadellacheese
 yes,sandwiches,Tawouk,طاووق,X,,,protein,tawouk
 yes,sandwiches,Pepperoni & Cheese,ببرجروني وجبنة,X,,,,pepperoni-sw
 yes,sandwiches,Fajita,فاهيتا,X,,,protein,fajita
@@ -49,5 +51,6 @@ yes,sandwiches,Sujuk,سجق,X,,,,sujuk-sw
 yes,sandwiches,Crab,كراب,X,,,protein lowcarb,crab
 yes,sandwiches,Tuna,تونا,X,,,protein lowcarb,tuna
 yes,drinks,Pepsi,بيبسي,X,,,,pepsi
+yes,sandwiches,Francisco,فرانسيسكو,X,,,,francisco
 yes,drinks,7Up,سفن أب,X,,,,7up
 yes,drinks,Orange Juice,عصير برتقال,X,,,,oj
