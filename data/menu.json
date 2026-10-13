@@ -234,7 +234,7 @@
     {
       "id": "pepperoni",
       "en": "Pepperoni",
-      "ar": "ببرجروني",
+      "ar": "ببروني",
       "macros": {
         "cal": null,
         "p": null,
@@ -432,7 +432,7 @@
       "id": "pepperonicheese",
       "cat": "saj",
       "en": "Pepperoni & Cheese",
-      "ar": "ببرجروني وجبنة",
+      "ar": "ببروني وجبنة",
       "dEn": "",
       "dAr": "",
       "tags": [],
@@ -510,6 +510,23 @@
       "tags": [
         "light"
       ],
+      "bread": "saj",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
+      "id": "zaatarcheese",
+      "cat": "saj",
+      "en": "Zaatar & Cheese",
+      "ar": "زعتر وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
       "bread": "saj",
       "price": "X",
       "macros": {
@@ -618,6 +635,23 @@
       "tags": [
         "light"
       ],
+      "bread": "saj",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
+      "id": "kishikcheese",
+      "cat": "saj",
+      "en": "Kishik & Cheese",
+      "ar": "كشك وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
       "bread": "saj",
       "price": "X",
       "macros": {
@@ -833,7 +867,7 @@
       "id": "k-pepperonicheese",
       "cat": "kaake",
       "en": "Pepperoni & Cheese",
-      "ar": "ببرجروني وجبنة",
+      "ar": "ببروني وجبنة",
       "dEn": "",
       "dAr": "",
       "tags": [],
@@ -911,6 +945,23 @@
       "tags": [
         "light"
       ],
+      "bread": "kaake",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
+      "id": "k-zaatarcheese",
+      "cat": "kaake",
+      "en": "Zaatar & Cheese",
+      "ar": "زعتر وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
       "bread": "kaake",
       "price": "X",
       "macros": {
@@ -1019,6 +1070,23 @@
       "tags": [
         "light"
       ],
+      "bread": "kaake",
+      "price": "X",
+      "macros": {
+        "cal": null,
+        "p": null,
+        "c": null,
+        "f": null
+      }
+    },
+    {
+      "id": "k-kishikcheese",
+      "cat": "kaake",
+      "en": "Kishik & Cheese",
+      "ar": "كشك وجبنة",
+      "dEn": "",
+      "dAr": "",
+      "tags": [],
       "bread": "kaake",
       "price": "X",
       "macros": {
@@ -1200,7 +1268,7 @@
       "id": "pepperoni-sw",
       "cat": "sandwiches",
       "en": "Pepperoni & Cheese",
-      "ar": "ببرجروني وجبنة",
+      "ar": "ببروني وجبنة",
       "dEn": "",
       "dAr": "",
       "tags": [],
@@ -1310,14 +1378,14 @@
       }
     },
     {
-      "id": "pepsi",
-      "cat": "drinks",
-      "en": "Pepsi",
-      "ar": "بيبسي",
+      "id": "francisco",
+      "cat": "sandwiches",
+      "en": "Francisco",
+      "ar": "فرانسيسكو",
       "dEn": "",
       "dAr": "",
       "tags": [],
-      "bread": null,
+      "bread": "bag",
       "price": "X",
       "macros": {
         "cal": null,
@@ -1327,14 +1395,14 @@
       }
     },
     {
-      "id": "francisco",
-      "cat": "sandwiches",
-      "en": "Francisco",
-      "ar": "فرانسيسكو",
+      "id": "pepsi",
+      "cat": "drinks",
+      "en": "Pepsi",
+      "ar": "بيبسي",
       "dEn": "",
       "dAr": "",
       "tags": [],
-      "bread": "bag",
+      "bread": null,
       "price": "X",
       "macros": {
         "cal": null,

@@ -2,17 +2,19 @@ show,category,name_en,name_ar,price,desc_en,desc_ar,tags,id
 yes,saj,Spicy Cheese,جبنة حارة,X,,,,spicycheese
 yes,saj,Cheese,جبنة,X,,,,cheese
 yes,saj,Smoked Turkey & Cheese,حبش وجبنة,X,,,protein,turkeycheese
-yes,saj,Pepperoni & Cheese,ببرجروني وجبنة,X,,,,pepperonicheese
+yes,saj,Pepperoni & Cheese,ببروني وجبنة,X,,,,pepperonicheese
 yes,saj,Halloum & Pesto,حلوم وبيستو,X,,,,halloumpesto
 yes,saj,Zaatar,زعتر,X,,,light,zaatar
 yes,saj,Labneh,لبنة,X,,,light,labneh
 yes,saj,Zaatar & Labneh,زعتر ولبنة,X,,,light,zaatarlabneh
+yes,saj,Zaatar & Cheese,زعتر وجبنة,X,,,,zaatarcheese
 yes,saj,Kafta & Cheese,كفتة وجبنة,X,,,protein,kaftacheese
 yes,saj,Sujuk & Cheese,سجق وجبنة,X,,,protein,sujukcheese
 yes,saj,Nutella Saj,صاج نوتيلا,X,,,,nutella
 yes,saj,Kashkaval,قشقوان,X,,,,kashkaval
 yes,saj,Picon,بيكون,X,,,,picon
 yes,saj,Kishik,كشك,X,,,light,kishik
+yes,saj,Kishik & Cheese,كشك وجبنة,X,,,,kishikcheese
 yes,saj,Bandoura w basal,بندورة ببصل,X,,,light,bandoura
 yes,saj,Smoked Kashkaval,قشقوان مدخّن,X,,,,smokedkash
 yes,saj,"Egg, Cheese & Smoked Turkey",بيض وجبنة وحبش,X,,,protein,egg-cheese-turkey
@@ -24,17 +26,19 @@ yes,saj,Mortadella & Cheese,مرتديلا وجبنة,X,,,,mortadellacheese
 yes,kaake,Spicy Cheese,جبنة حارة,X,,,,k-spicycheese
 yes,kaake,Cheese,جبنة,X,,,,k-cheese
 yes,kaake,Smoked Turkey & Cheese,حبش وجبنة,X,,,protein,k-turkeycheese
-yes,kaake,Pepperoni & Cheese,ببرجروني وجبنة,X,,,,k-pepperonicheese
+yes,kaake,Pepperoni & Cheese,ببروني وجبنة,X,,,,k-pepperonicheese
 yes,kaake,Halloum & Pesto,حلوم وبيستو,X,,,,k-halloumpesto
 yes,kaake,Zaatar,زعتر,X,,,light,k-zaatar
 yes,kaake,Labneh,لبنة,X,,,light,k-labneh
 yes,kaake,Zaatar & Labneh,زعتر ولبنة,X,,,light,k-zaatarlabneh
+yes,kaake,Zaatar & Cheese,زعتر وجبنة,X,,,,k-zaatarcheese
 yes,kaake,Kafta & Cheese,كفتة وجبنة,X,,,protein,k-kaftacheese
 yes,kaake,Sujuk & Cheese,سجق وجبنة,X,,,protein,k-sujukcheese
 yes,kaake,Nutella Kaake,كعك بالنوتيلا,X,,,,k-nutella
 yes,kaake,Kashkaval,قشقوان,X,,,,k-kashkaval
 yes,kaake,Picon,بيكون,X,,,,k-picon
 yes,kaake,Kishik,كشك,X,,,light,k-kishik
+yes,kaake,Kishik & Cheese,كشك وجبنة,X,,,,k-kishikcheese
 yes,kaake,Bandoura w basal,بندورة ببصل,X,,,light,k-bandoura
 yes,kaake,Smoked Kashkaval,قشقوان مدخّن,X,,,,k-smokedkash
 yes,kaake,"Egg, Cheese & Smoked Turkey",بيض وجبنة وحبش,X,,,protein,k-egg-cheese-turkey
@@ -44,13 +48,13 @@ yes,kaake,Egg & Sujuk,بيض وسجق,X,,,protein,k-egg-sujuk
 yes,kaake,Egg & Smoked Turkey,بيض وحبش,X,,,protein lowcarb,k-egg-turkey
 yes,kaake,Mortadella & Cheese,مرتديلا وجبنة,X,,,,k-mortadellacheese
 yes,sandwiches,Tawouk,طاووق,X,,,protein,tawouk
-yes,sandwiches,Pepperoni & Cheese,ببرجروني وجبنة,X,,,,pepperoni-sw
+yes,sandwiches,Pepperoni & Cheese,ببروني وجبنة,X,,,,pepperoni-sw
 yes,sandwiches,Fajita,فاهيتا,X,,,protein,fajita
 yes,sandwiches,Kafta,كفتة,X,,,protein lowcarb,kafta-sw
 yes,sandwiches,Sujuk,سجق,X,,,,sujuk-sw
 yes,sandwiches,Crab,كراب,X,,,protein lowcarb,crab
 yes,sandwiches,Tuna,تونا,X,,,protein lowcarb,tuna
-yes,drinks,Pepsi,بيبسي,X,,,,pepsi
 yes,sandwiches,Francisco,فرانسيسكو,X,,,,francisco
+yes,drinks,Pepsi,بيبسي,X,,,,pepsi
 yes,drinks,7Up,سفن أب,X,,,,7up
 yes,drinks,Orange Juice,عصير برتقال,X,,,,oj

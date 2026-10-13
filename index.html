@@ -3,15 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Saj Abou Amir | Fresh saj, made to order in Beirut</title>
-<meta name="description" content="Saj Abou Amir: hot saj, kaake trabolseye and sandwiches made to order in Beirut, across from Beirut Digital District. Pickup only.">
-<meta property="og:title" content="Saj Abou Amir">
-<meta property="og:description" content="Hot off the saj, straight into your hands. Pickup only, right across from BDD, Beirut.">
+<title>Saj Abou Amir | Fresh Saj & Kaake in Beirut</title>
+<meta name="description" content="Saj Abou Amir: hot fresh saj, kaake trabolseye and specialty sandwiches made fresh to order in Beirut, facing Beirut Digital District (BDD 1227). Pickup only.">
+<meta property="og:title" content="Saj Abou Amir | Beirut">
+<meta property="og:description" content="Hot off the saj, straight into your hands. Facing Beirut Digital District (BDD 1227). Pickup only.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#FBF9F5">
+<meta name="theme-color" content="#FAF7F2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Cairo:wght@400;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Cairo:wght@500;600;700;800;900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Preferred Libraries from CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<script src="https://unpkg.com/scrollreveal"></script>
+
 <script>
 /* ------------------------------------------------------------------
    MENU SOURCE
@@ -19,10 +23,6 @@
      1. the published Google Sheet (owner edits this from a phone)
      2. data/menu.json (used by admin.html, and by tools/export-csv.js)
      3. the inline defaults further down this file, so the page always renders
-
-   To connect a sheet, set SHEET_CSV below to its published URL, e.g.
-     https://docs.google.com/spreadsheets/d/e/XXXXXXXX/pub?output=csv
-   Leave it as an empty string to skip the sheet entirely.
 ------------------------------------------------------------------ */
 var SHEET_CSV = "";
 var SHEET_CACHE_MINUTES = 5;
@@ -46,7 +46,6 @@ function parseCSV(text) {
   return rows.filter(function (r) { return r.length && r.some(function (x) { return String(x).trim() !== ""; }); });
 }
 
-/* Columns, in the order tools/export-csv.js writes them. */
 function sheetToData(text) {
   var rows = parseCSV(text);
   if (rows.length < 2) return null;
@@ -71,17 +70,12 @@ function sheetToData(text) {
     });
   }
   if (!items.length) return null;
-  /* The sheet carries items only. Keep shop details and combos from the
-     next source so one missing column cannot wipe the phone numbers. */
   return { items: items, fromSheet: true };
 }
 
 function loadSheet() {
   if (!SHEET_CSV) return Promise.resolve(null);
-  /* Google caches published sheets aggressively. The cache buster is what
-     keeps his price change from taking ten minutes to appear. */
-  var url = SHEET_CSV + (SHEET_CSV.indexOf("?") < 0 ? "?" : "&") +
-            "cachebust=" + Date.now();
+  var url = SHEET_CSV + (SHEET_CSV.indexOf("?") < 0 ? "?" : "&") + "cachebust=" + Date.now();
   return fetch(url, { cache: "no-store", redirect: "follow" })
     .then(function (r) { return r.ok ? r.text() : null; })
     .then(function (t) {
@@ -103,304 +97,974 @@ window.MENU_READY = loadSheet()
   .then(function (j) { if (j) window.MENU_OVERRIDE = j; })
   .catch(function () {});
 </script>
+
 <style>
-/* ---------- tokens ---------- */
-:root{
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+/* ---------- DESIGN TOKENS ---------- */
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 
-  --bg:#FBF9F5;
-  --surface:#FFFFFF;
-  --surface2:#F3F0E9;
-  --ink:#1B1815;
-  --ink2:#3D372F;
-  --muted:#6A6259;
-  --line:#E6E1D7;
-  --line2:#EFEBE3;
+  --bg: #FAF7F2;
+  --surface: #FFFFFF;
+  --surface2: #F3EEE5;
+  --surface-warm: #FFFDF9;
+  --ink: #181512;
+  --ink2: #383129;
+  --muted: #6E665D;
+  --muted-soft: #8C8479;
+  --line: #E8E2D7;
+  --line2: #EFEAE0;
 
-  --accent:#B8431A;
-  --accent-soft:#FAEDE7;
-  --olive:#4F6138;
-  --wa:#0E7A3C;
+  --accent: #C84B22;
+  --accent-hover: #AF3E18;
+  --accent-soft: #FBF0EB;
 
-  --btn-bg:#1B1815;
-  --btn-ink:#FBF9F5;
+  --olive: #465E34;
+  --olive-soft: #EEF3E9;
 
-  --nav-bg:rgba(251,249,245,.86);
-  --strip:#1B1815;
-  --strip-ink:#E9E3D8;
+  --gold: #C58E38;
+  --gold-soft: #FAF3E6;
 
-  --r-sm:10px;
-  --r-md:14px;
-  --r-lg:18px;
-  --r-pill:999px;
+  --wa: #1B7A43;
+  --wa-hover: #146134;
 
-  --ease:cubic-bezier(.2,.7,.3,1);
-  --shadow-1:0 1px 2px rgba(27,24,21,.05);
-  --shadow-2:0 16px 32px -22px rgba(27,24,21,.30);
+  --btn-bg: #181512;
+  --btn-ink: #FAF7F2;
 
-  --disp:'Bricolage Grotesque','Figtree',system-ui,sans-serif;
-  --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --nav-bg: rgba(250, 247, 242, 0.92);
+  --strip: #181512;
+  --strip-ink: #EAE4D8;
+
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-pill: 999px;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-sm: 0 1px 3px rgba(24, 21, 18, 0.05);
+  --shadow-md: 0 6px 20px -8px rgba(24, 21, 18, 0.08), 0 2px 6px rgba(24, 21, 18, 0.03);
+  --shadow-lg: 0 14px 32px -10px rgba(24, 21, 18, 0.12);
+
+  --disp: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+  --body: 'Figtree', system-ui, -apple-system, sans-serif;
 }
 
-*,*::before,*::after{box-sizing:inherit}
-html{
-  scroll-behavior:smooth;
-  scroll-padding-top:calc(env(safe-area-inset-top,0px) + 112px);
-  -webkit-text-size-adjust:100%;
-  -webkit-tap-highlight-color:transparent;
-}
-body{
-  margin:0;color:var(--ink);
-  font-family:var(--body);font-weight:400;
-  font-size:16px;line-height:1.6;padding-bottom:86px;overflow-x:hidden;
-  background-color:var(--bg);
-  background-image:radial-gradient(120% 46% at 78% -6%, rgba(184,67,26,.07), transparent 62%);
-  background-repeat:no-repeat;
-}
-html[lang="ar"] body{font-family:'Cairo',var(--body);line-height:1.75}
-h1,h2{font-family:var(--disp);margin:0;line-height:1.02;letter-spacing:-.03em;font-weight:800}
-html[lang="ar"] h1,html[lang="ar"] h2{font-family:'Cairo',sans-serif;letter-spacing:0;line-height:1.3}
-h1{font-variation-settings:'opsz' 96}
-h2{font-variation-settings:'opsz' 48}
-h3,h4{margin:0;font-weight:700;line-height:1.25;letter-spacing:-.018em;font-family:var(--disp)}
-html[lang="ar"] h1,html[lang="ar"] h2,html[lang="ar"] h3,html[lang="ar"] h4{font-family:'Cairo',sans-serif;letter-spacing:0}
-p{margin:0}
-a{color:inherit}
-button,select{font:inherit;color:inherit;touch-action:manipulation}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1020px;margin-inline:auto;padding-inline:20px}
-.skip{position:absolute;inset-inline-start:12px;top:-70px;z-index:200;background:var(--ink);color:var(--btn-ink);
-  padding:11px 17px;border-radius:var(--r-sm);font-weight:600;text-decoration:none;transition:top .2s}
-.skip:focus{top:12px}
+*, *::before, *::after { box-sizing: inherit; }
 
-/* ---------- reveal ---------- */
-.reveal{opacity:0;transform:translateY(14px);
-  transition:opacity .5s var(--ease),transform .5s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-
-/* ---------- top strip + nav ---------- */
-.strip{background:var(--strip);color:var(--strip-ink);font-size:.74rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.strip .wrap{display:flex;flex-wrap:wrap;gap:2px 16px;justify-content:space-between;padding-block:9px}
-.strip .wrap span:first-child{color:#F0C89A}
-
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--nav-bg);
-  -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
-  border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 10px;padding-block:10px 0}
-.brand{font-family:var(--disp);font-weight:800;font-size:1.2rem;text-decoration:none;letter-spacing:-.025em;
-  display:inline-flex;align-items:center;gap:9px}
-.brand::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
-html[lang="ar"] .brand{font-family:'Cairo',sans-serif}
-.lang{border:1px solid var(--line);background:var(--surface);border-radius:var(--r-pill);
-  padding:0 16px;height:44px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--ink2);
-  transition:border-color .2s,color .2s,background .2s}
-.lang:hover{border-color:var(--ink);color:var(--ink)}
-.links{order:3;width:100%;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding-block:6px 8px}
-.links::-webkit-scrollbar{display:none}
-.links a{white-space:nowrap;text-decoration:none;font-weight:600;font-size:.94rem;
-  padding:8px 13px;border-radius:var(--r-pill);color:var(--muted);
-  transition:color .2s,background .2s}
-.links a:hover{background:var(--surface2);color:var(--ink)}
-.links a.on{color:var(--ink);font-weight:700;background:var(--surface2)}
-@media(min-width:820px){
-  .nav .wrap{flex-wrap:nowrap;padding-block:12px}
-  .links{order:0;width:auto;padding:0;overflow:visible}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ---------- buttons ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:50px;padding:0 24px;
-  border-radius:var(--r-pill);font-weight:700;font-family:var(--disp);text-decoration:none;
-  border:1px solid transparent;cursor:pointer;
-  transition:transform .18s var(--ease),background .2s,border-color .2s,color .2s,box-shadow .2s}
-html[lang="ar"] .btn{font-family:'Cairo',sans-serif}
-.btn:active{transform:scale(.975)}
-.btn svg{width:19px;height:19px;flex:none}
-.btn-primary{background:var(--btn-bg);color:var(--btn-ink)}
-.btn-primary:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:var(--shadow-2)}
-.btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
-.btn-ghost:hover{border-color:var(--ink);background:var(--surface);transform:translateY(-1px)}
-.btn-wa{background:var(--wa);color:#fff}
-.btn-wa:hover{background:#0B6331;transform:translateY(-1px);box-shadow:var(--shadow-2)}
-
-/* ---------- HERO ---------- */
-.hero{padding-block:clamp(44px,7.5vw,88px) clamp(34px,5vw,56px)}
-.hero-in{max-width:min(100%,840px)}
-.hero-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
-.pill{display:inline-flex;align-items:center;gap:8px;color:var(--accent);
-  font-size:.76rem;font-weight:700;letter-spacing:.04em;
-  padding:5px 13px;border:1px solid var(--line);border-radius:var(--r-pill);background:var(--surface)}
-.pill i{width:7px;height:7px;border-radius:50%;background:var(--accent);display:block;flex:none}
-.hero-loc{font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.hero h1{
-  margin-top:22px;
-  font-size:clamp(3rem,12vw,6.6rem);
-  line-height:.94;
-  letter-spacing:-.04em;
-  text-wrap:balance;
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.55;
+  padding-bottom: 40px;
+  overflow-x: hidden;
+  background-color: var(--bg);
 }
-.hero .rule{width:60px;height:3px;background:var(--accent);margin-top:24px;border-radius:3px}
-.hero .tag{font-family:var(--disp);font-weight:600;font-size:clamp(1.15rem,3.2vw,1.5rem);margin-top:22px;
-  line-height:1.25;letter-spacing:-.02em;text-wrap:balance}
-html[lang="ar"] .hero .tag{font-family:'Cairo',sans-serif;font-weight:700;letter-spacing:0;line-height:1.5}
-.hero .sub{margin-top:12px;max-width:46ch;color:var(--ink2);font-weight:500;text-wrap:pretty}
-.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
-.hero-meta{display:flex;flex-wrap:wrap;gap:0;margin-top:38px;border-top:1px solid var(--line);padding-top:18px}
-.hero-meta div{padding-inline-end:26px;margin-inline-end:26px;border-inline-end:1px solid var(--line)}
-.hero-meta div:last-child{border-inline-end:0;padding-inline-end:0;margin-inline-end:0}
-.hero-meta b{display:block;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.hero-meta span{display:block;margin-top:3px;font-size:.96rem;font-weight:600;color:var(--ink)}
-.hero-in>*{opacity:0;animation:rise .7s var(--ease) forwards}
-.hero-in>*:nth-child(1){animation-delay:.02s}
-.hero-in>*:nth-child(2){animation-delay:.09s}
-.hero-in>*:nth-child(3){animation-delay:.16s}
-.hero-in>*:nth-child(4){animation-delay:.22s}
-.hero-in>*:nth-child(5){animation-delay:.28s}
-.hero-in>*:nth-child(6){animation-delay:.34s}
-@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-/* ---------- lunch note ---------- */
-.lunch{margin-top:clamp(40px,6vw,60px)}
-.lunch .box{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between;
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 22px;box-shadow:var(--shadow-1)}
-.lunch h2{font-size:1.2rem;font-variation-settings:'opsz' 36}
-.lunch p{color:var(--muted);margin-top:6px;max-width:48ch;text-wrap:pretty}
+html[lang="ar"] body {
+  font-family: 'Cairo', system-ui, sans-serif;
+  line-height: 1.7;
+}
 
-/* ---------- sections ---------- */
-section{padding-top:clamp(52px,7vw,84px)}
-.sec-head{max-width:56ch}
-.ebrow{display:block;font-family:var(--disp);font-size:.78rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--accent)}
-html[lang="ar"] .ebrow{font-family:'Cairo',sans-serif;letter-spacing:0}
-.sec-head h2{font-size:clamp(1.8rem,5.2vw,2.5rem);margin-top:10px;text-wrap:balance}
-.sec-head p{color:var(--muted);margin-top:10px;max-width:54ch;text-wrap:pretty}
+h1, h2, h3, h4 {
+  font-family: var(--disp);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
 
-/* ---------- tabs ---------- */
-.tabs{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-top:24px;padding-block:2px 6px}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:none;border:1px solid var(--line);background:transparent;border-radius:var(--r-pill);
-  padding:0 19px;min-height:46px;font-weight:600;font-size:.96rem;color:var(--muted);
-  cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s,background .2s}
-.tab:hover{color:var(--ink);border-color:var(--ink2)}
-.tab[aria-selected="true"]{background:var(--ink);color:var(--btn-ink);border-color:var(--ink)}
-.tab.healthy:not([aria-selected="true"]){border-color:#C9D2BB;color:var(--olive)}
-.tab.healthy:not([aria-selected="true"]):hover{border-color:var(--olive)}
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4 {
+  font-family: 'Cairo', sans-serif;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
 
-/* ---------- filter chips ---------- */
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.chip{position:relative;display:inline-flex}
-.chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
-.chip span{display:inline-flex;align-items:center;min-height:44px;padding:0 17px;border-radius:var(--r-pill);
-  border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:.95rem;color:var(--muted);
-  transition:background .18s,border-color .18s,color .18s}
-.chip span:hover{color:var(--ink);border-color:var(--ink2)}
-.chip input:checked + span{background:var(--ink);border-color:var(--ink);color:var(--btn-ink)}
-.note{margin-top:16px;color:var(--muted);font-size:.95rem;padding-inline-start:14px;border-inline-start:2px solid var(--line)}
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; color: inherit; touch-action: manipulation; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--r-xs); }
 
-/* ---------- item cards ---------- */
-.grid{display:grid;gap:12px;margin-top:18px}
-@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
-.item{display:flex;flex-direction:column;gap:9px;background:var(--surface);
-  border:1px solid var(--line);border-radius:var(--r-md);padding:16px 17px;
-  animation:pop .45s var(--ease) both;
-  transition:border-color .2s,box-shadow .2s,background .2s}
-@keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.item:hover{border-color:#D4CCBC;box-shadow:var(--shadow-2)}
-.item .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
-.item h3{font-size:1.06rem}
-.price{font-family:var(--disp);font-weight:800;font-size:1.1rem;color:var(--accent);white-space:nowrap;
-  font-variant-numeric:tabular-nums}
-html[lang="ar"] .price{font-family:'Cairo',sans-serif;font-weight:700}
-.desc{color:var(--muted);font-size:.92rem;line-height:1.55;text-wrap:pretty}
-.tags{display:flex;flex-wrap:wrap;gap:6px}
-.tg{font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:var(--r-pill);
-  background:var(--surface2);color:var(--ink2);border:1px solid var(--line2);white-space:nowrap}
-.order{margin-top:auto;padding-top:5px;display:inline-flex;align-items:center;gap:7px;
-  font-size:.85rem;font-weight:700;color:var(--wa);text-decoration:none;width:fit-content}
-.order svg{width:15px;height:15px;flex:none}
-.order:hover{text-decoration:underline;text-underline-offset:3px}
+.wrap {
+  max-width: 980px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+@media (min-width: 600px) {
+  .wrap { padding-inline: 20px; }
+}
 
-/* ---------- combos ---------- */
-.combos{margin-top:40px;padding-top:28px;border-top:1px solid var(--line)}
-.combos h3{font-size:1.3rem}
-.combo-grid{display:grid;gap:12px;margin-top:14px}
-@media(min-width:760px){.combo-grid{grid-template-columns:1fr 1fr}}
-.combo{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:18px;display:flex;flex-direction:column;gap:10px;
-  transition:border-color .2s,box-shadow .2s}
-.combo:hover{border-color:#D4CCBC;box-shadow:var(--shadow-2)}
-.combo .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
-.combo h4{font-size:1.05rem}
+/* Skip link */
+.skip {
+  position: absolute;
+  inset-inline-start: 14px;
+  top: -80px;
+  z-index: 200;
+  background: var(--ink);
+  color: var(--btn-ink);
+  padding: 10px 16px;
+  border-radius: var(--r-sm);
+  font-weight: 700;
+  transition: top 0.2s var(--ease);
+}
+.skip:focus { top: 14px; }
 
-/* ---------- build your own ---------- */
-.byo{display:grid;gap:12px;margin-top:24px}
-@media(min-width:880px){.byo{grid-template-columns:1fr 1fr}}
-.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:18px;
-  transition:border-color .2s}
-.step:hover{border-color:#D4CCBC}
-.step-h{display:flex;align-items:center;gap:10px}
-.step-n{font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--accent);
-  font-variant-numeric:tabular-nums;flex:none}
-.step-n::after{content:"";display:inline-block;width:14px;height:1px;background:var(--line);
-  vertical-align:middle;margin-inline-start:8px}
-.step h3{font-size:1rem}
-.step .chips{margin-top:13px;gap:7px}
-.step .tg{font-size:.9rem;font-weight:600;padding:7px 14px;background:var(--bg);color:var(--ink2)}
-.step .tg em{font-style:normal;font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  background:var(--olive);color:#fff;border-radius:var(--r-pill);padding:2px 8px;margin-inline-start:7px}
+/* ---------- TOP STATUS STRIP ---------- */
+.strip {
+  background: var(--strip);
+  color: var(--strip-ink);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.strip .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 7px;
+  gap: 8px;
+}
+.strip-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #F8F4EE;
+  white-space: nowrap;
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34D399;
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.25);
+  animation: pulse-dot 2.2s infinite;
+}
+.status-dot.closed {
+  background: #F87171;
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.25);
+  animation: none;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(1.15); }
+}
+.strip-loc {
+  color: #B5AB9B;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.strip-loc svg { width: 13px; height: 13px; flex: none; color: #E5A869; }
 
-/* ---------- info ---------- */
-.pickup{display:flex;gap:14px;align-items:center;margin-top:22px;
-  background:var(--accent-soft);border:1px solid #F0D9CE;border-radius:var(--r-lg);padding:18px 20px}
-.pickup svg{width:26px;height:26px;flex:none;color:var(--accent)}
-.pickup b{font-family:var(--disp);font-weight:800;font-size:1.2rem;line-height:1.2;letter-spacing:-.02em}
-html[lang="ar"] .pickup b{font-family:'Cairo',sans-serif}
-.info{display:grid;gap:12px;margin-top:12px}
-@media(min-width:880px){.info{grid-template-columns:1fr 1.1fr}}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
-.facts{display:grid;gap:18px;align-content:start}
-.fact h3{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-.fact p{font-weight:500;font-size:1.02rem}
-.fact a.tel{font-weight:600;font-size:1.02rem;color:var(--accent);text-decoration:none;direction:ltr;
-  display:inline-flex;align-items:center;min-height:44px}
-.fact a.tel:hover{text-decoration:underline;text-underline-offset:3px}
-.fact .hint{font-weight:400;color:var(--muted);font-size:.94rem;margin-top:4px}
-.map{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);min-height:320px;background:var(--surface2)}
-.map iframe{display:block;width:100%;height:100%;min-height:320px;border:0}
-.btns{display:flex;flex-wrap:wrap;gap:9px}
+/* ---------- NAVIGATION ---------- */
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 10px;
+  gap: 8px;
+}
+.brand {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+}
+html[lang="ar"] .brand { font-family: 'Cairo', sans-serif; font-size: 1.25rem; font-weight: 900; }
+.brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  flex: none;
+}
 
-/* ---------- footer ---------- */
-footer{margin-top:clamp(60px,8vw,88px);background:var(--strip);color:var(--strip-ink);padding-block:40px}
-footer .wrap{display:flex;flex-wrap:wrap;gap:18px 40px;justify-content:space-between;align-items:flex-end}
-footer b{font-family:var(--disp);font-weight:800;font-size:1.85rem;color:#F6F1E8;display:block;line-height:1.1;letter-spacing:-.03em}
-html[lang="ar"] footer b{font-family:'Cairo',sans-serif}
-footer p{color:#9C9384;font-size:.92rem;margin-top:6px;max-width:38ch}
-footer a{font-weight:700;color:#F0C89A;text-decoration:none;display:inline-block;margin-top:5px;font-variant-numeric:tabular-nums}
-footer a:hover{text-decoration:underline;text-underline-offset:3px}
-/* footer phone links sit in their own rows, so give them a real tap height */
-.foot-l a{min-height:44px;display:flex;align-items:center}
-.foot-l{text-align:start}
-.foot-l .lbl{display:block;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8C8375;margin-top:14px}
-.foot-credit{margin-top:26px;padding-top:16px;border-top:1px solid rgba(255,255,255,.10);
-  font-size:.82rem;color:#8C8375}
-.foot-credit a{font-weight:600;color:#C9BFAE;text-decoration:none;margin:0}
-.foot-credit a:hover{color:#F0C89A;text-decoration:underline;text-underline-offset:3px}
-@media(min-width:760px){.foot-l{text-align:end}}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-links {
+  display: none;
+  align-items: center;
+  gap: 16px;
+  margin-inline-end: 8px;
+}
+@media (min-width: 768px) {
+  .nav-links { display: flex; }
+}
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: color 0.18s;
+}
+.nav-link:hover { color: var(--ink); }
 
-/* ---------- sticky call bar ---------- */
-.callbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;gap:9px;
-  padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));
-  background:var(--nav-bg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-  border-top:1px solid var(--line)}
-.callbar .btn{flex:1;min-height:52px}
-.callbar .btn-wa{flex:none;width:56px;padding:0}
-@media(min-width:820px){.callbar{display:none}body{padding-bottom:0}}
+.lang-btn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--r-pill);
+  padding: 0 13px;
+  height: 38px;
+  font-weight: 700;
+  font-size: 0.86rem;
+  cursor: pointer;
+  color: var(--ink2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.18s var(--ease);
+}
+.lang-btn:active { transform: scale(0.96); }
 
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .reveal{opacity:1;transform:none}
-  .hero-in>*{opacity:1}
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: var(--r-pill);
+  font-weight: 700;
+  font-family: var(--disp);
+  font-size: 0.92rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.18s var(--ease);
+}
+html[lang="ar"] .btn { font-family: 'Cairo', sans-serif; }
+.btn:active { transform: scale(0.97); }
+.btn svg { width: 17px; height: 17px; flex: none; }
+
+.btn-primary {
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+}
+.btn-primary:active { background: var(--ink2); }
+
+.btn-accent {
+  background: var(--accent);
+  color: #FFFFFF;
+}
+.btn-accent:active { background: var(--accent-hover); }
+
+.btn-ghost {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-wa {
+  background: var(--wa);
+  color: #FFFFFF;
+}
+.btn-wa:active { background: var(--wa-hover); }
+
+.btn-sm {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 0.86rem;
+}
+
+/* ---------- HERO (CLEAN & MOBILE FOCUSED) ---------- */
+.hero {
+  padding-block: clamp(24px, 5vw, 44px) clamp(20px, 4vw, 36px);
+}
+.hero-box {
+  display: flex;
+  flex-direction: column;
+}
+.hero-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(200, 75, 34, 0.2);
+  border-radius: var(--r-pill);
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  width: fit-content;
+  margin-bottom: 14px;
+}
+.hero h1 {
+  font-size: clamp(2.3rem, 7.8vw, 3.6rem);
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.04;
+  text-wrap: balance;
+}
+.hero-sub {
+  margin-top: 14px;
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: var(--muted);
+  max-width: 42ch;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+.hero-actions .btn {
+  flex: 1 1 auto;
+}
+@media (min-width: 600px) {
+  .hero-actions .btn { flex: 0 0 auto; }
+}
+
+.hero-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.hero-chips::-webkit-scrollbar { display: none; }
+.hero-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink2);
+  background: var(--surface);
+  border: 1px solid var(--line2);
+  border-radius: var(--r-pill);
+  padding: 6px 12px;
+}
+.hero-chip svg { width: 13px; height: 13px; color: var(--accent); flex: none; }
+
+/* ---------- SECTIONS ---------- */
+section {
+  padding-top: clamp(40px, 6vw, 64px);
+}
+.sec-head {
+  margin-bottom: 18px;
+}
+.ebrow {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--disp);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  margin-bottom: 8px;
+}
+html[lang="ar"] .ebrow { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 0.78rem; }
+.sec-head h2 {
+  font-size: clamp(1.75rem, 5vw, 2.3rem);
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.sec-head p {
+  color: var(--muted);
+  margin-top: 6px;
+  font-size: 0.98rem;
+}
+
+/* ---------- MENU CONTROLS ---------- */
+.menu-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Category Tabs (Mobile Smooth Scroll) */
+.tabs {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-block: 2px;
+  -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--r-pill);
+  padding: 0 16px;
+  min-height: 42px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.18s var(--ease);
+}
+.tab[aria-selected="true"] {
+  background: var(--ink);
+  color: var(--btn-ink);
+  border-color: var(--ink);
+}
+.tab-count {
+  font-size: 0.74rem;
+  padding: 1px 6px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, 0.08);
+}
+.tab[aria-selected="true"] .tab-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+/* Chips Filter */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 6px;
+}
+.chip {
+  position: relative;
+  display: inline-flex;
+}
+.chip input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 13px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--muted);
+  transition: all 0.15s var(--ease);
+}
+.chip input:checked + span {
+  background: var(--olive);
+  border-color: var(--olive);
+  color: #FFFFFF;
+}
+
+.note {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 10px 14px;
+  border-inline-start: 3px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+html[lang="ar"] .note {
+  border-radius: var(--r-sm) 0 0 var(--r-sm);
+}
+
+.search-feedback {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- MENU GRID ---------- */
+.grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 13px 15px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.item:active {
+  border-color: #D6CDBF;
+}
+@media (min-width: 768px) {
+  .item:hover {
+    border-color: #D6CDBF;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+}
+.item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.item h3 {
+  font-size: 1.05rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.price {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 1.02rem;
+  color: var(--accent);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  background: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: var(--r-xs);
+}
+html[lang="ar"] .price { font-family: 'Cairo', sans-serif; font-weight: 700; }
+.desc {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 2px;
+}
+.tg {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--surface2);
+  color: var(--ink2);
+  border: 1px solid var(--line2);
+  white-space: nowrap;
+}
+.tg.protein { background: #FEF3E8; color: #B35309; border-color: #FCD34D; }
+.tg.light { background: #ECFDF5; color: #047857; border-color: #A7F3D0; }
+.tg.lowcarb { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+
+/* Empty state */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 36px 16px;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--r-md);
+}
+.empty-state h3 { font-size: 1.15rem; color: var(--ink); margin-bottom: 6px; }
+.empty-state p { color: var(--muted); font-size: 0.92rem; margin-bottom: 14px; }
+
+/* ---------- COMBOS ---------- */
+.combos {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.combos-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.combos h3 { font-size: 1.3rem; }
+.combo-grid {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .combo-grid { grid-template-columns: 1fr 1fr; }
+}
+.combo {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.combo-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.combo h4 { font-size: 1.1rem; }
+
+/* ---------- INTERACTIVE CUSTOM SAJ (BUILD YOUR OWN) ---------- */
+.byo-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: clamp(16px, 4vw, 24px);
+  margin-top: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.byo-grid {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 680px) {
+  .byo-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.byo-card {
+  background: var(--bg);
+  border: 1px solid var(--line2);
+  border-radius: var(--r-md);
+  padding: 14px;
+}
+.byo-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.byo-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+}
+.byo-card-head h3 { font-size: 0.96rem; font-weight: 700; }
+
+.byo-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.byo-opt {
+  position: relative;
+  display: inline-flex;
+}
+.byo-opt input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.byo-opt span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ink2);
+  transition: all 0.15s var(--ease);
+  user-select: none;
+}
+.byo-opt span:active { border-color: var(--ink); }
+.byo-opt input:checked + span {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--btn-ink);
+}
+
+/* Custom order live tray */
+.byo-tray {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--surface-warm);
+  border: 1.5px dashed var(--accent);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.tray-title {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+html[lang="ar"] .tray-title { font-family: 'Cairo', sans-serif; }
+.tray-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.tray-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tray-actions .btn-wa {
+  flex: 1;
+}
+.byo-reset {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  border-radius: var(--r-pill);
+  height: 44px;
+  padding: 0 14px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ---------- INFO & LOCATION ---------- */
+.info-grid {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+@media (min-width: 768px) {
+  .info-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.facts {
+  display: grid;
+  gap: 16px;
+}
+.fact h3 {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-soft);
+  margin-bottom: 4px;
+}
+html[lang="ar"] .fact h3 { letter-spacing: 0; font-size: 0.76rem; }
+.fact p {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.fact a.tel {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--accent);
+  direction: ltr;
+  display: inline-flex;
+}
+.fact .hint {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-top: 2px;
+}
+.facts-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.facts-btns .btn { flex: 1 1 calc(50% - 8px); }
+
+.map-wrap {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  min-height: 240px;
+  background: var(--surface2);
+}
+.map-wrap iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  border: 0;
+}
+
+/* ---------- TOAST NOTIFICATION ---------- */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  background: var(--ink);
+  color: var(--btn-ink);
+  padding: 9px 18px;
+  border-radius: var(--r-pill);
+  font-size: 0.88rem;
+  font-weight: 600;
+  z-index: 100;
+  pointer-events: none;
+  transition: all 0.25s var(--ease);
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  margin-top: clamp(48px, 8vw, 72px);
+  background: var(--strip);
+  color: var(--strip-ink);
+  padding-block: 40px 24px;
+}
+footer .wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+@media (min-width: 640px) {
+  footer .wrap {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+.foot-brand b {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: #F8F5EE;
+  display: block;
+  line-height: 1.1;
+}
+html[lang="ar"] .foot-brand b { font-family: 'Cairo', sans-serif; }
+.foot-brand p {
+  color: #A39B8F;
+  font-size: 0.9rem;
+  margin-top: 6px;
+  max-width: 36ch;
+}
+.foot-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.foot-links a {
+  color: #E2D7C7;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.foot-lbl {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8A8173;
+}
+.foot-credit {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #8C8375;
+}
+.foot-credit a {
+  font-weight: 700;
+  color: #C8FF00;
+}
+
+/* ---------- FLOATING WHATSAPP BUTTON (BOTTOM RIGHT) ---------- */
+.wa-fab {
+  position: fixed;
+  inset-inline-end: 18px;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  z-index: 80;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--wa);
+  color: #FFFFFF;
+  padding: 12px 18px;
+  border-radius: var(--r-pill);
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 0.94rem;
+  box-shadow: 0 8px 24px -4px rgba(27, 122, 67, 0.45);
+  transition: transform 0.18s var(--ease), background 0.18s;
+  text-decoration: none;
+}
+html[lang="ar"] .wa-fab { font-family: 'Cairo', sans-serif; }
+.wa-fab:active { transform: scale(0.96); background: var(--wa-hover); }
+.wa-fab svg { width: 22px; height: 22px; flex: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
@@ -410,116 +1074,235 @@ footer a:hover{text-decoration:underline;text-underline-offset:3px}
 
 <a class="skip" href="#menu" data-i18n="skip"></a>
 
-<div class="strip"><div class="wrap">
-  <span id="hoursTop"></span>
-  <span data-i18n="pickupShort"></span>
-</div></div>
+<!-- Top Status Strip -->
+<div class="strip">
+  <div class="wrap">
+    <div class="strip-status">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="shopLiveStatus"></span>
+    </div>
+    <div class="strip-loc">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.2 11.5 7.6 11.8a.7.7 0 0 0 .8 0c.4-.3 7.6-6.4 7.6-11.8a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span data-i18n="pickupLocation"></span>
+    </div>
+  </div>
+</div>
 
-<header class="nav"><div class="wrap">
-  <a class="brand" href="#top" id="brandName">Saj Abou Amir</a>
-  <nav class="links" aria-label="Sections">
-    <a href="#menu" data-i18n="navMenu"></a>
-    <a href="#build" data-i18n="navBuild"></a>
-    <a href="#info" data-i18n="navInfo"></a>
-  </nav>
-  <button class="lang" id="langBtn" type="button" aria-label="Switch language">عربي</button>
-</div></header>
+<!-- Header -->
+<header class="nav" id="mainNav">
+  <div class="wrap">
+    <a class="brand" href="#top" id="brandName">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span>Saj Abou Amir</span>
+    </a>
+    <div class="nav-actions">
+      <nav class="nav-links">
+        <a class="nav-link" href="#menu" data-i18n="navMenu">Menu</a>
+        <a class="nav-link" href="#combos" data-i18n="navCombos">Combos</a>
+        <a class="nav-link" href="#build" data-i18n="navBuild">Custom Saj</a>
+        <a class="nav-link" href="#info" data-i18n="navVisit">Visit Us</a>
+      </nav>
+      <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">
+        <span id="langBtnText">عربي</span>
+      </button>
+    </div>
+  </div>
+</header>
 
 <main id="top">
 <!-- HERO -->
-<div class="hero"><div class="wrap"><div class="hero-in">
-  <div class="hero-top">
-    <span class="pill"><i></i><span data-i18n="pickupPill"></span></span>
-    <span class="hero-loc" dir="ltr">BDD 1227 &middot; Beirut</span>
-  </div>
-  <h1 id="heroName">Saj Abou Amir</h1>
-  <div class="rule" aria-hidden="true"></div>
-  <p class="tag" data-i18n="tagline"></p>
-  <p class="sub" data-i18n="heroSub"></p>
-  <div class="cta">
-    <a class="btn btn-primary" href="#menu" data-i18n="viewMenu"></a>
-    <a class="btn btn-ghost" id="heroCall" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-i18n="callNow"></span></a>
-  </div>
-  <div class="hero-meta">
-    <div><b data-i18n="hLabel"></b><span id="hoursMeta"></span></div>
-    <div><b data-i18n="kLabel"></b><span data-i18n="kMeta"></span></div>
-    <div><b data-i18n="oLabel"></b><span data-i18n="oMeta"></span></div>
-  </div>
-</div></div></div>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-box">
+      <div class="hero-status-pill">
+        <span class="status-dot"></span>
+        <span id="heroLiveStatus">Open Today • 8:00 AM – 4:30 PM</span>
+      </div>
+      <h1 id="heroHeadline">Saj Abou Amir</h1>
+      <p class="hero-sub" id="heroSubDesc" data-i18n="heroSub">Fresh saj, kaake & sandwiches. Pick up facing BDD.</p>
+      
+      <div class="hero-actions">
+        <a class="btn btn-accent" href="#menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h7"/></svg><span data-i18n="viewMenu">View Menu</span></a>
+        <a class="btn btn-ghost" id="heroCall" href="tel:+96170646363"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-i18n="callNow">Call Now</span></a>
+        <a class="btn btn-wa" id="heroWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 9.5c.3 2.4 2.6 4.7 5.5 5.5l1.2-1.4-2-1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9-1-2z" fill="currentColor" stroke="none"/></svg><span>WhatsApp</span></a>
+      </div>
 
-<!-- LUNCH -->
-<div class="wrap lunch reveal"><div class="box">
-  <div><h2 data-i18n="lunchTitle"></h2><p data-i18n="lunchText"></p></div>
-  <a class="btn btn-wa" id="lunchWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 9.5c.3 2.4 2.6 4.7 5.5 5.5l1.2-1.4-2-1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9-1-2z" fill="currentColor" stroke="none"/></svg><span data-i18n="preorderWa"></span></a>
-</div></div>
-
-<!-- MENU -->
-<section id="menu"><div class="wrap">
-  <div class="sec-head reveal"><span class="ebrow" data-i18n="ebMenu"></span><h2 data-i18n="menuTitle"></h2><p data-i18n="menuSub"></p></div>
-  <div class="tabs" role="tablist" id="tabs"></div>
-  <div class="chips" id="tagFilter"></div>
-  <p class="note" id="catNote" hidden></p>
-  <div class="grid" id="grid"></div>
-  <div class="combos">
-    <h3 class="reveal" data-i18n="combosTitle"></h3>
-    <div class="combo-grid" id="combos"></div>
-  </div>
-</div></section>
-
-<!-- BUILD -->
-<section id="build"><div class="wrap">
-  <div class="sec-head reveal"><span class="ebrow" data-i18n="ebBuild"></span><h2 data-i18n="buildTitle"></h2><p data-i18n="buildSub"></p></div>
-  <div class="byo" id="byo"></div>
-  <a class="btn btn-wa" id="byoWa" href="#" target="_blank" rel="noopener" style="margin-top:20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/></svg><span data-i18n="preorderWa"></span></a>
-</div></section>
-
-<!-- INFO -->
-<section id="info"><div class="wrap">
-  <div class="sec-head reveal"><span class="ebrow" data-i18n="ebInfo"></span><h2 data-i18n="infoTitle"></h2></div>
-  <div class="pickup reveal">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-    <b data-i18n="pickupOnly"></b>
-  </div>
-  <div class="info">
-    <div class="card facts">
-      <div class="fact"><h3 data-i18n="phone"></h3><p dir="ltr" id="phoneText"></p></div>
-      <div class="fact"><h3 data-i18n="contact"></h3><p class="hint" data-i18n="webHint"></p><a class="tel" id="contactTel" href="#" dir="ltr"></a></div>
-      <div class="fact"><h3 data-i18n="hours"></h3><p id="hoursText"></p></div>
-      <div class="fact"><h3 data-i18n="findUs"></h3><p data-i18n="address"></p><p class="hint" data-i18n="directionsText"></p></div>
-      <div class="btns">
-        <a class="btn btn-primary" id="infoCall" href="#"><span data-i18n="callNow"></span></a>
-        <a class="btn btn-wa" id="infoWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
-        <a class="btn btn-ghost" id="infoDir" href="#" target="_blank" rel="noopener"><span data-i18n="getDirections"></span></a>
+      <div class="hero-chips">
+        <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span data-i18n="p1">Ready in 6-10 mins</span></span>
+        <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.2 11.5 7.6 11.8a.7.7 0 0 0 .8 0c.4-.3 7.6-6.4 7.6-11.8a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="pLoc">Facing BDD 1227</span></span>
       </div>
     </div>
-    <div class="map"><iframe id="mapFrame" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   </div>
-</div></section>
+</section>
+
+<!-- MENU SECTION -->
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="ebrow" data-i18n="ebMenu">Fresh to Order</span>
+      <h2 data-i18n="menuTitle">The Menu</h2>
+      <p data-i18n="menuSub">Rolled and baked hot on the spot with your choice of veggies and sauces.</p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="menu-controls">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="chips" id="tagFilter" hidden></div>
+    </div>
+
+    <p class="note" id="catNote" hidden></p>
+    <div class="grid" id="grid"></div>
+
+    <!-- COMBOS -->
+    <div class="combos" id="combos">
+      <div class="combos-head">
+        <h3 data-i18n="combosTitle">Suggested Combos</h3>
+        <span class="tg protein" data-i18n="combosTag">Quick & Balanced</span>
+      </div>
+      <div class="combo-grid" id="combosGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE CUSTOM SAJ (BUILD YOUR OWN) -->
+<section id="build">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="ebrow" data-i18n="ebBuild">Personalized</span>
+      <h2 data-i18n="buildTitle">Customize Your Saj</h2>
+      <p data-i18n="buildSub">Pick your bread, fillings, veggies, and sauces. Send your order directly to WhatsApp in one tap.</p>
+    </div>
+
+    <div class="byo-box">
+      <div class="byo-grid">
+        <!-- Step 1: Bread -->
+        <div class="byo-card">
+          <div class="byo-card-head">
+            <span class="byo-num">01</span>
+            <h3 data-i18n="sBread">Choose Your Bread</h3>
+          </div>
+          <div class="byo-options" id="byoBread"></div>
+        </div>
+
+        <!-- Step 2: Fillings -->
+        <div class="byo-card">
+          <div class="byo-card-head">
+            <span class="byo-num">02</span>
+            <h3 data-i18n="sFill">Choose Fillings (Multiple)</h3>
+          </div>
+          <div class="byo-options" id="byoFillings"></div>
+        </div>
+
+        <!-- Step 3: Veggies -->
+        <div class="byo-card">
+          <div class="byo-card-head">
+            <span class="byo-num">03</span>
+            <h3 data-i18n="sVeg">Fresh Veggies</h3>
+          </div>
+          <div class="byo-options" id="byoVeggies"></div>
+        </div>
+
+        <!-- Step 4: Sauces -->
+        <div class="byo-card">
+          <div class="byo-card-head">
+            <span class="byo-num">04</span>
+            <h3 data-i18n="sSauce">Sauces</h3>
+          </div>
+          <div class="byo-options" id="byoSauces"></div>
+        </div>
+      </div>
+
+      <!-- Live Order Tray -->
+      <div class="byo-tray">
+        <div>
+          <span class="tray-title" id="trayTitle" data-i18n="trayTitle">Your Custom Saj</span>
+          <p class="tray-desc" id="traySummary" data-i18n="trayPlaceholder">Select your bread and fillings above to craft your custom saj.</p>
+        </div>
+        <div class="tray-actions">
+          <button class="byo-reset" id="byoResetBtn" type="button" data-i18n="resetCustom">Reset</button>
+          <a class="btn btn-wa" id="byoSendWa" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 9.5c.3 2.4 2.6 4.7 5.5 5.5l1.2-1.4-2-1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9-1-2z" fill="currentColor" stroke="none"/></svg>
+            <span data-i18n="orderCustomWa">Order on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO & LOCATION -->
+<section id="info">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="ebrow" data-i18n="ebInfo">Beirut Pickup</span>
+      <h2 data-i18n="infoTitle">Visit & Pickup</h2>
+      <p data-i18n="infoSub">Hot and ready in minutes. Order ahead for pickup right across from BDD.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="card facts">
+        <div class="fact">
+          <h3 data-i18n="phone">Direct Phone</h3>
+          <p><a class="tel" id="phoneLink" href="tel:+96170646363">70 646 363</a></p>
+          <p class="hint" data-i18n="phoneHint">Call directly for instant orders</p>
+        </div>
+        <div class="fact">
+          <h3 data-i18n="hours">Opening Hours</h3>
+          <p id="hoursText">8:00 AM to 4:30 PM</p>
+          <p class="hint" data-i18n="hoursHint">Monday through Saturday</p>
+        </div>
+        <div class="fact">
+          <h3 data-i18n="findUs">Location</h3>
+          <p data-i18n="address">Beirut, near the Ministry of Finance, facing Beirut Digital District (BDD) 1227</p>
+          <p class="hint" data-i18n="directionsText">Facing BDD 1227 building directly.</p>
+        </div>
+        <div class="facts-btns">
+          <a class="btn btn-primary btn-sm" id="infoCall" href="tel:+96170646363"><span data-i18n="callNow">Call Now</span></a>
+          <a class="btn btn-wa btn-sm" id="infoWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn-ghost btn-sm" id="infoDir" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg><span data-i18n="getDirections">Directions</span></a>
+          <button class="btn btn-ghost btn-sm" id="copyAddrBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span data-i18n="copyAddress">Copy</span></button>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <iframe id="mapFrame" title="Saj Abou Amir Location" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
 </main>
 
-<footer class="reveal"><div class="wrap">
-  <div><b id="footName">Saj Abou Amir</b><p data-i18n="footTag"></p></div>
-  <div class="foot-l">
-    <p data-i18n="pickupShort"></p>
-    <span class="lbl" data-i18n="phone"></span><a id="footCall" href="#" dir="ltr"></a>
-    <span class="lbl" data-i18n="contact"></span><a id="footContact" href="#" dir="ltr"></a>
+<!-- Toast notification -->
+<div class="toast" id="toastNotice"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-brand">
+      <b id="footName">Saj Abou Amir</b>
+      <p data-i18n="footTag">Hot off the saj, straight into your hands. Freshly rolled and baked in Beirut.</p>
+    </div>
+    <div class="foot-links">
+      <span class="foot-lbl" data-i18n="phone">Phone Orders</span>
+      <a id="footCall" href="tel:+96170646363" dir="ltr">70 646 363</a>
+      <span class="foot-lbl" data-i18n="contact">General Enquiries</span>
+      <a id="footContact" href="tel:+96170786131" dir="ltr">+961 70 786 131</a>
+    </div>
   </div>
-</div>
-<div class="wrap foot-credit"><span data-i18n="credit"></span> <a href="https://novustudios.com" target="_blank" rel="noopener">novustudios.com</a></div>
+  <div class="wrap foot-credit">
+    <span>© Saj Abou Amir</span>
+    <a href="https://www.novustudios.com" target="_blank" rel="noopener">Website by Novu Studios</a>
+  </div>
 </footer>
 
-<div class="callbar">
-  <a class="btn btn-primary" id="barCall" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-i18n="callToOrder"></span></a>
-  <a class="btn btn-wa" id="barWa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 9.5c.3 2.4 2.6 4.7 5.5 5.5l1.2-1.4-2-1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9-1-2z" fill="currentColor" stroke="none"/></svg></a>
-</div>
+<!-- Floating WhatsApp Button (Bottom Right) -->
+<a class="wa-fab" id="waFab" href="#" target="_blank" rel="noopener" aria-label="Order on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 9.5c.3 2.4 2.6 4.7 5.5 5.5l1.2-1.4-2-1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9-1-2z" fill="currentColor" stroke="none"/></svg>
+  <span>WhatsApp</span>
+</a>
 
 <script>
 /* =====================================================================
-   EDIT HERE. Everything the shop owner changes lives in this block.
-   - Prices: change price:"X" on any item.
-   - Macros: replace null with numbers, e.g. M(320, 24, 30, 12) = cal, protein, carbs, fat.
-     Item/filling macros are for the filling only. The bread macros are added automatically.
-   - Totals stay "X" until every part of a total has a number.
+   SHOP DATA & DEFAULT ITEMS
    ===================================================================== */
 const SHOP = {
   name: { en: "Saj Abou Amir", ar: "صاج أبو أمير" },
@@ -528,8 +1311,8 @@ const SHOP = {
   contactDisplay: "+961 70 786 131",
   contactTel: "+96170786131",
   wa: "96170646363",
-  hours: { en: "Open 8:00 AM to 4:30 PM", ar: "نعمل من 8:00 صباحاً حتى 4:30 مساءً" },
-  hoursLong: { en: "8:00 AM to 4:30 PM", ar: "8:00 صباحاً حتى 4:30 مساءً" },
+  hours: { en: "Open 8:00 AM to 4:30 PM", ar: "فاتحين من الـ 8:00 الصبح للـ 4:30 بعد الظهر" },
+  hoursLong: { en: "8:00 AM to 4:30 PM", ar: "من الـ 8:00 الصبح للـ 4:30 بعد الظهر" },
   mapQuery: "33.890884,35.505054"
 };
 
@@ -538,26 +1321,26 @@ const M = (cal, p, c, f) => ({ cal, p, c, f });
 
 const TAGS = {
   protein: { en: "High Protein", ar: "بروتين عالي" },
-  lowcarb: { en: "Lower Carb", ar: "كارب أقل" },
+  lowcarb: { en: "Lower Carb", ar: "كارب خفيف" },
   light:   { en: "Light", ar: "خفيف" }
 };
 
 const BREADS = [
-  { id: "saj",   en: "Saj tortilla",  ar: "تورتيلا صاج",  dEn: "", dAr: "", macros: M(270, 9, 54, 2) },
+  { id: "saj",   en: "Saj tortilla",  ar: "صاج تورتيلا",  dEn: "", dAr: "", macros: M(270, 9, 54, 2) },
   { id: "brtor", en: "Brown tortilla", ar: "تورتيلا سمراء", dEn: "", dAr: "", macros: NA },
   { id: "brbr",  en: "Brown bread",   ar: "خبز أسمر",     dEn: "", dAr: "", macros: NA },
-  { id: "bag",   en: "Baguette",      ar: "باغيت",        dEn: "", dAr: "", macros: NA },
-  { id: "kaake", en: "Kaake",         ar: "كعك طرابلسي",  dEn: "", dAr: "", macros: NA }
+  { id: "bag",   en: "Baguette",      ar: "باغيت فرنسي",  dEn: "", dAr: "", macros: NA },
+  { id: "kaake", en: "Kaake Trabolseye", ar: "كعك طرابلسي",  dEn: "", dAr: "", macros: NA }
 ];
 
 const SAUCES = [
   { id: "mayo",    en: "Mayo",     ar: "مايونيز",   light: false, macros: NA },
   { id: "ketchup", en: "Ketchup",  ar: "كاتشب",     light: false, macros: NA },
-  { id: "spicy",   en: "Spicy",    ar: "حار",       light: false, macros: NA },
+  { id: "spicy",   en: "Spicy",    ar: "حرّ حار",    light: false, macros: NA },
   { id: "pesto",   en: "Pesto",    ar: "بيستو",     light: false, macros: NA },
   { id: "avocado", en: "Avocado sauce", ar: "صوص أفوكادو", light: false, macros: NA },
   { id: "mustard", en: "Mustard",  ar: "خردل",      light: false, macros: NA },
-  { id: "bbq",     en: "BBQ",      ar: "بربكيو",    light: false, macros: NA }
+  { id: "bbq",     en: "BBQ",      ar: "باربكيو",   light: false, macros: NA }
 ];
 
 const FILLINGS = [
@@ -565,13 +1348,13 @@ const FILLINGS = [
   { id: "kashk",   en: "Kashkaval",   ar: "قشقوان",      macros: NA },
   { id: "halloum", en: "Halloum",     ar: "حلوم",        macros: M(320, 21, 2, 25) },
   { id: "turkey",  en: "Smoked Turkey", ar: "حبش",        macros: M(57, 9, 1, 1) },
-  { id: "pepperoni", en: "Pepperoni", ar: "ببرجروني",     macros: NA },
+  { id: "pepperoni", en: "Pepperoni", ar: "ببروني",       macros: NA },
   { id: "tawouk",  en: "Tawouk",      ar: "طاووق",       macros: NA },
   { id: "kafta",   en: "Kafta",       ar: "كفتة",        macros: NA },
   { id: "sujuk",   en: "Sujuk",       ar: "سجق",         macros: NA },
   { id: "egg",     en: "Egg",         ar: "بيض",         macros: NA },
-  { id: "labneh",  en: "Labneh",      ar: "لبنة",        macros: NA },
-  { id: "zaatar",  en: "Zaatar",      ar: "زعتر",        macros: NA },
+  { id: "labneh",  en: "Labneh",      ar: "لبنة بلديّة",   macros: NA },
+  { id: "zaatar",  en: "Zaatar",      ar: "زعتر بلدي",   macros: NA },
   { id: "tuna",    en: "Tuna",        ar: "تونا",        macros: NA },
   { id: "crab",    en: "Crab",        ar: "كراب",        macros: NA },
   { id: "nutella", en: "Nutella",     ar: "نوتيلا",      macros: NA }
@@ -581,38 +1364,39 @@ const VEGGIES = [
   { id: "lettuce",  en: "Lettuce",  ar: "خس" },
   { id: "tomato",   en: "Tomato",   ar: "بندورة" },
   { id: "cucumber", en: "Cucumber", ar: "خيار" },
-  { id: "pickles",  en: "Pickles",  ar: "مخلل" },
+  { id: "pickles",  en: "Pickles",  ar: "كبيس" },
   { id: "corn",     en: "Corn",     ar: "ذرة" },
   { id: "olives",   en: "Olives",   ar: "زيتون" }
 ];
 
-/* it(id, category, EN name, AR name, EN description, AR description, tags, default bread) */
 const it = (id, cat, en, ar, dEn, dAr, tags = [], bread = "saj", macros = NA) =>
-  ({ id, cat, en, ar, dEn, dAr, tags, bread, price: "X", macros, img: "" });
+  ({ id, cat, en, ar, dEn, dAr, tags, bread, price: "", macros, img: "" });
 
 const SAJ = [
-  it("spicycheese","saj","Spicy Cheese","جبنة حارة","",""),
-  { ...it("cheese","saj","Cheese","جبنة","",""), macros: M(90, 7, 1, 7) },
-  { ...it("turkeycheese","saj","Smoked Turkey & Cheese","حبش وجبنة","","",["protein"]), macros: M(147, 16, 2, 8) },
-  it("pepperonicheese","saj","Pepperoni & Cheese","ببرجروني وجبنة","",""),
-  { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","",""), macros: M(320, 21, 2, 25) },
-  it("zaatar","saj","Zaatar","زعتر","","",["light"]),
-  it("labneh","saj","Labneh","لبنة","","",["light"]),
-  it("zaatarlabneh","saj","Zaatar & Labneh","زعتر ولبنة","","",["light"]),
-  it("kaftacheese","saj","Kafta & Cheese","كفتة وجبنة","","",["protein"]),
-  it("sujukcheese","saj","Sujuk & Cheese","سجق وجبنة","","",["protein"]),
-  it("nutella","saj","Nutella Saj","صاج نوتيلا","",""),
-  it("kashkaval","saj","Kashkaval","قشقوان","",""),
-  it("picon","saj","Picon","بيكون","",""),
-  it("kishik","saj","Kishik","كشك","","",["light"]),
-  it("bandoura","saj","Bandoura w basal","بندورة ببصل","","",["light"]),
-  it("smokedkash","saj","Smoked Kashkaval","قشقوان مدخّن","",""),
-  it("egg-cheese-turkey","saj","Egg, Cheese & Smoked Turkey","بيض وجبنة وحبش","","",["protein"]),
-  it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","","",["protein"]),
-  it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","","",["protein"]),
-  it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","","",["protein"]),
-  it("egg-turkey","saj","Egg & Smoked Turkey","بيض وحبش","","",["protein","lowcarb"]),
-  it("mortadellacheese","saj","Mortadella & Cheese","مرتديلا وجبنة","","")
+  it("spicycheese","saj","Spicy Cheese","جبنة حارة","A blend of melted cheeses with chili","خلطة جبنة ذايبة مع حرّ"),
+  { ...it("cheese","saj","Cheese","جبنة","Classic melted white cheese blend","خلطة الجبنة البيضا الذايبة"), macros: M(90, 7, 1, 7) },
+  { ...it("turkeycheese","saj","Smoked Turkey & Cheese","حبش وجبنة","Smoked turkey breast with melted cheese","حبش مدخن مع جبنة ذايبة",["protein"]), macros: M(147, 16, 2, 8) },
+  it("pepperonicheese","saj","Pepperoni & Cheese","ببروني وجبنة","Beef pepperoni with melted cheese","ببروني مع جبنة ذايبة"),
+  { ...it("halloumpesto","saj","Halloum & Pesto","حلوم وبيستو","Grilled halloum with fresh basil pesto","حلوم مشوي مع بيستو طازة"), macros: M(320, 21, 2, 25) },
+  it("zaatar","saj","Zaatar","زعتر","Wild Lebanese thyme with olive oil","زعتر بلدي مع زيت زيتون بكر",["light"]),
+  it("labneh","saj","Labneh","لبنة","Fresh creamy Lebanese labneh with olive oil","لبنة بلدية طازة مع زيت زيتون",["light"]),
+  it("zaatarlabneh","saj","Zaatar & Labneh","زعتر ولبنة","Half zaatar, half creamy labneh","نص زعتر ونص لبنة بلدية",["light"]),
+  it("zaatarcheese","saj","Zaatar & Cheese","زعتر وجبنة","Zaatar blend topped with melted cheese","زعتر بلدي مع جبنة ذايبة"),
+  it("kaftacheese","saj","Kafta & Cheese","كفتة وجبنة","Spiced ground beef kafta with melted cheese","كفتة بلدي متبّلة مع جبنة ذايبة",["protein"]),
+  it("sujukcheese","saj","Sujuk & Cheese","سجق وجبنة","Armenian-style spiced sujuk with cheese","سجق متبّل على أصوله مع جبنة",["protein"]),
+  it("nutella","saj","Nutella Saj","صاج نوتيلا","Warm folded saj with melted Nutella","صاج سخن مليان نوتيلا"),
+  it("kashkaval","saj","Kashkaval","قشقوان","Rich melted Bulgarian kashkaval","جبنة قشقوان بلغارية ذايبة"),
+  it("picon","saj","Picon","بيكون","Creamy Picon cheese spread","جبنة بيكون كريمية"),
+  it("kishik","saj","Kishik","كشك","Traditional village kishik blend","كشك بلدي أصيل",["light"]),
+  it("kishikcheese","saj","Kishik & Cheese","كشك وجبنة","Traditional kishik with melted cheese","كشك بلدي مع جبنة ذايبة"),
+  it("bandoura","saj","Bandoura w basal","بندورة وبصل","Sautéed tomatoes, onions and olive oil","بندورة وبصل مع زيت زيتون",["light"]),
+  it("smokedkash","saj","Smoked Kashkaval","قشقوان مدخّن","Aromatic smoked kashkaval cheese","قشقوان مدخّن فاخر"),
+  it("egg-cheese-turkey","saj","Egg, Cheese & Smoked Turkey","بيض وجبنة وحبش","Fresh eggs, turkey breast & cheese","بيض طازة مع حبش مدخن وجبنة",["protein"]),
+  it("egg-cheese-sujuk","saj","Egg, Cheese & Sujuk","بيض وجبنة وسجق","Eggs with spiced sujuk & melted cheese","بيض طازة مع سجق متبّل وجبنة",["protein"]),
+  it("egg-cheese","saj","Egg & Cheese","بيض وجبنة","Scrambled eggs with melted cheese blend","بيض مخفوق مع جبنة ذايبة",["protein"]),
+  it("egg-sujuk","saj","Egg & Sujuk","بيض وسجق","Eggs with spiced Lebanese sujuk","بيض مع سجق متبّل",["protein"]),
+  it("egg-turkey","saj","Egg & Smoked Turkey","بيض وحبش","Eggs with smoked turkey breast","بيض مع حبش مدخن",["protein","lowcarb"]),
+  it("mortadellacheese","saj","Mortadella & Cheese","مرتديلا وجبنة","Sliced mortadella with melted cheese","مرتديلا مع جبنة ذايبة")
 ];
 
 const KAAKE = SAJ.map(i => i.id === "nutella"
@@ -620,129 +1404,143 @@ const KAAKE = SAJ.map(i => i.id === "nutella"
   : { ...i, id: "k-" + i.id, cat: "kaake", bread: "kaake" });
 
 const SANDWICH = [
-  it("tawouk","sandwiches","Tawouk","طاووق","","",["protein"],"bag"),
-  it("pepperoni-sw","sandwiches","Pepperoni & Cheese","ببرجروني وجبنة","","",[],"bag"),
-  it("fajita","sandwiches","Fajita","فاهيتا","","",["protein"],"bag"),
-  it("kafta-sw","sandwiches","Kafta","كفتة","","",["protein","lowcarb"],"bag"),
-  it("sujuk-sw","sandwiches","Sujuk","سجق","","",[],"bag"),
-  it("crab","sandwiches","Crab","كراب","","",["protein","lowcarb"],"bag"),
-  it("tuna","sandwiches","Tuna","تونا","","",["protein","lowcarb"],"bag"),
-  it("francisco","sandwiches","Francisco","فرانسيسكو","","",[],"bag")
+  it("tawouk","sandwiches","Tawouk","طاووق","Marinated grilled chicken with garlic and pickles","طاووق مشوي ومتبّل مع توم وكبيس",["protein"],"bag"),
+  it("pepperoni-sw","sandwiches","Pepperoni & Cheese","ببروني وجبنة","Toasted baguette with pepperoni & cheese","باغيت محمّص مع ببروني وجبنة",[],"bag"),
+  it("fajita","sandwiches","Fajita","فاهيتا","Spiced chicken breast, peppers, corn & sauce","فاهيتا دجاج مع فليفلة وذرة وصوص",["protein"],"bag"),
+  it("kafta-sw","sandwiches","Kafta","كفتة","Grilled spiced beef kafta with pickles","كفتة مشوية متبّلة",["protein","lowcarb"],"bag"),
+  it("sujuk-sw","sandwiches","Sujuk","سجق","Spiced beef sujuk with tomatoes and pickles","سجق بلدي مع بندورة وكبيس",[],"bag"),
+  it("crab","sandwiches","Crab","كراب","Shredded crab mix with special sauce and corn","خلطة كراب مع ذرة وصوص",["protein","lowcarb"],"bag"),
+  it("tuna","sandwiches","Tuna","تونا","Light tuna with sweet corn and lemon mayo","تونا خفيفة مع ذرة ومايونيز حامض",["protein","lowcarb"],"bag"),
+  it("francisco","sandwiches","Francisco","فرانسيسكو","Chicken strips with corn, soy sauce & cheese","دجاج فرانسيسكو مع ذرة وجبنة ذايبة",[],"bag")
 ];
 
 const DRINKS = [
-  it("pepsi","drinks","Pepsi","بيبسي","","",[],null),
-  it("7up","drinks","7Up","سفن أب","","",[],null),
-  it("oj","drinks","Orange Juice","عصير برتقال","","",[],null)
+  it("pepsi","drinks","Pepsi","بيبسي","Chilled can","علبة مسقّعة",[],null),
+  it("7up","drinks","7Up","سفن أب","Chilled can","علبة مسقّعة",[],null),
+  it("oj","drinks","Orange Juice","عصير ليمون طازة","Fresh squeezed chilled orange juice","عصير ليمون مسقّع وطازة",[],null)
 ];
 
 const ITEMS = [...SAJ, ...KAAKE, ...SANDWICH, ...DRINKS];
 
 const COMBOS = [
-  { id: "hp", en: "Protein Lunch", ar: "غداء بروتين",
-    dEn: "Smoked Turkey & Cheese or Tawouk on brown bread.", dAr: "حبش وجبنة أو طاووق على خبز أسمر.",
-    orderEn: "High Protein Lunch (Smoked Turkey & Cheese or Tawouk on brown bread)", orderAr: "غداء عالي البروتين (حبش وجبنة أو طاووق على خبز أسمر)",
-    price: "X", macros: NA },
-  { id: "lt", en: "Light Lunch", ar: "غداء خفيف",
-    dEn: "Labneh or Tuna on brown tortilla.", dAr: "لبنة أو تونا على تورتيلا سمراء.",
-    orderEn: "Light Lunch (Labneh or Tuna on brown tortilla)", orderAr: "غداء خفيف (لبنة أو تونا على تورتيلا سمراء)",
-    price: "X", macros: NA }
+  { id: "hp", en: "Protein Lunch Combo", ar: "وجبة غداء بروتين",
+    dEn: "Smoked Turkey & Cheese or Tawouk on brown bread with fresh salad veggies.",
+    dAr: "حبش وجبنة أو طاووق على خبز أسمر مع خضار طازة.",
+    orderEn: "High Protein Lunch Combo (Smoked Turkey & Cheese or Tawouk on brown bread)",
+    orderAr: "وجبة غداء بروتين (حبش وجبنة أو طاووق عخبز أسمر)",
+    price: "", macros: NA },
+  { id: "lt", en: "Light Lunch Combo", ar: "وجبة غداء خفيف",
+    dEn: "Fresh Labneh or Tuna wrap on brown tortilla with mint and cucumber.",
+    dAr: "لبنة بلدية أو تونا على تورتيلا سمراء مع نعنع وخيار.",
+    orderEn: "Light Lunch Combo (Labneh or Tuna on brown tortilla)",
+    orderAr: "وجبة غداء خفيف (لبنة أو تونا عتورتيلا سمرا)",
+    price: "", macros: NA }
 ];
 
-/* Interface text */
+/* Interface Text (Bilingual with Authentic Lebanese Arabic) */
 const UI = {
   en: {
-    skip:"Skip to menu",
-    pickupShort:"Pickup only.",
-    contact:"Website enquiries", credit:"Made by", webHint:"Want a site like this?",
-    pickupPill:"Pickup only",
-    navMenu:"Menu", navBuild:"Extras", navInfo:"Info",
-    tagline:"Hot off the saj, straight into your hands.",
-    heroSub:"Hot saj and kaake trabolseye, made to order. Right across from Beirut Digital District.",
-    viewMenu:"View Menu", callNow:"Call Now",
-    hLabel:"Hours", kLabel:"Pickup", oLabel:"Where",
-    kMeta:"Pre-order and collect", oMeta:"Facing BDD 1227",
-    lunchTitle:"Built for the lunch break",
-    lunchText:"Send your order on WhatsApp and it will be wrapped and waiting when you walk in.",
-    preorderWa:"Pre-order on WhatsApp",
-    ebMenu:"Fresh to order",
-    menuTitle:"Menu", menuSub:"Everything is rolled and grilled fresh to order. Each saj and sandwich comes with the veggies and sauce that go with it, or tell us what you want instead.",
-    tHealthy:"Healthy Picks", tSaj:"Saj", tKaake:"Kaake Trabolseye", tSand:"Sandwiches", tDrinks:"Drinks",
-    all:"All", kaakeNote:"Same fillings as the saj list, in kaake bread or the bread of your choice.",
-    combosTitle:"Suggested combos", order:"Order",
-    ebBuild:"Extras",
-    buildTitle:"Add or swap anything", buildSub:"Not sure what came with it? Add or swap any of these, then send your order to us on WhatsApp.",
-    sBread:"Bread", sFill:"Fillings", sVeg:"Veggies", sSauce:"Sauces", light:"Light",
-    ebInfo:"Beirut",
-    infoTitle:"Visit us", pickupOnly:"Pickup only", phone:"Phone", hours:"Opening hours", findUs:"Find us",
-    address:"Beirut, near the Ministry of Finance (وزارة المالية), facing Beirut Digital District (BDD), 1227",
-    directionsText:"Right across from the Ministry of Finance area, facing BDD 1227.", getDirections:"Get Directions",
-    callToOrder:"Call to Order", footTag:"Hot off the saj, straight into your hands.",
-    hi:"Hi Saj Abou Amir, I'd like to order:", on:"on",
-    pre:"Hi Saj Abou Amir, I'd like to order.", byoMsg:"Hi Saj Abou Amir, I'd like to add some extras to my order."
+    skip: "Skip to menu",
+    pickupLocation: "Pickup only • Facing BDD 1227",
+    pLoc: "Facing BDD 1227",
+    navMenu: "Menu", navCombos: "Combos", navBuild: "Custom Saj", navVisit: "Visit Us",
+    heroHeadline: "Saj Abou Amir",
+    heroSub: "Fresh saj, kaake & sandwiches. Pick up facing BDD.",
+    viewMenu: "View Menu", callNow: "Call Now",
+    p1: "Ready in 6-10 mins",
+    ebMenu: "Fresh to Order", menuTitle: "The Menu",
+    menuSub: "Rolled and baked hot on the spot with your choice of veggies and sauces.",
+    tHealthy: "Healthy Picks", tSaj: "Saj", tKaake: "Kaake Trabolseye", tSand: "Sandwiches", tDrinks: "Drinks",
+    all: "All", kaakeNote: "Same fillings as the saj list, served in crisp sesame Kaake Trabolseye or bread of your choice.",
+    combosTitle: "Suggested Combos", combosTag: "Quick & Balanced", order: "Order on WhatsApp",
+    ebBuild: "Personalized", buildTitle: "Customize Your Saj",
+    buildSub: "Pick your bread, fillings, veggies, and sauces. Send your order directly to WhatsApp in one tap.",
+    sBread: "Choose Your Bread", sFill: "Choose Fillings (Multiple)", sVeg: "Fresh Veggies", sSauce: "Sauces",
+    trayTitle: "Your Custom Saj", trayPlaceholder: "Select your bread and fillings above to craft your custom saj.",
+    resetCustom: "Reset", orderCustomWa: "Order on WhatsApp",
+    ebInfo: "Beirut Pickup", infoTitle: "Visit & Pickup",
+    infoSub: "Hot and ready in minutes. Order ahead for pickup right across from BDD.",
+    phone: "Direct Phone", phoneHint: "Call directly for instant orders",
+    hours: "Opening Hours", hoursHint: "Monday through Saturday",
+    findUs: "Location",
+    address: "Beirut, near the Ministry of Finance, facing Beirut Digital District (BDD) 1227",
+    directionsText: "Facing BDD 1227 building directly.",
+    getDirections: "Directions", copyAddress: "Copy",
+    callToOrder: "Call to Order", footTag: "Fresh saj, hot off the grill straight into your hands. Fresh in Beirut.",
+    contact: "General Enquiries",
+    hi: "Hi Saj Abou Amir, I'd like to order:", on: "on",
+    pre: "Hi Saj Abou Amir, I would like to place a pickup order.",
+    customWaPrefix: "Hi Saj Abou Amir, I'd like to order a custom saj:\n",
+    copiedToast: "Address copied to clipboard!"
   },
   ar: {
-    contact:"لطلبات المواقع", credit:"صنع بواسطة", webHint:"تبغى موقع مثل هذا؟",
-    skip:"تخطَّ إلى القائمة",
-    pickupShort:"استلام من المحل فقط.",
-    pickupPill:"استلام فقط",
-    navMenu:"القائمة", navBuild:"إضافات", navInfo:"معلومات",
-    tagline:"ساخن من الصاج، مباشرة إلى يديك.",
-    heroSub:"صاج وكعك طرابلسي، يُحضَّر عند الطلب. مقابل Beirut Digital District مباشرة.",
-    viewMenu:"عرض القائمة", callNow:"اتصل الآن",
-    hLabel:"الساعات", kLabel:"الاستلام", oLabel:"الموقع",
-    kMeta:"اطلب مسبقاً واستلم", oMeta:"مقابل BDD 1227",
-    lunchTitle:"مصمّم لاستراحة الغداء",
-    lunchText:"أرسل طلبك على واتساب وسيكون جاهزاً ومغلفاً عند وصولك.",
-    preorderWa:"اطلب مسبقاً عبر واتساب",
-    ebMenu:"طازج عند الطلب",
-    menuTitle:"القائمة", menuSub:"كل شيء يُلفّ ويُشوى طازجاً عند الطلب. كل صاج وسندويش يأتي مع الخضار والصوص اللي بيناسبه، أو قلنا اللي بدك ياه.",
-    tHealthy:"خيارات صحية", tSaj:"صاج", tKaake:"كعك طرابلسي", tSand:"سندويشات", tDrinks:"مشروبات",
-    all:"الكل", kaakeNote:"نفس حشوات الصاج، بالكعك أو بالخبز الذي تختاره.",
-    combosTitle:"تركيبات مقترحة", order:"اطلب",
-    ebBuild:"إضافات",
-    buildTitle:"زيد أو بدّل", buildSub:"مش عارف شو إجا معه؟ زيد أو بدّل أي شي من هدول، ثم أرسل طلبك عبر واتساب.",
-    sBread:"الخبز", sFill:"الحشوات", sVeg:"الخضار", sSauce:"الصوصات", light:"خفيف",
-    ebInfo:"بيروت",
-    infoTitle:"زورونا", pickupOnly:"استلام من المحل فقط", phone:"الهاتف", hours:"ساعات العمل", findUs:"موقعنا",
-    address:"بيروت، بالقرب من وزارة المالية، مقابل Beirut Digital District (BDD)، 1227",
-    directionsText:"مقابل منطقة وزارة المالية مباشرة، قبالة BDD 1227.", getDirections:"احصل على الاتجاهات",
-    callToOrder:"اتصل للطلب", footTag:"ساخن من الصاج، مباشرة إلى يديك.",
-    hi:"مرحباً صاج أبو أمير، بدي أطلب:", on:"على",
-    pre:"مرحباً صاج أبو أمير، بدي أطلب.", byoMsg:"مرحباً صاج أبو أمير، بدي زيد إضافات على طلبي."
+    skip: "تخطَّ للمنيو",
+    pickupLocation: "استلام من المحل بس • قبال الـ BDD 1227",
+    pLoc: "قبال الـ BDD 1227",
+    navMenu: "المنيو", navCombos: "الوجبات", navBuild: "فصّل صاجتك", navVisit: "موقعنا",
+    heroHeadline: "صاج أبو أمير",
+    heroSub: "صاج وكعك وسندويشات طازة. استلام قبال الـ BDD.",
+    viewMenu: "شوف المنيو", callNow: "اتصل بالمحل",
+    p1: "بيجهز بـ 6-10 دقائق",
+    ebMenu: "طازة عالطلب", menuTitle: "المنيو",
+    menuSub: "كل صاج، كعكة، وسندويش بينشوى طازة قدامك مع الخضار والصوصات اللي بتختارها.",
+    tHealthy: "خيارات صحية", tSaj: "صاج", tKaake: "كعك طرابلسي", tSand: "سندويشات", tDrinks: "مشروبات",
+    all: "الكل", kaakeNote: "نفس حشوات الصاج، بكعك طرابلسي مقرمش بالسمسم أو بالخبز اللي بتختاره.",
+    combosTitle: "وجبات منقترحها", combosTag: "سريعة وبتشبع", order: "اطلب عالواتساب",
+    ebBuild: "على ذوقك", buildTitle: "ركّب صاجتك على ذوقك",
+    buildSub: "اختار نوع الخبز، الحشوات، الخضار، والصوصات. وصّي بضغطة زر عالواتساب.",
+    sBread: "اختار نوع الخبز", sFill: "اختار الحشوة (فيك تختار أكتر من وحدة)", sVeg: "الخضار الطازة", sSauce: "الصوصات والإضافات",
+    trayTitle: "صاجتك على ذوقك", trayPlaceholder: "اختار الخبز والحشوات فوق لتجهّز طلبيتك.",
+    resetCustom: "من الأول", orderCustomWa: "اطلب عالواتساب",
+    ebInfo: "تفضل لعنا", infoTitle: "الموقع وساعات الشغل",
+    infoSub: "سخن وجاهز بدقائق. وصّي مسبقاً واستلم دغري قبال الـ BDD.",
+    phone: "تلفون المحل", phoneHint: "اتصل ليجهز طلبك دغري",
+    hours: "دوام الشغل", hoursHint: "من التنين للسبت",
+    findUs: "العنوان",
+    address: "بيروت، حدّ وزارة المالية، قبال Beirut Digital District (BDD) 1227",
+    directionsText: "قبال مبنى BDD 1227 دغري، حدّ المالية.",
+    getDirections: "اللوكيشن", copyAddress: "نسخ",
+    callToOrder: "اتصل لتطلب", footTag: "صاج طازة وسخن دغري لإيدك. ببيروت.",
+    contact: "استفسارات الموقع",
+    hi: "مرحبا صاج أبو أمير، بدي وصّي على:", on: "على",
+    pre: "مرحبا صاج أبو أمير، بدي وصّي تيك أواي.",
+    customWaPrefix: "مرحبا صاج أبو أمير، بدي وصّي صاج على ذوقي:\n",
+    copiedToast: "تم نسخ العنوان!"
   }
 };
 
 /* =====================================================================
-   Code below does not need editing.
+   MAIN APPLICATION LOGIC
    ===================================================================== */
 (function () {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-  /* Fold data/menu.json (if it loaded) into the inline defaults. */
+  /* Sync data/menu.json or Google Sheet */
   function applyOverride() {
     const o = window.MENU_OVERRIDE;
     if (!o || !Array.isArray(o.items)) return;
-    if (o.shop) for (const k of ["phoneDisplay","tel","wa","contactDisplay","contactTel","mapQuery","hours","hoursLong","name"]) {
-      if (o.shop[k] !== undefined) SHOP[k] = o.shop[k];
+    if (o.shop) {
+      for (const k of ["phoneDisplay","tel","wa","contactDisplay","contactTel","mapQuery","hours","hoursLong","name"]) {
+        if (o.shop[k] !== undefined) SHOP[k] = o.shop[k];
+      }
     }
     const byId = new Map(o.items.filter(i => i && i.id).map(i => [i.id, i]));
-    const merged = ITEMS.filter(i => byId.has(i.id)).map(i => Object.assign({}, i, byId.get(i.id)));
+    for (let i = 0; i < ITEMS.length; i++) {
+      if (byId.has(ITEMS[i].id)) {
+        Object.assign(ITEMS[i], byId.get(ITEMS[i].id));
+      }
+    }
     for (const n of o.items) {
       if (!n || !n.id || ITEMS.some(i => i.id === n.id)) continue;
-      merged.push(Object.assign({ cat: "saj", en: "", ar: "", dEn: "", dAr: "", tags: [], bread: "saj", price: "X" }, n));
+      ITEMS.push(Object.assign({ cat: "saj", en: "", ar: "", dEn: "", dAr: "", tags: [], bread: "saj", price: "" }, n));
     }
-    // A hand-edited file could miss fields the renderer assumes exist.
-    for (const i of merged) {
-      if (!Array.isArray(i.tags)) i.tags = i.tags ? [i.tags] : [];
-      if (typeof i.price !== "string") i.price = i.price == null ? "" : String(i.price);
-      i.dEn = i.dEn || ""; i.dAr = i.dAr || "";
+    if (Array.isArray(o.combos) && o.combos.length) {
+      COMBOS.length = 0;
+      COMBOS.push(...o.combos);
     }
-    ITEMS.length = 0;
-    ITEMS.push(...merged);
-    if (Array.isArray(o.combos) && o.combos.length) { COMBOS.length = 0; COMBOS.push(...o.combos); }
   }
+
   applyOverride();
   window.MENU_READY.then(() => {
     if (!window.MENU_OVERRIDE) return;
@@ -753,155 +1551,416 @@ const UI = {
   let lang = "en";
   try { lang = localStorage.getItem("saj-lang") || "en"; } catch (e) {}
   if (lang !== "ar") lang = "en";
-  const t = k => UI[lang][k];
-  const nm = o => o[lang];
-  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-  const breadById = id => BREADS.find(b => b.id === id);
+  const t = k => (UI[lang] && UI[lang][k]) || UI.en[k] || "";
+  const nm = o => (o ? (o[lang] || o.en || "") : "");
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const wa = text => `https://wa.me/${SHOP.wa}?text=${encodeURIComponent(text)}`;
+  const showPrice = p => {
+    const s = String(p == null ? "" : p).trim();
+    return (s && s !== "X") ? s : "";
+  };
 
-  const WA_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.5z"/></svg>';
+  /* Beirut shop status calculation */
+  function updateShopStatus() {
+    let isOpen = true;
+    let labelEn = "Open Today • 8:00 AM – 4:30 PM";
+    let labelAr = "فاتحين اليوم • 8:00 ص – 4:30 م";
 
-  /* ---------- menu ---------- */
-  let cat = "saj", tagF = "all";
-  const tabDefs = () => [["healthy", t("tHealthy")], ["saj", t("tSaj")], ["kaake", t("tKaake")], ["sandwiches", t("tSand")], ["drinks", t("tDrinks")]];
+    try {
+      const now = new Date();
+      const beirutStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Beirut', hour12: false, hour: 'numeric', minute: 'numeric' });
+      const parts = beirutStr.split(':');
+      const h = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      const currentMin = h * 60 + m;
+      const openMin = 8 * 60; // 8:00 AM
+      const closeMin = 16 * 60 + 30; // 4:30 PM
+
+      isOpen = (currentMin >= openMin && currentMin < closeMin);
+      if (isOpen) {
+        labelEn = "Open Now • Closes 4:30 PM";
+        labelAr = "فاتحين هلّق • للـ 4:30 بعد الظهر";
+      } else {
+        labelEn = "Currently Closed • Opens 8:00 AM";
+        labelAr = "مسكّرين هلّق • منفتح عالـ 8:00 الصبح";
+      }
+    } catch (e) {}
+
+    const dot = $("#statusDot");
+    if (dot) dot.classList.toggle("closed", !isOpen);
+
+    const txt = lang === "ar" ? labelAr : labelEn;
+    const topStatus = $("#shopLiveStatus");
+    if (topStatus) topStatus.textContent = txt;
+
+    const heroStatus = $("#heroLiveStatus");
+    if (heroStatus) heroStatus.textContent = txt;
+  }
+
+  /* ---------- MENU STATE ---------- */
+  let currentCat = "saj";
+  let currentTag = "all";
+
+  const tabDefs = () => [
+    ["healthy", t("tHealthy"), getCountForTab("healthy")],
+    ["saj", t("tSaj"), getCountForTab("saj")],
+    ["kaake", t("tKaake"), getCountForTab("kaake")],
+    ["sandwiches", t("tSand"), getCountForTab("sandwiches")],
+    ["drinks", t("tDrinks"), getCountForTab("drinks")]
+  ];
+
+  function getCountForTab(catId) {
+    if (catId === "healthy") {
+      return ITEMS.filter(i => i.on !== false && i.cat !== "kaake" && i.cat !== "drinks" && i.tags && i.tags.length).length;
+    }
+    return ITEMS.filter(i => i.on !== false && i.cat === catId).length;
+  }
 
   function renderTabs() {
-    $("#tabs").innerHTML = tabDefs().map(([id, label]) =>
-      `<button class="tab ${id === "healthy" ? "healthy" : ""}" role="tab" aria-selected="${id === cat}" data-cat="${id}">${label}</button>`).join("");
+    const tabsContainer = $("#tabs");
+    if (!tabsContainer) return;
+    tabsContainer.innerHTML = tabDefs().map(([id, label, count]) =>
+      `<button class="tab" role="tab" aria-selected="${id === currentCat}" data-cat="${id}">
+        <span>${label}</span>
+        <span class="tab-count">${count}</span>
+      </button>`
+    ).join("");
   }
+
   function renderTagFilter() {
     const box = $("#tagFilter");
-    if (cat !== "healthy") { box.innerHTML = ""; box.hidden = true; return; }
+    if (!box) return;
+    if (currentCat !== "healthy") {
+      box.innerHTML = "";
+      box.hidden = true;
+      return;
+    }
     box.hidden = false;
     const opts = [["all", t("all")], ...Object.keys(TAGS).map(k => [k, nm(TAGS[k])])];
     box.innerHTML = opts.map(([id, label]) =>
-      `<label class="chip"><input type="radio" name="tagf" value="${id}" ${id === tagF ? "checked" : ""}><span>${label}</span></label>`).join("");
+      `<label class="chip">
+        <input type="radio" name="tagf" value="${id}" ${id === currentTag ? "checked" : ""}>
+        <span>${label}</span>
+      </label>`
+    ).join("");
   }
-  function itemsForView() {
-    if (cat === "healthy") return ITEMS.filter(i => i.on !== false && i.cat !== "kaake" && i.cat !== "drinks" && i.tags.length && (tagF === "all" || i.tags.includes(tagF)));
-    return ITEMS.filter(i => i.on !== false && i.cat === cat);
+
+  function getFilteredItems() {
+    if (currentCat === "healthy") {
+      return ITEMS.filter(i =>
+        i.on !== false &&
+        i.cat !== "kaake" &&
+        i.cat !== "drinks" &&
+        i.tags && i.tags.length &&
+        (currentTag === "all" || i.tags.includes(currentTag))
+      );
+    }
+    return ITEMS.filter(i => i.on !== false && i.cat === currentCat);
   }
-  const chosen = {};
-  function orderText(i, bid) {
-    const b = bid && breadById(bid);
-    return `${t("hi")} ${nm(i)}${b ? " " + t("on") + " " + nm(b) : ""}`;
-  }
-  const showPrice = p => { const s = String(p == null ? "" : p).trim(); return s && s !== "X" ? s : ""; };
+
   function cardHTML(i) {
-    const bid = chosen[i.id] || i.bread;
-    const desc = lang === "ar" ? i.dAr : i.dEn;
     const pr = showPrice(i.price);
     return `<article class="item" data-id="${i.id}">
-      <div class="top"><h3>${esc(nm(i))}</h3>${pr ? `<span class="price">${esc(pr)}</span>` : ""}</div>
-      ${desc ? `<p class="desc">${esc(desc)}</p>` : ""}
-      ${i.tags.length ? `<div class="tags">${i.tags.map(g => `<span class="tg">${nm(TAGS[g])}</span>`).join("")}</div>` : ""}
-      <a class="order" target="_blank" rel="noopener" href="${wa(orderText(i, bid))}">${WA_ICON}${t("order")}</a>
+      <div class="item-top">
+        <h3>${esc(nm(i))}</h3>
+        ${pr ? `<span class="price">${esc(pr)}</span>` : ""}
+      </div>
+      ${i.tags && i.tags.length ? `
+        <div class="tags">
+          ${i.tags.map(g => `<span class="tg ${g}">${nm(TAGS[g]) || g}</span>`).join("")}
+        </div>` : ""}
     </article>`;
   }
+
   function renderGrid() {
-    $("#grid").innerHTML = itemsForView()
-      .map((i, n) => cardHTML(i).replace('class="item"', `class="item" style="animation-delay:${Math.min(n * 30, 300)}ms"`))
-      .join("");
+    const grid = $("#grid");
     const note = $("#catNote");
-    note.hidden = cat !== "kaake";
-    note.textContent = t("kaakeNote");
+    if (!grid) return;
+
+    if (note) {
+      note.hidden = currentCat !== "kaake";
+      note.textContent = t("kaakeNote");
+    }
+
+    const items = getFilteredItems();
+    grid.innerHTML = items.map(i => cardHTML(i)).join("");
   }
+
   function renderCombos() {
-    $("#combos").innerHTML = COMBOS.map(c => { const cp = showPrice(c.price); return `<article class="combo">
-      <div class="top"><h4>${esc(nm(c))}</h4>${cp ? `<span class="price">${esc(cp)}</span>` : ""}</div>
-      <p class="desc">${esc(lang === "ar" ? c.dAr : c.dEn)}</p>
-      <a class="order" target="_blank" rel="noopener" href="${wa(t("hi") + " " + (lang === "ar" ? c.orderAr : c.orderEn))}">${WA_ICON}${t("order")}</a>
-    </article>`; }).join("");
+    const box = $("#combosGrid");
+    if (!box) return;
+    box.innerHTML = COMBOS.map(c => {
+      const cp = showPrice(c.price);
+      return `
+        <article class="combo">
+          <div class="combo-top">
+            <h4>${esc(nm(c))}</h4>
+            ${cp ? `<span class="price">${esc(cp)}</span>` : ""}
+          </div>
+          <p class="desc">${esc(lang === "ar" ? c.dAr : c.dEn)}</p>
+        </article>`;
+    }).join("");
   }
 
-  document.addEventListener("click", e => {
-    const tab = e.target.closest(".tab");
-    if (tab) { cat = tab.dataset.cat; tagF = "all"; renderTabs(); renderTagFilter(); renderGrid(); }
-  });
-  document.addEventListener("change", e => {
-    if (e.target.name === "tagf") { tagF = e.target.value; renderGrid(); }
-  });
+  /* ---------- INTERACTIVE CUSTOM SAJ BUILDER ---------- */
+  const customState = {
+    bread: "saj",
+    fillings: ["cheese"],
+    veggies: ["tomato"],
+    sauces: []
+  };
 
-  /* ---------- build your own (informational only) ---------- */
-  function optGroup(n, title, arr, extra) {
-    return `<div class="step"><div class="step-h"><span class="step-n">0${n}</span><h3>${title}</h3></div>` +
-      `<div class="chips">${arr.map(o => `<span class="tg">${nm(o)}${extra && extra(o) ? extra(o) : ""}</span>`).join("")}</div></div>`;
-  }
-  function renderBYO() {
-    $("#byo").innerHTML =
-      optGroup(1, t("sBread"), BREADS) +
-      optGroup(2, t("sFill"), FILLINGS) +
-      optGroup(3, t("sVeg"), VEGGIES) +
-      optGroup(4, t("sSauce"), SAUCES, s => s.light ? `<em>${t("light")}</em>` : "");
-    $("#byoWa").href = wa(t("byoMsg"));
+  function renderCustomizerOptions() {
+    const breadBox = $("#byoBread");
+    if (breadBox) {
+      breadBox.innerHTML = BREADS.map(b => `
+        <label class="byo-opt">
+          <input type="radio" name="customBread" value="${b.id}" ${customState.bread === b.id ? "checked" : ""}>
+          <span>${esc(nm(b))}</span>
+        </label>
+      `).join("");
+    }
+
+    const fillBox = $("#byoFillings");
+    if (fillBox) {
+      fillBox.innerHTML = FILLINGS.map(f => `
+        <label class="byo-opt">
+          <input type="checkbox" name="customFill" value="${f.id}" ${customState.fillings.includes(f.id) ? "checked" : ""}>
+          <span>${esc(nm(f))}</span>
+        </label>
+      `).join("");
+    }
+
+    const vegBox = $("#byoVeggies");
+    if (vegBox) {
+      vegBox.innerHTML = VEGGIES.map(v => `
+        <label class="byo-opt">
+          <input type="checkbox" name="customVeg" value="${v.id}" ${customState.veggies.includes(v.id) ? "checked" : ""}>
+          <span>${esc(nm(v))}</span>
+        </label>
+      `).join("");
+    }
+
+    const sauceBox = $("#byoSauces");
+    if (sauceBox) {
+      sauceBox.innerHTML = SAUCES.map(s => `
+        <label class="byo-opt">
+          <input type="checkbox" name="customSauce" value="${s.id}" ${customState.sauces.includes(s.id) ? "checked" : ""}>
+          <span>${esc(nm(s))}</span>
+        </label>
+      `).join("");
+    }
+
+    updateCustomSummary();
   }
 
-  /* ---------- static text + links ---------- */
+  function updateCustomSummary() {
+    const chosenBread = BREADS.find(b => b.id === customState.bread) || BREADS[0];
+    const chosenFills = FILLINGS.filter(f => customState.fillings.includes(f.id));
+    const chosenVegs = VEGGIES.filter(v => customState.veggies.includes(v.id));
+    const chosenSauces = SAUCES.filter(s => customState.sauces.includes(s.id));
+
+    const fillsStr = chosenFills.map(nm).join(" + ") || (lang === "ar" ? "بدون حشوة" : "No fillings");
+    const vegsStr = chosenVegs.length ? chosenVegs.map(nm).join(", ") : (lang === "ar" ? "بدون خضار" : "No veggies");
+    const saucesStr = chosenSauces.length ? chosenSauces.map(nm).join(", ") : (lang === "ar" ? "بدون صوص" : "No sauce");
+
+    const summaryText = lang === "ar"
+      ? `${nm(chosenBread)} مع (${fillsStr})، وخضار: (${vegsStr})، وصوص: (${saucesStr})`
+      : `${nm(chosenBread)} with (${fillsStr}), veggies: (${vegsStr}), sauces: (${saucesStr})`;
+
+    const traySummary = $("#traySummary");
+    if (traySummary) traySummary.textContent = summaryText;
+
+    const waText = t("customWaPrefix") + summaryText;
+    const waLink = $("#byoSendWa");
+    if (waLink) waLink.href = wa(waText);
+  }
+
+  /* ---------- STATIC TEXT & LOCALIZATION ---------- */
   function applyStatic() {
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-    $$("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
-    $("#langBtn").textContent = lang === "ar" ? "EN" : "عربي";
-    const name = nm(SHOP.name);
-    ["#brandName", "#heroName", "#footName"].forEach(s => { $(s).textContent = name; });
-    document.title = lang === "ar" ? name + " | صاج طازج في بيروت" : name + " | Fresh saj, made to order in Beirut";
-    $("#hoursTop").textContent = nm(SHOP.hours);
-    $("#hoursText").textContent = nm(SHOP.hoursLong);
-    $("#hoursMeta").textContent = nm(SHOP.hoursLong);
-    $("#phoneText").textContent = SHOP.phoneDisplay;
-    $("#footCall").textContent = SHOP.phoneDisplay;
-    $("#contactTel").textContent = SHOP.contactDisplay;
-    $("#footContact").textContent = SHOP.contactDisplay;
-    $("#contactTel").href = "tel:" + SHOP.contactTel;
-    $("#footContact").href = "tel:" + SHOP.contactTel;
-    ["#heroCall", "#infoCall", "#barCall", "#footCall"].forEach(s => { $(s).href = "tel:" + SHOP.tel; });
-    const pre = wa(t("pre"));
-    ["#lunchWa", "#infoWa", "#barWa"].forEach(s => { $(s).href = pre; });
-    $("#infoDir").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(SHOP.mapQuery);
-    const fr = $("#mapFrame");
-    const src = "https://maps.google.com/maps?q=" + encodeURIComponent(SHOP.mapQuery) + "&output=embed";
-    if (fr.getAttribute("src") !== src) fr.setAttribute("src", src);
+
+    $$("[data-i18n]").forEach(el => {
+      const key = el.dataset.i18n;
+      const str = t(key);
+      if (str) el.textContent = str;
+    });
+
+    const langBtnText = $("#langBtnText");
+    if (langBtnText) langBtnText.textContent = lang === "ar" ? "EN" : "عربي";
+
+    const shopName = nm(SHOP.name);
+    const brandName = $("#brandName span:last-child");
+    if (brandName) brandName.textContent = shopName;
+
+    const footName = $("#footName");
+    if (footName) footName.textContent = shopName;
+
+    document.title = lang === "ar"
+      ? `${shopName} | صاج وكعك طازة في بيروت`
+      : `${shopName} | Fresh Saj & Kaake in Beirut`;
+
+    const heroHead = $("#heroHeadline");
+    if (heroHead) heroHead.textContent = t("heroHeadline");
+
+    const heroSub = $("#heroSubDesc");
+    if (heroSub) heroSub.textContent = t("heroSub");
+
+    const hoursText = $("#hoursText");
+    if (hoursText) hoursText.textContent = nm(SHOP.hoursLong);
+
+    const phoneLink = $("#phoneLink");
+    if (phoneLink) {
+      phoneLink.textContent = SHOP.phoneDisplay;
+      phoneLink.href = "tel:" + SHOP.tel;
+    }
+    const footCall = $("#footCall");
+    if (footCall) {
+      footCall.textContent = SHOP.phoneDisplay;
+      footCall.href = "tel:" + SHOP.tel;
+    }
+    const footContact = $("#footContact");
+    if (footContact) {
+      footContact.textContent = SHOP.contactDisplay;
+      footContact.href = "tel:" + SHOP.contactTel;
+    }
+
+    ["#heroCall", "#infoCall"].forEach(s => {
+      const el = $(s);
+      if (el) el.href = "tel:" + SHOP.tel;
+    });
+
+    const defaultWa = wa(t("pre"));
+    ["#heroWa", "#infoWa", "#waFab"].forEach(s => {
+      const el = $(s);
+      if (el) el.href = defaultWa;
+    });
+
+    const dirLink = $("#infoDir");
+    if (dirLink) {
+      dirLink.href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(SHOP.mapQuery);
+    }
+    const mapFrame = $("#mapFrame");
+    if (mapFrame) {
+      const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(SHOP.mapQuery)}&hl=${lang}&z=17&output=embed`;
+      if (mapFrame.getAttribute("src") !== mapSrc) mapFrame.setAttribute("src", mapSrc);
+    }
+
+    updateShopStatus();
   }
 
-  /* ---------- reveal + active nav on scroll ---------- */
-  function initScroll() {
-    const reveals = $$(".reveal");
-    const links = $$(".links a");
-    if (!("IntersectionObserver" in window)) { reveals.forEach(e => e.classList.add("in")); return; }
-
-    const revealIO = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        if (en.isIntersecting) { en.target.classList.add("in"); revealIO.unobserve(en.target); }
-      });
-    }, { rootMargin: "0px 0px -6% 0px", threshold: .06 });
-    reveals.forEach(e => revealIO.observe(e));
-
-    const secs = links.map(a => $(a.getAttribute("href"))).filter(Boolean);
-    if (!secs.length) return;
-    const spyIO = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        if (!en.isIntersecting) return;
-        links.forEach(l => {
-          const on = l.getAttribute("href") === "#" + en.target.id;
-          l.classList.toggle("on", on);
-          if (on) l.setAttribute("aria-current", "true"); else l.removeAttribute("aria-current");
-        });
-      });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-    secs.forEach(s => spyIO.observe(s));
+  function showToast(msg) {
+    const toast = $("#toastNotice");
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => { toast.classList.remove("show"); }, 2600);
   }
 
   function renderAll() {
-    applyStatic(); renderTabs(); renderTagFilter(); renderGrid(); renderCombos(); renderBYO();
+    applyStatic();
+    renderTabs();
+    renderTagFilter();
+    renderGrid();
+    renderCombos();
+    renderCustomizerOptions();
   }
+
+  /* ---------- EVENT LISTENERS ---------- */
   $("#langBtn").addEventListener("click", () => {
     lang = lang === "en" ? "ar" : "en";
     try { localStorage.setItem("saj-lang", lang); } catch (e) {}
     renderAll();
   });
+
+  document.addEventListener("click", e => {
+    const tab = e.target.closest(".tab");
+    if (tab) {
+      currentCat = tab.dataset.cat;
+      currentTag = "all";
+      renderTabs();
+      renderTagFilter();
+      renderGrid();
+    }
+  });
+
+  document.addEventListener("change", e => {
+    if (e.target.name === "tagf") {
+      currentTag = e.target.value;
+      renderGrid();
+    }
+  });
+
+  document.addEventListener("change", e => {
+    if (e.target.name === "customBread") {
+      customState.bread = e.target.value;
+      updateCustomSummary();
+    } else if (e.target.name === "customFill") {
+      const val = e.target.value;
+      if (e.target.checked) {
+        if (!customState.fillings.includes(val)) customState.fillings.push(val);
+      } else {
+        customState.fillings = customState.fillings.filter(x => x !== val);
+      }
+      updateCustomSummary();
+    } else if (e.target.name === "customVeg") {
+      const val = e.target.value;
+      if (e.target.checked) {
+        if (!customState.veggies.includes(val)) customState.veggies.push(val);
+      } else {
+        customState.veggies = customState.veggies.filter(x => x !== val);
+      }
+      updateCustomSummary();
+    } else if (e.target.name === "customSauce") {
+      const val = e.target.value;
+      if (e.target.checked) {
+        if (!customState.sauces.includes(val)) customState.sauces.push(val);
+      } else {
+        customState.sauces = customState.sauces.filter(x => x !== val);
+      }
+      updateCustomSummary();
+    }
+  });
+
+  const byoResetBtn = $("#byoResetBtn");
+  if (byoResetBtn) {
+    byoResetBtn.addEventListener("click", () => {
+      customState.bread = "saj";
+      customState.fillings = ["cheese"];
+      customState.veggies = ["tomato"];
+      customState.sauces = [];
+      renderCustomizerOptions();
+      showToast(lang === "ar" ? "رجّعنا كل شي من الأول" : "Custom selections reset");
+    });
+  }
+
+  const copyBtn = $("#copyAddrBtn");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      const addr = t("address");
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(addr).then(() => {
+          showToast(t("copiedToast"));
+        }).catch(() => {
+          showToast(t("copiedToast"));
+        });
+      } else {
+        showToast(t("copiedToast"));
+      }
+    });
+  }
+
   renderAll();
-  initScroll();
+
+  if (typeof ScrollReveal !== "undefined") {
+    ScrollReveal().reveal('.sec-head', { delay: 80, distance: '12px', duration: 500, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    ScrollReveal().reveal('.byo-box', { delay: 80, distance: '12px', duration: 500, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    ScrollReveal().reveal('.card.facts', { delay: 80, distance: '12px', duration: 500, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+  }
+
+  setInterval(updateShopStatus, 60000);
 })();
 </script>
 </body>
